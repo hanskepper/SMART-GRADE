@@ -516,62 +516,108 @@
   <script src="js/app.js"></script>
   
   <script>
-    function acceptCookies() {
-      localStorage.setItem('smartgrade_cookies_accepted', 'true');
-      document.getElementById('cookieBanner').style.display = 'none';
-      showToast('Preferences saved!');
+function getCurrentUserId() {
+  try {
+    var stored = localStorage.getItem('smartgrade_current');
+    if (stored) {
+      var user = JSON.parse(stored);
+      return user.id;
     }
-    
-    function declineCookies() {
-      localStorage.setItem('smartgrade_cookies_accepted', 'false');
-      document.getElementById('cookieBanner').style.display = 'none';
-      showToast('You can still use the app. Data is stored locally.');
-    }
-    
-    function checkCookieConsent() {
-      var accepted = localStorage.getItem('smartgrade_cookies_accepted');
-      if (accepted === null) {
-        setTimeout(function() {
-          document.getElementById('cookieBanner').style.display = 'block';
-        }, 1000);
+  } catch(e) {}
+  return null;
+}
+
+function acceptCookies() {
+  var userId = getCurrentUserId();
+  if (userId) {
+    localStorage.setItem('smartgrade_cookies_accepted_' + userId, 'true');
+  }
+  document.getElementById('cookieBanner').style.display = 'none';
+  showToast('Preferences saved!');
+}
+
+function declineCookies() {
+  var userId = getCurrentUserId();
+  if (userId) {
+    localStorage.setItem('smartgrade_cookies_accepted_' + userId, 'false');
+  }
+  document.getElementById('cookieBanner').style.display = 'none';
+  showToast('You can still use the app. Data is stored locally.');
+}
+
+function checkCookieConsent() {
+  var userId = getCurrentUserId();
+  if (!userId) {
+    setTimeout(function() {
+      document.getElementById('cookieBanner').style.display = 'block';
+    }, 1000);
+    return;
+  }
+  
+  var key = 'smartgrade_cookies_accepted_' + userId;
+  var accepted = localStorage.getItem(key);
+  
+  if (accepted === null) {
+    setTimeout(function() {
+      document.getElementById('cookieBanner').style.display = 'block';
+    }, 1000);
+  }
+}
+
+function updateHeaderAvatar() {
+  try {
+    var stored = localStorage.getItem('smartgrade_current');
+    if (stored) {
+      var user = JSON.parse(stored);
+      var profile = JSON.parse(localStorage.getItem('smartgrade_profile_' + user.id) || '{}');
+      var headerAvatar = document.getElementById('headerAvatar');
+      if (profile.avatarBase64 && profile.avatarBase64.length > 100) {
+        headerAvatar.innerHTML = '<img src="' + profile.avatarBase64 + '" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">';
       }
     }
-    
-    function updateHeaderAvatar() {
-      try {
-        var stored = localStorage.getItem('smartgrade_current');
-        if (stored) {
-          var user = JSON.parse(stored);
-          var profile = JSON.parse(localStorage.getItem('smartgrade_profile_' + user.id) || '{}');
-          var headerAvatar = document.getElementById('headerAvatar');
-          if (profile.avatarBase64 && profile.avatarBase64.length > 100) {
-            headerAvatar.innerHTML = '<img src="' + profile.avatarBase64 + '" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">';
-          }
-        }
-      } catch(e) {}
-    }
-    
-    function applyGlobalFont() {
-      var savedFont = localStorage.getItem('smartgrade_font_family') || 'inter';
-      var fontMap = {
-        'inter': 'Inter, sans-serif', 'roboto': 'Roboto, sans-serif', 'cinzel': 'Cinzel, serif',
-        'quicksand': 'Quicksand, sans-serif', 'courier-prime': '"Courier Prime", monospace',
-        'fredoka': 'Fredoka, sans-serif', 'pacifico': 'Pacifico, cursive', 'bangers': 'Bangers, cursive',
-        'lobster': 'Lobster, cursive', 'permanent-marker': '"Permanent Marker", cursive',
-        'comfortaa': 'Comfortaa, sans-serif', 'righteous': 'Righteous, sans-serif'
-      };
-      document.body.style.fontFamily = fontMap[savedFont] || 'Inter, sans-serif';
-    }
-    
-    updateHeaderAvatar();
-    initMobileMenu();
-    initThemeSelector();
-    applyGlobalFont();
-    checkCookieConsent();
-    
-    var fontObserver = new MutationObserver(function() { applyGlobalFont(); });
-    fontObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-  </script>
+  } catch(e) {}
+}
+
+function applyGlobalFont() {
+  var savedFont = localStorage.getItem('smartgrade_font_family') || 'inter';
+  var fontMap = {
+    'inter': 'Inter, sans-serif',
+    'roboto': 'Roboto, sans-serif',
+    'cinzel': 'Cinzel, serif',
+    'quicksand': 'Quicksand, sans-serif',
+    'courier-prime': '"Courier Prime", monospace',
+    'fredoka': 'Fredoka, sans-serif',
+    'pacifico': 'Pacifico, cursive',
+    'bangers': 'Bangers, cursive',
+    'lobster': 'Lobster, cursive',
+    'permanent-marker': '"Permanent Marker", cursive',
+    'comfortaa': 'Comfortaa, sans-serif',
+    'righteous': 'Righteous, sans-serif'
+  };
+  document.body.style.fontFamily = fontMap[savedFont] || 'Inter, sans-serif';
+}
+
+function showToast(message) {
+  var container = document.getElementById('toastContainer');
+  var toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.innerHTML = '<i class="fas fa-info-circle"></i> ' + message;
+  container.appendChild(toast);
+  setTimeout(function() {
+    toast.style.opacity = '0';
+    setTimeout(function() { if (toast.parentNode) toast.remove(); }, 300);
+  }, 3000);
+}
+
+updateHeaderAvatar();
+initMobileMenu();
+initThemeSelector();
+applyGlobalFont();
+checkCookieConsent();
+
+var fontObserver = new MutationObserver(function() { applyGlobalFont(); });
+fontObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+</script>
   <!-- PWA Manager -->
   <script src="js/pwa.js" defer></script>
 </body>

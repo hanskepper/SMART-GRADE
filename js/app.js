@@ -847,41 +847,110 @@ document.addEventListener('visibilitychange', function() {
 
 
 
-// ============================================
-// SERVICE WORKER - FORCE REGISTRATION
-// ============================================
-(function forceSWRegistration() {
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-      navigator.serviceWorker.register('./sw.js', { scope: './' })
-        .then(function(registration) {
-          console.log('[SW] Registered successfully');
-          registration.update();
-          if (navigator.serviceWorker.controller) {
-            console.log('[SW] Controls this page');
-          } else {
-            console.log('[SW] Waiting to control page...');
-            setTimeout(function() {
-              if (!navigator.serviceWorker.controller) {
-                window.location.reload();
-              }
-            }, 2000);
-          }
-        })
-        .catch(function(error) {
-          console.error('[SW] Registration failed:', error);
-        });
-    });
-  } else {
-    console.warn('[SW] Not supported');
-  }
-})();
+// ============================================================
+// SERVICE WORKER - AUTO UPDATE SYSTEM
+// No version.json needed - updates automatically every 30s
+// ============================================================
 
-if ('serviceWorker' in navigator) {
+(function initSWAutoUpdate() {
+  if (!('serviceWorker' in navigator)) {
+    console.warn('[SW] Not supported on this browser');
+    return;
+  }
+
+  var swRegistration = null;
+  var updateInterval = null;
+  var isReloading = false;
+
+  function registerSW() {
+    navigator.serviceWorker.register('./sw.js', { scope: './' })
+      .then(function(registration) {
+        swRegistration = registration;
+        console.log('[SW] Registered successfully');
+
+        // Check for updates immediately after registration
+        registration.update();
+
+        // Start periodic update checks every 30 seconds
+        if (updateInterval) {
+          clearInterval(updateInterval);
+        }
+        updateInterval = setInterval(function() {
+          if (swRegistration) {
+            swRegistration.update();
+            console.log('[SW] Periodic update check...');
+          }
+        }, 30000);
+
+        // Log controller status
+        if (navigator.serviceWorker.controller) {
+          console.log('[SW] Controls this page');
+        } else {
+          console.log('[SW] Waiting to control page...');
+          // Try to claim clients after a short delay
+          setTimeout(function() {
+            if (swRegistration && !navigator.serviceWorker.controller) {
+              console.log('[SW] Attempting to claim clients...');
+              swRegistration.update();
+            }
+          }, 2000);
+        }
+      })
+      .catch(function(error) {
+        console.error('[SW] Registration failed:', error);
+      });
+  }
+
+  // Listen for messages from Service Worker
   navigator.serviceWorker.addEventListener('message', function(event) {
     console.log('[SW] Message received:', event.data);
+    
+    if (event.data === 'updateReady' && !isReloading) {
+      console.log('[SW] Update ready, reloading page...');
+      isReloading = true;
+      window.location.reload();
+    }
   });
-}
+
+  // Force update check when page comes to foreground
+  document.addEventListener('visibilitychange', function() {
+    if (!document.hidden && swRegistration) {
+      swRegistration.update();
+      console.log('[SW] Update check on focus');
+    }
+  });
+
+  // Force update check when internet connection is restored
+  window.addEventListener('online', function() {
+    if (swRegistration) {
+      swRegistration.update();
+      console.log('[SW] Update check - connection restored');
+    }
+  });
+
+  // Register Service Worker when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', registerSW);
+  } else {
+    registerSW();
+  }
+
+  // Safety net: register on full page load if not already registered
+  window.addEventListener('load', function() {
+    if (!swRegistration) {
+      registerSW();
+    }
+  });
+
+  // Also check for updates when page is shown (back/forward cache)
+  window.addEventListener('pageshow', function() {
+    if (swRegistration) {
+      swRegistration.update();
+      console.log('[SW] Update check on pageshow');
+    }
+  });
+
+})();
 
 // ============================================
 // FIX MENU TITLE - VERSION ULTIMATE

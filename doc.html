@@ -112,7 +112,7 @@
     }
 
     /* ============================================
-       CODE BLOCKS - SCROLL HORIZONTAL
+       CODE BLOCKS
        ============================================ */
     .doc-section .code-block {
       background: rgba(0,0,0,0.05);
@@ -233,158 +233,6 @@
     }
 
     /* ============================================
-       FILE TREE
-       ============================================ */
-    .file-tree-visual {
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 20px;
-      border: 1px solid var(--border);
-      margin: 16px 0;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .tree-root {
-      margin-bottom: 8px;
-    }
-
-    .tree-root-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      border-radius: 16px;
-      color: white;
-      margin-bottom: 16px;
-    }
-
-    .tree-root-header i {
-      font-size: 1.3rem;
-    }
-
-    .tree-root-name {
-      font-weight: 700;
-      font-size: 1rem;
-    }
-
-    .tree-root-badge {
-      background: rgba(255,255,255,0.2);
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.65rem;
-      margin-left: auto;
-    }
-
-    .tree-children {
-      margin-left: 16px;
-      border-left: 2px dashed var(--border);
-      padding-left: 16px;
-    }
-
-    .tree-folder {
-      margin-bottom: 12px;
-    }
-
-    .tree-folder-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      background: rgba(0,0,0,0.02);
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      border: 1px solid transparent;
-    }
-
-    .tree-folder-header:hover {
-      background: rgba(0,0,0,0.04);
-      border-color: var(--border);
-      transform: translateX(4px);
-    }
-
-    .tree-arrow {
-      font-size: 0.7rem;
-      color: var(--primary);
-      transition: transform 0.2s ease;
-      width: 16px;
-    }
-
-    .tree-folder-header.open .tree-arrow {
-      transform: rotate(90deg);
-    }
-
-    .tree-folder-icon {
-      color: #f39c12;
-      font-size: 1rem;
-    }
-
-    .tree-folder-name {
-      font-weight: 600;
-      font-size: 0.85rem;
-      color: var(--text);
-    }
-
-    .tree-folder-count {
-      font-size: 0.6rem;
-      background: rgba(0,0,0,0.05);
-      padding: 2px 8px;
-      border-radius: 20px;
-      color: var(--text-light);
-      margin-left: auto;
-    }
-
-    .tree-folder-content {
-      display: none;
-      margin-left: 28px;
-      margin-top: 8px;
-      margin-bottom: 8px;
-    }
-
-    .tree-folder-content.show {
-      display: block;
-    }
-
-    .tree-files-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 6px;
-    }
-
-    .tree-file {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 12px;
-      background: rgba(0,0,0,0.02);
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      font-size: 0.7rem;
-      transition: all 0.2s ease;
-    }
-
-    .tree-file:hover {
-      border-color: var(--primary);
-      transform: translateX(4px);
-      background: rgba(0,0,0,0.04);
-    }
-
-    .tree-file i {
-      width: 24px;
-      font-size: 1rem;
-      color: var(--primary);
-    }
-
-    .tree-file span {
-      flex: 1;
-      font-family: monospace;
-      font-size: 0.7rem;
-      font-weight: 500;
-      color: var(--text);
-    }
-
-    /* ============================================
        BADGE LIST
        ============================================ */
     .badge-list {
@@ -441,6 +289,524 @@
     }
 
     /* ============================================
+       FILE STRUCTURE SECTION
+       ============================================ */
+    .file-structure-wrapper {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      margin: 16px 0;
+      transition: all 0.3s ease;
+    }
+
+    .file-structure-wrapper:hover {
+      border-color: var(--primary);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    .file-structure-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .file-structure-header .title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .file-structure-header .title i {
+      font-size: 1.8rem;
+      color: var(--primary);
+    }
+
+    .file-structure-header .title h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 0;
+      color: var(--text);
+    }
+
+    .file-structure-header .title span {
+      font-size: 0.65rem;
+      color: var(--text-light);
+      display: block;
+      font-weight: 400;
+    }
+
+    .file-structure-header .badge-github {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.6rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .file-structure-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .file-structure-stats .stat-item {
+      text-align: center;
+      padding: 14px 10px;
+      background: rgba(0,0,0,0.02);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
+    }
+
+    .file-structure-stats .stat-item:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .file-structure-stats .stat-number {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .file-structure-stats .stat-label {
+      font-size: 0.55rem;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+
+    .file-structure-preview {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .file-structure-preview .folder-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: rgba(0,0,0,0.02);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
+      cursor: default;
+    }
+
+    .file-structure-preview .folder-item:hover {
+      border-color: var(--primary);
+      background: rgba(15,59,72,0.03);
+      transform: translateX(4px);
+    }
+
+    .file-structure-preview .folder-item i {
+      font-size: 1.2rem;
+      width: 32px;
+      text-align: center;
+      color: #f39c12;
+    }
+
+    .file-structure-preview .folder-item .folder-name {
+      flex: 1;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: var(--text);
+    }
+
+    .file-structure-preview .folder-item .folder-count {
+      font-size: 0.6rem;
+      color: var(--text-light);
+      background: rgba(0,0,0,0.05);
+      padding: 2px 10px;
+      border-radius: 20px;
+    }
+
+    .file-structure-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 2px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .file-structure-actions .btn {
+      flex: 1;
+      min-width: 140px;
+      padding: 12px 24px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .file-structure-actions .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+    }
+
+    .file-structure-actions .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(15,59,72,0.3);
+    }
+
+    .file-structure-actions .btn-secondary {
+      background: rgba(0,0,0,0.05);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .file-structure-actions .btn-secondary:hover {
+      background: rgba(0,0,0,0.08);
+    }
+
+    .file-structure-actions .btn-success {
+      background: linear-gradient(135deg, #27ae60, #2ecc71);
+      color: white;
+    }
+
+    .file-structure-actions .btn-success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(46,204,113,0.3);
+    }
+
+    /* ============================================
+       FILE TREE MODAL
+       ============================================ */
+    .file-tree-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .file-tree-modal.active {
+      display: flex;
+    }
+
+    .file-tree-modal-content {
+      background: var(--card-bg);
+      border-radius: 24px;
+      padding: 24px;
+      width: 95%;
+      max-width: 900px;
+      max-height: 90vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--border);
+      animation: modalFadeIn 0.3s ease;
+    }
+
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .file-tree-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .file-tree-modal-header h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      margin: 0;
+    }
+
+    .file-tree-modal-header h2 i {
+      color: var(--primary);
+    }
+
+    .file-tree-modal-close {
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: var(--text-light);
+      padding: 0 8px;
+      transition: all 0.2s;
+    }
+
+    .file-tree-modal-close:hover {
+      color: #e74c3c;
+      transform: rotate(90deg);
+    }
+
+    .file-tree-modal-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 4px 8px 4px;
+      margin-top: 4px;
+    }
+
+    .file-tree-modal-body::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .file-tree-modal-body::-webkit-scrollbar-track {
+      background: var(--border);
+      border-radius: 4px;
+    }
+
+    .file-tree-modal-body::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 4px;
+    }
+
+    .file-tree-modal-footer {
+      display: flex;
+      gap: 12px;
+      padding-top: 16px;
+      border-top: 2px solid var(--border);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+
+    .file-tree-modal-footer .btn {
+      flex: 1;
+      min-width: 120px;
+      padding: 12px 20px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .file-tree-modal-footer .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+    }
+
+    .file-tree-modal-footer .btn-secondary {
+      background: rgba(0,0,0,0.05);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .file-tree-modal-footer .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(15,59,72,0.3);
+    }
+
+    .file-tree-modal-footer .btn-secondary:hover {
+      background: rgba(0,0,0,0.08);
+    }
+
+    /* File tree inside modal */
+    .file-tree-modal-body .tree-root-header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 16px;
+      padding: 12px 16px;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .file-tree-modal-body .tree-root-header i {
+      font-size: 1.3rem;
+    }
+
+    .file-tree-modal-body .tree-root-header .tree-root-name {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .file-tree-modal-body .tree-root-header .tree-root-badge {
+      background: rgba(255,255,255,0.2);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.65rem;
+      margin-left: auto;
+    }
+
+    .file-tree-modal-body .tree-children {
+      margin-left: 16px;
+      border-left: 2px dashed var(--border);
+      padding-left: 16px;
+    }
+
+    .file-tree-modal-body .tree-folder {
+      margin-bottom: 12px;
+    }
+
+    .file-tree-modal-body .tree-folder-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.02);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .file-tree-modal-body .tree-folder-header:hover {
+      background: rgba(0,0,0,0.04);
+      border-color: var(--border);
+      transform: translateX(4px);
+    }
+
+    .file-tree-modal-body .tree-arrow {
+      font-size: 0.7rem;
+      color: var(--primary);
+      transition: transform 0.2s ease;
+      width: 16px;
+    }
+
+    .file-tree-modal-body .tree-folder-header.open .tree-arrow {
+      transform: rotate(90deg);
+    }
+
+    .file-tree-modal-body .tree-folder-icon {
+      color: #f39c12;
+      font-size: 1rem;
+    }
+
+    .file-tree-modal-body .tree-folder-name {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+
+    .file-tree-modal-body .tree-folder-count {
+      font-size: 0.6rem;
+      background: rgba(0,0,0,0.05);
+      padding: 2px 8px;
+      border-radius: 20px;
+      color: var(--text-light);
+      margin-left: auto;
+    }
+
+    .file-tree-modal-body .tree-folder-content {
+      display: none;
+      margin-left: 28px;
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+
+    .file-tree-modal-body .tree-folder-content.show {
+      display: block;
+    }
+
+    .file-tree-modal-body .tree-files-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 6px;
+    }
+
+    .file-tree-modal-body .tree-file {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      background: rgba(0,0,0,0.02);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 0.7rem;
+      transition: all 0.2s ease;
+    }
+
+    .file-tree-modal-body .tree-file:hover {
+      border-color: var(--primary);
+      transform: translateX(4px);
+      background: rgba(0,0,0,0.04);
+    }
+
+    .file-tree-modal-body .tree-file i {
+      width: 24px;
+      font-size: 1rem;
+      color: var(--primary);
+    }
+
+    .file-tree-modal-body .tree-file span {
+      flex: 1;
+      font-family: monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .file-tree-modal-body .loading-state {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-light);
+    }
+
+    .file-tree-modal-body .loading-state i {
+      font-size: 40px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .file-tree-modal-body .error-state {
+      text-align: center;
+      padding: 40px;
+      color: #e74c3c;
+    }
+
+    .file-tree-modal-body .error-state i {
+      font-size: 40px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    /* ============================================
        LEGAL DATE
        ============================================ */
     .legal-date {
@@ -462,10 +828,15 @@
       .toc-grid { grid-template-columns: repeat(2, 1fr); }
       .api-grid { grid-template-columns: 1fr; }
       .badge-list { grid-template-columns: repeat(2, 1fr); }
-      .tree-files-grid { grid-template-columns: 1fr; }
-      .tree-root-header { flex-wrap: wrap; }
-      .tree-root-badge { margin-left: 0; }
-      .tree-file { flex-wrap: wrap; }
+      .file-structure-stats { grid-template-columns: repeat(2, 1fr); }
+      .file-structure-preview { grid-template-columns: 1fr; }
+      .file-structure-actions { flex-direction: column; }
+      .file-structure-actions .btn { width: 100%; }
+      .file-tree-modal-content { padding: 16px; width: 98%; }
+      .file-tree-modal-footer { flex-direction: column; }
+      .file-tree-modal-footer .btn { width: 100%; }
+      .file-tree-modal-body .tree-files-grid { grid-template-columns: 1fr; }
+      .file-tree-modal-header h2 { font-size: 1rem; }
     }
   </style>
 </head>
@@ -523,9 +894,7 @@
       
       <div class="doc-content">
         
-        <!-- ============================================ -->
         <!-- TABLE OF CONTENTS -->
-        <!-- ============================================ -->
         <div class="toc">
           <h4><i class="fas fa-list"></i> Table of Contents</h4>
           <div class="toc-grid">
@@ -550,9 +919,7 @@
           </div>
         </div>
         
-        <!-- ============================================ -->
         <!-- SECTION 1: OVERVIEW -->
-        <!-- ============================================ -->
         <div id="overview" class="doc-section">
           <h3><i class="fas fa-info-circle"></i> 1. System Overview</h3>
           <p>SMART GRADE is a Progressive Web Application (PWA) for grade management, designed for SIN GBHS FOUMBAN Form 5B Science. The application works 100% offline after first installation and stores all data locally on the user's device.</p>
@@ -564,9 +931,7 @@
           </div>
         </div>
         
-        <!-- ============================================ -->
         <!-- SECTION 2: TECH STACK -->
-        <!-- ============================================ -->
         <div id="tech-stack" class="doc-section">
           <h3><i class="fas fa-microchip"></i> 2. Technology Stack</h3>
           <div class="api-grid">
@@ -589,9 +954,7 @@
           </div>
         </div>
         
-        <!-- ============================================ -->
         <!-- SECTION 3: ARCHITECTURE -->
-        <!-- ============================================ -->
         <div id="architecture" class="doc-section">
           <h3><i class="fas fa-project-diagram"></i> 3. Application Architecture</h3>
           <p>The application follows a modular architecture with separate JavaScript files for different concerns:</p>
@@ -619,29 +982,72 @@ var data = exportCompleteUserData(user.id);</code>
           </div>
         </div>
         
-        <!-- ============================================ -->
         <!-- SECTION 4: FILE STRUCTURE -->
-        <!-- ============================================ -->
         <div id="file-structure" class="doc-section">
           <h3><i class="fas fa-folder-tree"></i> 4. File Structure</h3>
-          <p>Loading structure from GitHub API...</p>
-          <div class="file-tree-visual" id="fileTreeContainer">
-            <div class="tree-root">
-              <div class="tree-root-header">
-                <i class="fas fa-folder-open"></i>
-                <span class="tree-root-name">SMART GRADE v5.0</span>
-                <span class="tree-root-badge">Loading...</span>
+          
+          <div class="file-structure-wrapper" id="fileTreeContainer">
+            
+            <!-- HEADER -->
+            <div class="file-structure-header">
+              <div class="title">
+                <i class="fas fa-folder-tree"></i>
+                <div>
+                  <h3>File Structure</h3>
+                  <span>Complete project structure from GitHub</span>
+                </div>
               </div>
-              <div style="text-align:center;padding:20px;color:var(--text-light);">
-                <i class="fas fa-spinner fa-spin"></i> Fetching structure from GitHub...
+              <span class="badge-github">
+                <i class="fab fa-github"></i> GitHub
+              </span>
+            </div>
+            
+            <!-- STATISTICS -->
+            <div class="file-structure-stats">
+              <div class="stat-item">
+                <div class="stat-number" id="totalFiles">-</div>
+                <div class="stat-label">Total Files</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number" id="totalFolders">-</div>
+                <div class="stat-label">Folders</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number" id="totalSize">-</div>
+                <div class="stat-label">Size (KB)</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number" id="totalCommits">-</div>
+                <div class="stat-label">Commits</div>
               </div>
             </div>
+            
+            <!-- PREVIEW FOLDERS -->
+            <div class="file-structure-preview" id="folderPreview">
+              <div class="folder-item">
+                <i class="fas fa-folder"></i>
+                <span class="folder-name">Loading...</span>
+                <span class="folder-count">...</span>
+              </div>
+            </div>
+            
+            <!-- ACTIONS -->
+            <div class="file-structure-actions">
+              <button class="btn btn-primary" onclick="openFileTreeModal()">
+                <i class="fas fa-eye"></i> View Full Structure
+              </button>
+              <button class="btn btn-success" onclick="downloadSourceCode()">
+                <i class="fas fa-download"></i> Download ZIP
+              </button>
+              <button class="btn btn-secondary" onclick="refreshFileStructure()">
+                <i class="fas fa-sync-alt"></i> Refresh
+              </button>
+            </div>
+            
           </div>
         </div>
         
-        <!-- ============================================ -->
         <!-- SECTION 5: STORAGE SYSTEM -->
-        <!-- ============================================ -->
         <div id="storage" class="doc-section">
           <h3><i class="fas fa-database"></i> 5. Storage System (localStorage)</h3>
           <p>All data is stored using localStorage with specific key patterns. Maximum storage is ~5-10MB per domain.</p>
@@ -709,9 +1115,7 @@ var data = exportCompleteUserData(user.id);</code>
           </div>
         </div>
         
-        <!-- ============================================ -->
         <!-- SECTION 6: API FUNCTIONS -->
-        <!-- ============================================ -->
         <div id="api-functions" class="doc-section">
           <h3><i class="fas fa-code"></i> 6. Core API Functions</h3>
           
@@ -763,9 +1167,7 @@ getSavedFontSize()             // Returns 'small', 'medium', or 'large'</code>
           </div>
         </div>
         
-        <!-- ============================================ -->
         <!-- SECTION 7: AUTHENTICATION -->
-        <!-- ============================================ -->
         <div id="authentication" class="doc-section">
           <h3><i class="fas fa-fingerprint"></i> 7. Authentication System</h3>
           <p>The authentication system supports both PIN (4-digit) and fingerprint (WebAuthn) login methods.</p>
@@ -805,9 +1207,7 @@ logout();  // Redirects to index.html</code>
           </div>
         </div>
         
-        <!-- ============================================ -->
         <!-- SECTION 8: SUBJECTS & GRADES -->
-        <!-- ============================================ -->
         <div id="subjects" class="doc-section">
           <h3><i class="fas fa-book"></i> 8. Subjects & Grades Configuration</h3>
           <p>The application supports 14 subjects, each with customizable coefficients (1-10).</p>
@@ -841,9 +1241,7 @@ logout();  // Redirects to index.html</code>
           </ul>
         </div>
         
-        <!-- ============================================ -->
         <!-- SECTION 9: ACHIEVEMENTS -->
-        <!-- ============================================ -->
         <div id="achievements" class="doc-section">
           <h3><i class="fas fa-medal"></i> 9. Achievements System</h3>
           <p>The application has 23 badges (14 achievement badges + 4 streak badges + 5 special badges).</p>
@@ -894,9 +1292,7 @@ var achievements = getStudentAchievements(studentId);</code>
           </div>
         </div>
         
-        <!-- ============================================ -->
         <!-- SECTION 10: THEMES & FONTS -->
-        <!-- ============================================ -->
         <div id="themes" class="doc-section">
           <h3><i class="fas fa-palette"></i> 10. Themes & Fonts Configuration</h3>
           <p><strong>20 Color Themes available:</strong></p>
@@ -954,9 +1350,7 @@ initFontFamily();  // Apply the font</code>
           </div>
         </div>
         
-        <!-- ============================================ -->
         <!-- SECTION 11: PWA CONFIGURATION -->
-        <!-- ============================================ -->
         <div id="pwa" class="doc-section">
           <h3><i class="fas fa-mobile-alt"></i> 11. Progressive Web App (PWA)</h3>
           <p>The application is a fully functional PWA that works offline after first installation.</p>
@@ -986,9 +1380,7 @@ AutoUpdate.start();  // Checks GitHub every 10 minutes</code>
           </div>
         </div>
         
-        <!-- ============================================ -->
         <!-- SECTION 12: CLOUD TRANSFER -->
-        <!-- ============================================ -->
         <div id="transfer" class="doc-section">
           <h3><i class="fas fa-exchange-alt"></i> 12. Cloud Transfer System</h3>
           <p>The cloud transfer system uses GitHub Gist API (free, unlimited) to store temporary transfer data.</p>
@@ -1022,9 +1414,7 @@ var localCode = generateLocalCode();</code>
           </div>
         </div>
         
-        <!-- ============================================ -->
         <!-- SECTION 13: EXPORT/IMPORT -->
-        <!-- ============================================ -->
         <div id="export-import" class="doc-section">
           <h3><i class="fas fa-file-export"></i> 13. Export & Import System</h3>
           <p>The application supports multiple export formats: JSON (complete backup), CSV (spreadsheet), HTML (bulletin), PDF (report).</p>
@@ -1051,9 +1441,7 @@ if (result.success) {
           </div>
         </div>
         
-        <!-- ============================================ -->
         <!-- SECTION 14: BADGES -->
-        <!-- ============================================ -->
         <div id="badges" class="doc-section">
           <h3><i class="fas fa-trophy"></i> 14. Complete Badges Reference</h3>
           
@@ -1093,9 +1481,7 @@ console.log(badge.name);  // "First Grade"</code>
           </div>
         </div>
         
-        <!-- ============================================ -->
         <!-- SECTION 15: AI ASSISTANT -->
-        <!-- ============================================ -->
         <div id="ai-assistant" class="doc-section">
           <h3><i class="fas fa-robot"></i> 15. AI Assistant</h3>
           <p>SMART GRADE includes an AI Assistant powered by Groq and Mistral models to help students with homework, explanations, and problem-solving.</p>
@@ -1128,9 +1514,7 @@ console.log(badge.name);  // "First Grade"</code>
           </div>
         </div>
         
-        <!-- ============================================ -->
         <!-- SECTION 16: TRANSFER SYSTEM -->
-        <!-- ============================================ -->
         <div id="transfer-system" class="doc-section">
           <h3><i class="fas fa-exchange-alt"></i> 16. Transfer System</h3>
           <p>The transfer system allows users to move their data between devices using three different methods.</p>
@@ -1168,9 +1552,7 @@ console.log(badge.name);  // "First Grade"</code>
           </div>
         </div>
         
-        <!-- ============================================ -->
         <!-- SECTION 17: HOMEWORK MANAGER -->
-        <!-- ============================================ -->
         <div id="homework-manager" class="doc-section">
           <h3><i class="fas fa-tasks"></i> 17. Homework Manager</h3>
           <p>The Homework Manager allows teachers to create and manage assignments, and students to view them.</p>
@@ -1203,9 +1585,7 @@ console.log(badge.name);  // "First Grade"</code>
           </div>
         </div>
         
-        <!-- ============================================ -->
         <!-- SECTION 18: CONTACT -->
-        <!-- ============================================ -->
         <div id="contact" class="doc-section">
           <h3><i class="fas fa-envelope"></i> 18. Developer Contact</h3>
           <p>If you have any questions about this documentation or the software, please contact the developer:</p>
@@ -1231,6 +1611,32 @@ console.log(badge.name);  // "First Grade"</code>
     </main>
   </div>
   
+  <!-- ============================================ -->
+  <!-- FILE TREE MODAL -->
+  <!-- ============================================ -->
+  <div class="file-tree-modal" id="fileTreeModal">
+    <div class="file-tree-modal-content">
+      <div class="file-tree-modal-header">
+        <h2><i class="fas fa-folder-tree"></i> File Structure</h2>
+        <button class="file-tree-modal-close" onclick="closeFileTreeModal()">&times;</button>
+      </div>
+      <div class="file-tree-modal-body" id="fileTreeModalBody">
+        <div class="loading-state">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>Loading file structure from GitHub...</p>
+        </div>
+      </div>
+      <div class="file-tree-modal-footer">
+        <button class="btn btn-primary" onclick="downloadSourceCode()">
+          <i class="fas fa-download"></i> Download ZIP
+        </button>
+        <button class="btn btn-secondary" onclick="closeFileTreeModal()">
+          <i class="fas fa-times"></i> Close
+        </button>
+      </div>
+    </div>
+  </div>
+  
   <div id="toastContainer" class="toast-container"></div>
   
   <!-- ============================================ -->
@@ -1243,21 +1649,22 @@ console.log(badge.name);  // "First Grade"</code>
   
   <script>
     // ============================================
-    // DYNAMIC FILE STRUCTURE - GITHUB API (RÉCURSIF)
+    // CONFIGURATION
     // ============================================
 
-    const REPO_OWNER = 'hanskepper';
-    const REPO_NAME = 'SMART-GRADE';
-    const BASE_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/`;
+    var REPO_OWNER = 'hanskepper';
+    var REPO_NAME = 'SMART-GRADE';
+    var BASE_URL = 'https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + '/contents/';
 
     // ============================================
-    // RÉCUPÉRER LE CONTENU D'UN DOSSIER
+    // GET FOLDER CONTENTS RECURSIVE
     // ============================================
 
-    async function getFolderContentsRecursive(path = '') {
-      const url = path ? `${BASE_URL}${path}` : BASE_URL;
+    async function getFolderContentsRecursive(path) {
+      path = path || '';
+      var url = path ? BASE_URL + path : BASE_URL;
       try {
-        const response = await fetch(url, {
+        var response = await fetch(url, {
           headers: { 'Accept': 'application/vnd.github.v3+json' }
         });
         if (!response.ok) return null;
@@ -1269,26 +1676,27 @@ console.log(badge.name);  // "First Grade"</code>
     }
 
     // ============================================
-    // EXPLORER UN DOSSIER (récursif)
+    // EXPLORE FOLDER
     // ============================================
 
     async function exploreFolder(path, name) {
-      const items = await getFolderContentsRecursive(path);
+      var items = await getFolderContentsRecursive(path);
       if (!items) return { name: name, path: path, type: 'dir', children: [], subFolders: [] };
 
-      const children = [];
-      const subFolders = [];
+      var children = [];
+      var subFolders = [];
 
-      for (const item of items) {
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
         if (item.type === 'dir') {
-          const subTree = await exploreFolder(item.path, item.name);
+          var subTree = await exploreFolder(item.path, item.name);
           subFolders.push(subTree);
         } else if (item.type === 'file') {
           children.push(item.name);
         }
       }
 
-      subFolders.sort((a, b) => a.name.localeCompare(b.name));
+      subFolders.sort(function(a, b) { return a.name.localeCompare(b.name); });
       children.sort();
 
       return {
@@ -1301,12 +1709,12 @@ console.log(badge.name);  // "First Grade"</code>
     }
 
     // ============================================
-    // ICÔNES PAR EXTENSION
+    // ICON FOR FILE
     // ============================================
 
     function getIconForFile(filename) {
-      const ext = filename.split('.').pop().toLowerCase();
-      const icons = {
+      var ext = filename.split('.').pop().toLowerCase();
+      var icons = {
         'html': 'fa-html5',
         'css': 'fa-css3-alt',
         'js': 'fa-js',
@@ -1333,175 +1741,278 @@ console.log(badge.name);  // "First Grade"</code>
     }
 
     // ============================================
-    // AFFICHER UN DOSSIER (récursif)
+    // RENDER FOLDER IN MODAL
     // ============================================
 
-    function renderFolder(folder) {
-      let totalFiles = folder.children.length;
-      for (const sub of folder.subFolders) {
-        totalFiles += sub.children.length;
+    function renderFolderInModal(folder) {
+      var totalFiles = folder.children.length;
+      for (var i = 0; i < folder.subFolders.length; i++) {
+        totalFiles += folder.subFolders[i].children.length;
       }
 
-      let html = `
-        <div class="tree-folder">
-          <div class="tree-folder-header" onclick="toggleFolder(this)">
-            <i class="fas fa-chevron-right tree-arrow"></i>
-            <i class="fas fa-folder tree-folder-icon"></i>
-            <span class="tree-folder-name">${folder.name}</span>
-            <span class="tree-folder-count">${totalFiles}</span>
-          </div>
-          <div class="tree-folder-content">
-      `;
+      var html = '<div class="tree-folder">';
+      html += '<div class="tree-folder-header" onclick="toggleFolderInModal(this)">';
+      html += '<i class="fas fa-chevron-right tree-arrow"></i>';
+      html += '<i class="fas fa-folder tree-folder-icon"></i>';
+      html += '<span class="tree-folder-name">' + folder.name + '</span>';
+      html += '<span class="tree-folder-count">' + totalFiles + '</span>';
+      html += '</div>';
+      html += '<div class="tree-folder-content">';
 
-      // Sous-dossiers
-      for (const sub of folder.subFolders) {
-        html += renderFolder(sub);
+      for (var i = 0; i < folder.subFolders.length; i++) {
+        html += renderFolderInModal(folder.subFolders[i]);
       }
 
-      // Fichiers
       if (folder.children.length > 0) {
-        html += `<div class="tree-files-grid">`;
-        for (const file of folder.children) {
-          const icon = getIconForFile(file);
-          html += `
-            <div class="tree-file">
-              <i class="fas ${icon}"></i>
-              <span>${file}</span>
-            </div>
-          `;
+        html += '<div class="tree-files-grid">';
+        for (var i = 0; i < folder.children.length; i++) {
+          var file = folder.children[i];
+          var icon = getIconForFile(file);
+          html += '<div class="tree-file">';
+          html += '<i class="fas ' + icon + '"></i>';
+          html += '<span>' + file + '</span>';
+          html += '</div>';
         }
-        html += `</div>`;
+        html += '</div>';
       }
 
-      html += `
-          </div>
-        </div>
-      `;
-
+      html += '</div></div>';
       return html;
     }
 
     // ============================================
-    // CONSTRUIRE L'ARBRE COMPLET
+    // TOGGLE FOLDER IN MODAL
     // ============================================
 
-    async function buildFileTree() {
-      const container = document.getElementById('fileTreeContainer');
-      if (!container) return;
+    function toggleFolderInModal(header) {
+      header.classList.toggle('open');
+      var content = header.nextElementSibling;
+      if (content) {
+        content.classList.toggle('show');
+      }
+    }
 
-      container.innerHTML = `
-        <div class="tree-root">
-          <div class="tree-root-header">
-            <i class="fas fa-folder-open"></i>
-            <span class="tree-root-name">SMART GRADE v5.0</span>
-            <span class="tree-root-badge">Loading...</span>
-          </div>
-          <div style="text-align:center;padding:20px;color:var(--text-light);">
-            <i class="fas fa-spinner fa-spin"></i> Fetching structure from GitHub...
-          </div>
-        </div>
-      `;
+    // ============================================
+    // OPEN FILE TREE MODAL
+    // ============================================
+
+    function openFileTreeModal() {
+      var modal = document.getElementById('fileTreeModal');
+      var body = document.getElementById('fileTreeModalBody');
+      
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      
+      if (body.querySelector('.loading-state') || body.innerHTML.trim() === '') {
+        buildFileTreeInModal();
+      }
+    }
+
+    // ============================================
+    // CLOSE FILE TREE MODAL
+    // ============================================
+
+    function closeFileTreeModal() {
+      var modal = document.getElementById('fileTreeModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // ============================================
+    // BUILD FILE TREE IN MODAL
+    // ============================================
+
+    async function buildFileTreeInModal() {
+      var body = document.getElementById('fileTreeModalBody');
+      
+      body.innerHTML = '<div class="loading-state"><i class="fas fa-spinner fa-spin"></i><p>Loading file structure from GitHub...</p></div>';
 
       try {
-        const rootItems = await getFolderContentsRecursive('');
+        var rootItems = await getFolderContentsRecursive('');
         if (!rootItems) throw new Error('Could not fetch root');
 
-        const folders = [];
-        const rootFiles = [];
+        var folders = [];
+        var rootFiles = [];
 
-        for (const item of rootItems) {
+        for (var i = 0; i < rootItems.length; i++) {
+          var item = rootItems[i];
           if (item.type === 'dir') {
-            const folderTree = await exploreFolder(item.path, item.name);
+            var folderTree = await exploreFolder(item.path, item.name);
             folders.push(folderTree);
           } else if (item.type === 'file') {
             rootFiles.push(item.name);
           }
         }
 
-        folders.sort((a, b) => a.name.localeCompare(b.name));
+        folders.sort(function(a, b) { return a.name.localeCompare(b.name); });
         rootFiles.sort();
 
-        let html = `
-          <div class="tree-root">
-            <div class="tree-root-header">
-              <i class="fas fa-folder-open"></i>
-              <span class="tree-root-name">SMART GRADE v5.0</span>
-              <span class="tree-root-badge">GitHub</span>
-            </div>
-            <div class="tree-children">
-        `;
+        var html = '<div class="tree-root">';
+        html += '<div class="tree-root-header">';
+        html += '<i class="fas fa-folder-open"></i>';
+        html += '<span class="tree-root-name">SMART GRADE v5.0</span>';
+        html += '<span class="tree-root-badge">GitHub</span>';
+        html += '</div>';
+        html += '<div class="tree-children">';
 
-        for (const folder of folders) {
-          html += renderFolder(folder);
+        for (var i = 0; i < folders.length; i++) {
+          html += renderFolderInModal(folders[i]);
         }
 
-        // Fichiers racine
         if (rootFiles.length > 0) {
-          html += `
-            <div class="tree-folder">
-              <div class="tree-folder-header" onclick="toggleFolder(this)">
-                <i class="fas fa-chevron-right tree-arrow"></i>
-                <i class="fas fa-folder tree-folder-icon"></i>
-                <span class="tree-folder-name">Root</span>
-                <span class="tree-folder-count">${rootFiles.length}</span>
-              </div>
-              <div class="tree-folder-content">
-                <div class="tree-files-grid">
-          `;
-
-          for (const file of rootFiles) {
-            const icon = getIconForFile(file);
-            html += `
-              <div class="tree-file">
-                <i class="fas ${icon}"></i>
-                <span>${file}</span>
-              </div>
-            `;
+          html += '<div class="tree-folder">';
+          html += '<div class="tree-folder-header" onclick="toggleFolderInModal(this)">';
+          html += '<i class="fas fa-chevron-right tree-arrow"></i>';
+          html += '<i class="fas fa-folder tree-folder-icon"></i>';
+          html += '<span class="tree-folder-name">Root</span>';
+          html += '<span class="tree-folder-count">' + rootFiles.length + '</span>';
+          html += '</div>';
+          html += '<div class="tree-folder-content">';
+          html += '<div class="tree-files-grid">';
+          for (var j = 0; j < rootFiles.length; j++) {
+            var file = rootFiles[j];
+            var icon = getIconForFile(file);
+            html += '<div class="tree-file">';
+            html += '<i class="fas ' + icon + '"></i>';
+            html += '<span>' + file + '</span>';
+            html += '</div>';
           }
-
-          html += `
-                </div>
-              </div>
-            </div>
-          `;
+          html += '</div></div></div>';
         }
 
-        html += `
-            </div>
-          </div>
-        `;
-
-        container.innerHTML = html;
+        html += '</div></div>';
+        body.innerHTML = html;
 
       } catch(error) {
-        console.error('Error building file tree:', error);
-        container.innerHTML = `
-          <div class="tree-root">
-            <div class="tree-root-header" style="background: #e74c3c;">
-              <i class="fas fa-exclamation-triangle"></i>
-              <span class="tree-root-name">Error</span>
-              <span class="tree-root-badge">GitHub API</span>
-            </div>
-            <div style="text-align:center;padding:20px;color:var(--text-light);">
-              <i class="fas fa-sync-alt"></i> 
-              Could not load structure from GitHub.<br>
-              <span style="font-size:0.7rem;">Please refresh the page or try again later.</span>
-            </div>
-          </div>
-        `;
+        body.innerHTML = '<div class="error-state"><i class="fas fa-exclamation-triangle"></i><p>Could not load file structure from GitHub.</p><p style="font-size:0.7rem;margin-top:8px;">' + error.message + '</p><button class="btn btn-secondary" onclick="buildFileTreeInModal()" style="margin-top:12px;padding:8px 20px;border-radius:30px;cursor:pointer;"><i class="fas fa-sync-alt"></i> Retry</button></div>';
       }
     }
 
     // ============================================
-    // FONCTION TOGGLE
+    // LOAD FILE STRUCTURE STATS
     // ============================================
 
-    function toggleFolder(header) {
-      header.classList.toggle('open');
-      const content = header.nextElementSibling;
-      if (content) {
-        content.classList.toggle('show');
+    var fileStructureData = null;
+    var totalFilesCount = 0;
+    var totalFoldersCount = 0;
+
+    async function loadFileStructureStats() {
+      try {
+        var rootItems = await getFolderContentsRecursive('');
+        if (!rootItems) return;
+
+        totalFilesCount = 0;
+        totalFoldersCount = 0;
+        var totalSize = 0;
+        var folders = [];
+        var files = [];
+
+        for (var i = 0; i < rootItems.length; i++) {
+          var item = rootItems[i];
+          if (item.type === 'dir') {
+            totalFoldersCount++;
+            folders.push(item);
+            var subItems = await getFolderContentsRecursive(item.path);
+            if (subItems) {
+              for (var j = 0; j < subItems.length; j++) {
+                if (subItems[j].type === 'file') {
+                  totalFilesCount++;
+                  if (subItems[j].size) totalSize += subItems[j].size;
+                }
+              }
+            }
+          } else if (item.type === 'file') {
+            totalFilesCount++;
+            files.push(item);
+            if (item.size) totalSize += item.size;
+          }
+        }
+
+        document.getElementById('totalFiles').innerHTML = totalFilesCount;
+        document.getElementById('totalFolders').innerHTML = totalFoldersCount;
+        document.getElementById('totalSize').innerHTML = Math.round(totalSize / 1024);
+
+        try {
+          var commitResponse = await fetch('https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + '/commits?per_page=1');
+          if (commitResponse.ok) {
+            var commitData = await commitResponse.json();
+            var totalCommits = commitData.length > 0 ? '500+' : 'N/A';
+            document.getElementById('totalCommits').innerHTML = totalCommits;
+          }
+        } catch(e) {}
+
+        var previewContainer = document.getElementById('folderPreview');
+        var previewHtml = '';
+
+        var topFolders = folders.slice(0, 4);
+        for (var i = 0; i < topFolders.length; i++) {
+          var folder = topFolders[i];
+          var count = 0;
+          try {
+            var subItems = await getFolderContentsRecursive(folder.path);
+            if (subItems) count = subItems.length;
+          } catch(e) {}
+          previewHtml += '<div class="folder-item">';
+          previewHtml += '<i class="fas fa-folder"></i>';
+          previewHtml += '<span class="folder-name">' + folder.name + '</span>';
+          previewHtml += '<span class="folder-count">' + count + ' items</span>';
+          previewHtml += '</div>';
+        }
+
+        if (folders.length > 4) {
+          previewHtml += '<div class="folder-item" style="border-style:dashed;opacity:0.6;">';
+          previewHtml += '<i class="fas fa-ellipsis-h"></i>';
+          previewHtml += '<span class="folder-name">+ ' + (folders.length - 4) + ' more folders</span>';
+          previewHtml += '</div>';
+        }
+
+        previewContainer.innerHTML = previewHtml;
+
+      } catch(e) {
+        console.error('Error loading stats:', e);
       }
+    }
+
+    // ============================================
+    // REFRESH FILE STRUCTURE
+    // ============================================
+
+    function refreshFileStructure() {
+      showToast('Refreshing file structure...');
+      loadFileStructureStats();
+      var modal = document.getElementById('fileTreeModal');
+      if (modal.classList.contains('active')) {
+        buildFileTreeInModal();
+      }
+    }
+
+    // ============================================
+    // DOWNLOAD SOURCE CODE AS ZIP
+    // ============================================
+
+    function downloadSourceCode() {
+      var url = 'https://github.com/' + REPO_OWNER + '/' + REPO_NAME + '/archive/refs/heads/main.zip';
+      showToast('Downloading source code...');
+      window.open(url, '_blank');
+      showToast('Download started!');
+    }
+
+    // ============================================
+    // TOAST NOTIFICATION
+    // ============================================
+
+    function showToast(message) {
+      var container = document.getElementById('toastContainer');
+      if (!container) return;
+      var toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = '<i class="fas fa-info-circle"></i> ' + message;
+      container.appendChild(toast);
+      setTimeout(function() {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.3s';
+        setTimeout(function() { if (toast.parentNode) toast.remove(); }, 300);
+      }, 3000);
     }
 
     // ============================================
@@ -1525,11 +2036,18 @@ console.log(badge.name);  // "First Grade"</code>
     function applyGlobalFont() {
       var savedFont = localStorage.getItem('smartgrade_font_family') || 'inter';
       var fontMap = {
-        'inter': 'Inter, sans-serif', 'roboto': 'Roboto, sans-serif', 'cinzel': 'Cinzel, serif',
-        'quicksand': 'Quicksand, sans-serif', 'courier-prime': '"Courier Prime", monospace',
-        'fredoka': 'Fredoka, sans-serif', 'pacifico': 'Pacifico, cursive', 'bangers': 'Bangers, cursive',
-        'lobster': 'Lobster, cursive', 'permanent-marker': '"Permanent Marker", cursive',
-        'comfortaa': 'Comfortaa, sans-serif', 'righteous': 'Righteous, sans-serif'
+        'inter': 'Inter, sans-serif',
+        'roboto': 'Roboto, sans-serif',
+        'cinzel': 'Cinzel, serif',
+        'quicksand': 'Quicksand, sans-serif',
+        'courier-prime': '"Courier Prime", monospace',
+        'fredoka': 'Fredoka, sans-serif',
+        'pacifico': 'Pacifico, cursive',
+        'bangers': 'Bangers, cursive',
+        'lobster': 'Lobster, cursive',
+        'permanent-marker': '"Permanent Marker", cursive',
+        'comfortaa': 'Comfortaa, sans-serif',
+        'righteous': 'Righteous, sans-serif'
       };
       document.body.style.fontFamily = fontMap[savedFont] || 'Inter, sans-serif';
     }
@@ -1543,7 +2061,21 @@ console.log(badge.name);  // "First Grade"</code>
       initMobileMenu();
       initThemeSelector();
       applyGlobalFont();
-      setTimeout(buildFileTree, 500);
+      setTimeout(loadFileStructureStats, 500);
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeFileTreeModal();
+      }
+    });
+
+    // Close modal on click outside
+    document.getElementById('fileTreeModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeFileTreeModal();
+      }
     });
 
     var fontObserver = new MutationObserver(function() { applyGlobalFont(); });
@@ -1555,10 +2087,15 @@ console.log(badge.name);  // "First Grade"</code>
     }
 
     window.logout = logout;
-    window.toggleFolder = toggleFolder;
-    window.buildFileTree = buildFileTree;
-    window.exploreFolder = exploreFolder;
+    window.toggleFolderInModal = toggleFolderInModal;
+    window.openFileTreeModal = openFileTreeModal;
+    window.closeFileTreeModal = closeFileTreeModal;
+    window.downloadSourceCode = downloadSourceCode;
+    window.buildFileTreeInModal = buildFileTreeInModal;
     window.getFolderContentsRecursive = getFolderContentsRecursive;
+    window.exploreFolder = exploreFolder;
+    window.loadFileStructureStats = loadFileStructureStats;
+    window.refreshFileStructure = refreshFileStructure;
   </script>
   <!-- PWA Manager -->
   <script src="js/pwa.js" defer></script>

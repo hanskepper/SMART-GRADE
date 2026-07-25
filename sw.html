@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>SW Builder - SMART GRADE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/night-mode.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0f3b48">
+  <style>
+    .sw-hero {
+      text-align: center;
+      padding: 24px 20px;
+      border-radius: 24px;
+      color: white;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+    .sw-hero h1 { font-size: 1.4rem; margin: 4px 0; }
+    .sw-hero p { opacity: 0.85; font-size: 0.7rem; }
+    
+    .sw-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 12px;
+      border: 1px solid var(--border);
+    }
+    
+    .section-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary);
+    }
+    
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      background: rgba(0,0,0,0.03);
+      border: 1px solid var(--border);
+      font-size: 0.75rem;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .status-dot.loading { background: #f39c12; animation: pulse 1s infinite; }
+    .status-dot.success { background: #2ecc71; }
+    .status-dot.error { background: #e74c3c; }
+    .status-dot.idle { background: #95a5a6; }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .stat-box {
+      text-align: center;
+      padding: 10px 8px;
+      background: rgba(0,0,0,0.02);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .stat-number {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    .stat-label {
+      font-size: 0.5rem;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+    
+    .file-list-box {
+      max-height: 300px;
+      overflow-y: auto;
+      background: rgba(0,0,0,0.02);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      padding: 4px;
+      font-size: 0.65rem;
+    }
+    .file-list-box::-webkit-scrollbar { width: 3px; }
+    .file-list-box::-webkit-scrollbar-track { background: var(--border); border-radius: 3px; }
+    .file-list-box::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+    
+    .file-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-bottom: 1px solid rgba(0,0,0,0.03);
+      font-family: monospace;
+      color: var(--text-light);
+    }
+    .file-row i { width: 16px; font-size: 0.7rem; color: var(--primary); }
+    .file-row .ext-badge {
+      font-size: 0.5rem;
+      background: rgba(0,0,0,0.05);
+      padding: 1px 8px;
+      border-radius: 12px;
+      margin-left: auto;
+      color: var(--text-light);
+    }
+    
+    .code-box {
+      background: rgba(0,0,0,0.05);
+      border-radius: 10px;
+      padding: 12px;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.6rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 250px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      margin-top: 10px;
+      color: var(--text);
+    }
+    .code-box::-webkit-scrollbar { width: 3px; }
+    .code-box::-webkit-scrollbar-track { background: var(--border); border-radius: 3px; }
+    .code-box::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+    
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-row .btn {
+      flex: 1;
+      min-width: 100px;
+      padding: 10px 16px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 0.7rem;
+      transition: all 0.2s;
+    }
+    .btn-row .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
+    .btn-row .btn-success { background: linear-gradient(135deg, #27ae60, #2ecc71); color: white; }
+    .btn-row .btn-secondary { background: rgba(0,0,0,0.05); color: var(--text); border: 1px solid var(--border); }
+    .btn-row .btn-danger { background: rgba(231,76,60,0.1); color: #e74c3c; border: 1px solid rgba(231,76,60,0.3); }
+    .btn-row .btn-primary:hover, .btn-row .btn-success:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+    .btn-row .btn-secondary:hover { background: rgba(0,0,0,0.08); }
+    
+    .exclude-info {
+      font-size: 0.6rem;
+      color: var(--text-light);
+      padding: 6px 12px;
+      background: rgba(231,76,60,0.06);
+      border-radius: 8px;
+      margin-top: 8px;
+      border: 1px solid rgba(231,76,60,0.15);
+    }
+    .exclude-info i { color: #e74c3c; margin-right: 4px; }
+    
+    .count-display {
+      font-size: 0.6rem;
+      color: var(--text-light);
+      margin-left: auto;
+    }
+    
+    .toast-msg {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      z-index: 1000;
+      animation: slideUp 0.3s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    .toast-msg.success { background: #27ae60; }
+    .toast-msg.error { background: #e74c3c; }
+    
+    @keyframes slideUp {
+      from { transform: translateX(-50%) translateY(60px); opacity: 0; }
+      to { transform: translateX(-50%) translateY(0); opacity: 1; }
+    }
+    
+    .spinner-sm {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    .hidden { display: none !important; }
+    
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.6rem;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-light);
+      transition: all 0.2s;
+    }
+    .filter-btn.active {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-color: transparent;
+    }
+    .filter-btn:hover { border-color: var(--primary); }
+    
+    @media (max-width: 500px) {
+      .stats-row { grid-template-columns: repeat(3, 1fr); }
+      .btn-row { flex-direction: column; }
+      .btn-row .btn { width: 100%; }
+      .sw-hero h1 { font-size: 1.2rem; }
+      .filter-bar { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="particles" id="particles"></div>
+  <div class="app-container">
+    
+    <div class="mobile-header">
+      <button class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
+      <div class="header-logo"><i class="fas fa-code"></i><span>SW BUILDER</span></div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <a href="profile.html"><div id="headerAvatar" style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;color:white;font-size:0.8rem;overflow:hidden;"><i class="fas fa-user-graduate"></i></div></a>
+        <div class="theme-btn-header" id="themeBtn"><i class="fas fa-palette"></i><span>Theme</span></div>
+      </div>
+    </div>
+    
+    <div class="sheet-overlay" id="sheetOverlay"></div>
+    <div class="bottom-sheet" id="bottomSheet">
+      <div class="bottom-sheet-header"><h3><i class="fas fa-brush"></i> Theme</h3><button class="close-sheet" id="closeSheet"><i class="fas fa-times"></i></button></div>
+      <div class="bottom-sheet-content">
+        <div class="theme-grid-rect" id="themeGrid"></div>
+        <div class="font-row-sheet"><div class="font-sheet" data-font="small">A<sup>-</sup></div><div class="font-sheet" data-font="medium">A</div><div class="font-sheet" data-font="large">A<sup>+</sup></div></div>
+      </div>
+    </div>
+    
+    <div class="sidebar-menu" id="sidebarMenu">
+      <div class="sidebar-header"><h3><i class="fas fa-graduation-cap"></i> SMART GRADE</h3><button class="close-sidebar" id="closeSidebar"><i class="fas fa-times"></i></button></div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-chalkboard-user"></i> Dashboard</a>
+        <a href="sw.html" class="nav-item active"><i class="fas fa-code"></i> SW Builder</a>
+        <a href="settings.html" class="nav-item"><i class="fas fa-sliders-h"></i> Settings</a>
+        <a href="#" class="nav-item" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </nav>
+    </div>
+    <div class="overlay" id="overlay"></div>
+    
+    <main class="main-content">
+      
+      <div class="sw-hero">
+        <i class="fas fa-code" style="font-size:30px;opacity:0.5;"></i>
+        <h1>Service Worker Builder</h1>
+        <p>Génère la liste des fichiers pour le SW</p>
+      </div>
+      
+      <div class="sw-card">
+        <div class="section-title"><i class="fab fa-github"></i> GitHub</div>
+        
+        <div class="status-bar">
+          <span class="status-dot idle" id="statusDot"></span>
+          <span id="statusText">Cliquez sur Charger</span>
+        </div>
+        
+        <div class="stats-row">
+          <div class="stat-box"><div class="stat-number" id="totalFiles">-</div><div class="stat-label">Fichiers</div></div>
+          <div class="stat-box"><div class="stat-number" id="totalFolders">-</div><div class="stat-label">Dossiers</div></div>
+          <div class="stat-box"><div class="stat-number" id="totalSize">-</div><div class="stat-label">Taille KB</div></div>
+        </div>
+        
+        <button class="btn btn-primary" onclick="loadFiles()" style="width:100%;padding:12px;font-size:0.8rem;" id="loadBtn">
+          <i class="fas fa-sync-alt"></i> Charger les fichiers
+        </button>
+        
+        <div id="fileSection" style="display:none;margin-top:12px;">
+          <div class="section-title" style="margin-bottom:6px;">
+            <i class="fas fa-list"></i> Fichiers
+            <span class="count-display" id="fileCount">0</span>
+          </div>
+          
+          <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all" onclick="filterFiles('all')">Tous</button>
+            <button class="filter-btn" data-filter="html" onclick="filterFiles('html')">HTML</button>
+            <button class="filter-btn" data-filter="css" onclick="filterFiles('css')">CSS</button>
+            <button class="filter-btn" data-filter="js" onclick="filterFiles('js')">JS</button>
+            <button class="filter-btn" data-filter="icon" onclick="filterFiles('icon')">Images</button>
+          </div>
+          
+          <div class="file-list-box" id="fileList"></div>
+          <div class="exclude-info">
+            <i class="fas fa-info-circle"></i> Exclus : sw.js, maintenance.html, sw.html
+          </div>
+        </div>
+      </div>
+      
+      <div class="sw-card">
+        <div class="section-title"><i class="fas fa-file-code"></i> Liste STATIC_ASSETS</div>
+        
+        <div class="btn-row">
+          <button class="btn btn-success" onclick="copyList()" id="copyBtn"><i class="fas fa-copy"></i> Copier</button>
+          <button class="btn btn-primary" onclick="downloadSW()" id="dlBtn"><i class="fas fa-download"></i> sw.js</button>
+          <button class="btn btn-secondary" onclick="copyFullSW()"><i class="fas fa-file-code"></i> Copier SW</button>
+          <button class="btn btn-danger" onclick="resetCache()"><i class="fas fa-trash-alt"></i> Reset Cache</button>
+        </div>
+        
+        <div class="code-box" id="codeOutput">
+          <span style="color:var(--text-light);">Chargez les fichiers d'abord</span>
+        </div>
+      </div>
+      
+      <div class="sw-card">
+        <div class="section-title"><i class="fas fa-info-circle"></i> Utilisation</div>
+        <ul style="font-size:0.65rem;color:var(--text-light);line-height:1.8;padding-left:18px;margin:0;">
+          <li>1. Cliquez sur <strong>"Charger les fichiers"</strong></li>
+          <li>2. La liste des fichiers s'affiche</li>
+          <li>3. Filtrez par type si besoin</li>
+          <li>4. <strong>"Copier"</strong> = copie la liste STATIC_ASSETS</li>
+          <li>5. <strong>"sw.js"</strong> = télécharge le fichier complet</li>
+          <li>6. <strong>"Copier SW"</strong> = copie le SW complet</li>
+          <li>7. <strong>"Reset Cache"</strong> = supprime tous les caches</li>
+        </ul>
+      </div>
+      
+    </main>
+  </div>
+  
+  <div id="toastContainer" class="toast-container"></div>
+  
+  <script src="js/utils.js"></script>
+  <script src="js/database.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  
+  <script>
+    // ============================================================
+    //  CONFIGURATION
+    // ============================================================
+    
+    var REPO_OWNER = 'hanskepper';
+    var REPO_NAME = 'SMART-GRADE';
+    var BASE_URL = 'https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + '/contents/';
+    
+    var EXCLUDED_FILES = ['sw.js', 'maintenance.html', 'sw.html'];
+    var ALLOWED_EXTENSIONS = ['.html', '.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.json', '.webp', '.txt', '.xml', '.md'];
+    
+    var fileList = [];
+    var fullFileList = [];
+    var totalSize = 0;
+    var totalFiles = 0;
+    var totalFolders = 0;
+    var currentFilter = 'all';
+    
+    // ============================================================
+    //  TOAST
+    // ============================================================
+    
+    function showToast(message, type) {
+      type = type || 'success';
+      var existing = document.querySelector('.toast-msg');
+      if (existing) existing.remove();
+      
+      var toast = document.createElement('div');
+      toast.className = 'toast-msg ' + type;
+      toast.innerHTML = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(function() {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.3s';
+        setTimeout(function() { if (toast.parentNode) toast.remove(); }, 300);
+      }, 3000);
+    }
+    
+    // ============================================================
+    //  STATUS
+    // ============================================================
+    
+    function setStatus(text, type) {
+      var dot = document.getElementById('statusDot');
+      var statusText = document.getElementById('statusText');
+      dot.className = 'status-dot ' + type;
+      statusText.innerHTML = text;
+    }
+    
+    // ============================================================
+    //  RÉCUPÉRER LES FICHIERS
+    // ============================================================
+    
+    function getIconClass(name) {
+      var ext = name.split('.').pop().toLowerCase();
+      var map = {
+        'html': 'fa-html5', 'css': 'fa-css3-alt', 'js': 'fa-js',
+        'json': 'fa-file-code', 'png': 'fa-image', 'jpg': 'fa-image',
+        'jpeg': 'fa-image', 'svg': 'fa-image', 'ico': 'fa-image',
+        'webp': 'fa-image', 'md': 'fa-file-alt', 'txt': 'fa-file-alt',
+        'xml': 'fa-sitemap', 'pdf': 'fa-file-pdf'
+      };
+      return map[ext] || 'fa-file';
+    }
+    
+    async function getFolderContents(path) {
+      path = path || '';
+      var url = path ? BASE_URL + path : BASE_URL;
+      try {
+        var res = await fetch(url, { headers: { 'Accept': 'application/vnd.github.v3+json' } });
+        if (!res.ok) return null;
+        return await res.json();
+      } catch(e) {
+        return null;
+      }
+    }
+    
+    async function exploreFolder(path, name) {
+      var items = await getFolderContents(path);
+      if (!items) return { name: name, children: [], subFolders: [] };
+      
+      var children = [];
+      var subFolders = [];
+      
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        if (item.type === 'dir') {
+          var sub = await exploreFolder(item.path, item.name);
+          subFolders.push(sub);
+          totalFolders++;
+        } else if (item.type === 'file') {
+          var ext = '.' + item.name.split('.').pop().toLowerCase();
+          var isAllowed = ALLOWED_EXTENSIONS.indexOf(ext) !== -1;
+          var isExcluded = EXCLUDED_FILES.indexOf(item.name) !== -1;
+          
+          if (isAllowed && !isExcluded) {
+            children.push({ name: item.name, path: item.path, size: item.size || 0 });
+            totalFiles++;
+            totalSize += item.size || 0;
+          }
+        }
+      }
+      
+      subFolders.sort(function(a, b) { return a.name.localeCompare(b.name); });
+      children.sort(function(a, b) { return a.name.localeCompare(b.name); });
+      
+      return { name: name, children: children, subFolders: subFolders };
+    }
+    
+    function flattenFiles(folder, prefix) {
+      prefix = prefix || '';
+      var files = [];
+      for (var i = 0; i < folder.children.length; i++) {
+        files.push({ name: folder.children[i].name, path: prefix + folder.children[i].path });
+      }
+      for (var i = 0; i < folder.subFolders.length; i++) {
+        var sub = flattenFiles(folder.subFolders[i], prefix);
+        files = files.concat(sub);
+      }
+      return files;
+    }
+    
+    // ============================================================
+    //  CHARGER
+    // ============================================================
+    
+    async function loadFiles() {
+      var btn = document.getElementById('loadBtn');
+      var original = btn.innerHTML;
+      
+      btn.innerHTML = '<span class="spinner-sm"></span> Chargement...';
+      btn.disabled = true;
+      
+      setStatus('Chargement...', 'loading');
+      
+      totalFiles = 0;
+      totalFolders = 0;
+      totalSize = 0;
+      fileList = [];
+      fullFileList = [];
+      
+      try {
+        var root = await getFolderContents('');
+        if (!root) throw new Error('Erreur GitHub API');
+        
+        var folders = [];
+        var rootFiles = [];
+        
+        for (var i = 0; i < root.length; i++) {
+          var item = root[i];
+          if (item.type === 'dir') {
+            var f = await exploreFolder(item.path, item.name);
+            folders.push(f);
+            totalFolders++;
+          } else if (item.type === 'file') {
+            var ext = '.' + item.name.split('.').pop().toLowerCase();
+            var isAllowed = ALLOWED_EXTENSIONS.indexOf(ext) !== -1;
+            var isExcluded = EXCLUDED_FILES.indexOf(item.name) !== -1;
+            
+            if (isAllowed && !isExcluded) {
+              rootFiles.push({ name: item.name, path: item.path, size: item.size || 0 });
+              totalFiles++;
+              totalSize += item.size || 0;
+            }
+          }
+        }
+        
+        for (var i = 0; i < folders.length; i++) {
+          var flat = flattenFiles(folders[i]);
+          fullFileList = fullFileList.concat(flat);
+        }
+        
+        for (var i = 0; i < rootFiles.length; i++) {
+          fullFileList.push({ name: rootFiles[i].name, path: rootFiles[i].path });
+        }
+        
+        fullFileList.sort(function(a, b) { return a.path.localeCompare(b.path); });
+        fileList = fullFileList.slice();
+        
+        document.getElementById('totalFiles').innerHTML = totalFiles;
+        document.getElementById('totalFolders').innerHTML = totalFolders;
+        document.getElementById('totalSize').innerHTML = Math.round(totalSize / 1024);
+        
+        displayFiles();
+        displayCode();
+        
+        document.getElementById('fileSection').style.display = 'block';
+        setStatus(totalFiles + ' fichiers trouvés', 'success');
+        showToast(totalFiles + ' fichiers chargés', 'success');
+        
+      } catch(e) {
+        setStatus('Erreur: ' + e.message, 'error');
+        showToast('Erreur: ' + e.message, 'error');
+      }
+      
+      btn.innerHTML = original;
+      btn.disabled = false;
+    }
+    
+    // ============================================================
+    //  FILTRER
+    // ============================================================
+    
+    function filterFiles(type) {
+      currentFilter = type;
+      
+      document.querySelectorAll('.filter-btn').forEach(function(btn) {
+        btn.classList.toggle('active', btn.dataset.filter === type);
+      });
+      
+      if (type === 'all') {
+        fileList = fullFileList.slice();
+      } else {
+        fileList = fullFileList.filter(function(f) {
+          var ext = f.name.split('.').pop().toLowerCase();
+          if (type === 'html') return ext === 'html';
+          if (type === 'css') return ext === 'css';
+          if (type === 'js') return ext === 'js';
+          if (type === 'icon') return ['png','jpg','jpeg','gif','svg','ico','webp'].indexOf(ext) !== -1;
+          return true;
+        });
+      }
+      
+      displayFiles();
+      displayCode();
+    }
+    
+    // ============================================================
+    //  AFFICHAGE
+    // ============================================================
+    
+    function displayFiles() {
+      var container = document.getElementById('fileList');
+      document.getElementById('fileCount').innerHTML = fileList.length + ' fichiers';
+      
+      if (fileList.length === 0) {
+        container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-light);">Aucun fichier</div>';
+        return;
+      }
+      
+      var html = '';
+      for (var i = 0; i < fileList.length; i++) {
+        var f = fileList[i];
+        var icon = getIconClass(f.name);
+        var ext = '.' + f.name.split('.').pop().toLowerCase();
+        html += '<div class="file-row">';
+        html += '<i class="fas ' + icon + '"></i>';
+        html += '<span>' + f.path + '</span>';
+        html += '<span class="ext-badge">' + ext + '</span>';
+        html += '</div>';
+      }
+      container.innerHTML = html;
+    }
+    
+    function displayCode() {
+      var container = document.getElementById('codeOutput');
+      
+      if (fileList.length === 0) {
+        container.innerHTML = '<span style="color:var(--text-light);">Chargez les fichiers</span>';
+        return;
+      }
+      
+      var lines = [];
+      for (var i = 0; i < fileList.length; i++) {
+        lines.push("  './" + fileList[i].path + "'");
+      }
+      
+      var code = "var STATIC_ASSETS = [\n";
+      code += "  './',\n";
+      code += lines.join(',\n');
+      code += "\n];";
+      
+      container.innerHTML = code;
+    }
+    
+    // ============================================================
+    //  COPIER LISTE
+    // ============================================================
+    
+    function copyList() {
+      var text = document.getElementById('codeOutput').textContent;
+      if (text.includes('Chargez')) {
+        showToast('Chargez les fichiers d\'abord', 'error');
+        return;
+      }
+      
+      navigator.clipboard.writeText(text).then(function() {
+        showToast('Liste copiée !', 'success');
+      }).catch(function() {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('Liste copiée !', 'success');
+      });
+    }
+    
+    // ============================================================
+    //  TÉLÉCHARGER SW.JS
+    // ============================================================
+    
+    function downloadSW() {
+      if (fileList.length === 0) {
+        showToast('Chargez les fichiers d\'abord', 'error');
+        return;
+      }
+      
+      var lines = [];
+      for (var i = 0; i < fileList.length; i++) {
+        lines.push("  './" + fileList[i].path + "'");
+      }
+      
+      var assets = "  './',\n" + lines.join(',\n');
+      
+      var sw = `// ============================================================
+//  SMART GRADE - SERVICE WORKER
+//  Fichiers: ${fileList.length}
+//  Date: ${new Date().toLocaleDateString()}
+// ============================================================
+
+var CACHE_NAME = 'smartgrade-v5';
+var STATIC_ASSETS = [
+${assets}
+];
+
+// ============================================================
+//  INSTALLATION
+// ============================================================
+
+self.addEventListener('install', function(e) {
+  console.log('[SW] Installing...');
+  e.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(function(cache) {
+        console.log('[SW] Caching', STATIC_ASSETS.length, 'files');
+        return cache.addAll(STATIC_ASSETS);
+      })
+      .then(function() {
+        console.log('[SW] Installation complete');
+        return self.skipWaiting();
+      })
+      .catch(function(error) {
+        console.error('[SW] Installation error:', error);
+      })
+  );
+});
+
+// ============================================================
+//  ACTIVATION
+// ============================================================
+
+self.addEventListener('activate', function(e) {
+  console.log('[SW] Activating...');
+  e.waitUntil(
+    caches.keys()
+      .then(function(keys) {
+        return Promise.all(
+          keys.map(function(key) {
+            if (key !== CACHE_NAME) {
+              console.log('[SW] Deleting old cache:', key);
+              return caches.delete(key);
+            }
+          })
+        );
+      })
+      .then(function() {
+        console.log('[SW] Activation complete');
+        return self.clients.claim();
+      })
+  );
+});
+
+// ============================================================
+//  FETCH INTERCEPTION
+// ============================================================
+
+self.addEventListener('fetch', function(e) {
+  var url = new URL(e.request.url);
+  
+  if (url.pathname === '/sw.js') {
+    e.respondWith(fetch(e.request));
+    return;
+  }
+  
+  var apiDomains = [
+    'api.groq.com',
+    'api.mistral.ai',
+    'api.github.com',
+    'api.jsonbin.io',
+    'fonts.googleapis.com',
+    'cdnjs.cloudflare.com',
+    'cdn.jsdelivr.net',
+    'unpkg.com'
+  ];
+  
+  for (var i = 0; i < apiDomains.length; i++) {
+    if (url.hostname === apiDomains[i] || url.hostname.endsWith('.' + apiDomains[i])) {
+      e.respondWith(
+        fetch(e.request)
+          .catch(function() {
+            return new Response(
+              JSON.stringify({ error: 'Offline', offline: true }),
+              { status: 503, headers: { 'Content-Type': 'application/json' } }
+            );
+          })
+      );
+      return;
+    }
+  }
+  
+  e.respondWith(
+    caches.match(e.request)
+      .then(function(cached) {
+        var fetchP = fetch(e.request)
+          .then(function(res) {
+            if (res && res.status === 200) {
+              var clone = res.clone();
+              caches.open(CACHE_NAME)
+                .then(function(cache) {
+                  cache.put(e.request, clone);
+                });
+            }
+            return res;
+          })
+          .catch(function() {
+            return cached;
+          });
+        
+        if (cached) {
+          return cached;
+        }
+        
+        return fetchP;
+      })
+  );
+});
+
+// ============================================================
+//  MESSAGES
+// ============================================================
+
+self.addEventListener('message', function(e) {
+  if (e.data === 'updateSW') {
+    console.log('[SW] Update triggered');
+    self.skipWaiting();
+  }
+});
+
+// ============================================================
+//  PERIODIC UPDATE
+// ============================================================
+
+setInterval(function() {
+  self.skipWaiting();
+}, 30000);
+
+console.log('[SW] Service Worker loaded - ' + STATIC_ASSETS.length + ' files');`;
+      
+      var blob = new Blob([sw], { type: 'application/javascript' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'sw.js';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('sw.js téléchargé !', 'success');
+    }
+    
+    // ============================================================
+    //  COPIER SW COMPLET
+    // ============================================================
+    
+    function copyFullSW() {
+      if (fileList.length === 0) {
+        showToast('Chargez les fichiers d\'abord', 'error');
+        return;
+      }
+      
+      var lines = [];
+      for (var i = 0; i < fileList.length; i++) {
+        lines.push("  './" + fileList[i].path + "'");
+      }
+      
+      var assets = "  './',\n" + lines.join(',\n');
+      var sw = "var CACHE_NAME = 'smartgrade-v5';\nvar STATIC_ASSETS = [\n" + assets + "\n];";
+      
+      navigator.clipboard.writeText(sw).then(function() {
+        showToast('SW copié !', 'success');
+      }).catch(function() {
+        var ta = document.createElement('textarea');
+        ta.value = sw;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('SW copié !', 'success');
+      });
+    }
+    
+    // ============================================================
+    //  RESET CACHE
+    // ============================================================
+    
+    function resetCache() {
+      if (confirm('Supprimer tous les caches ? Cette action est irréversible.')) {
+        caches.keys().then(function(keys) {
+          keys.forEach(function(key) {
+            caches.delete(key);
+            console.log('Cache supprimé:', key);
+          });
+        });
+        showToast('Caches supprimés ! Rechargez la page.', 'success');
+        setTimeout(function() {
+          location.reload();
+        }, 1500);
+      }
+    }
+    
+    // ============================================================
+    //  AVATAR
+    // ============================================================
+    
+    function updateHeaderAvatar() {
+      try {
+        var stored = localStorage.getItem('smartgrade_current');
+        if (stored) {
+          var user = JSON.parse(stored);
+          var profile = JSON.parse(localStorage.getItem('smartgrade_profile_' + user.id) || '{}');
+          var avatar = document.getElementById('headerAvatar');
+          if (profile.avatarBase64 && profile.avatarBase64.length > 100) {
+            avatar.innerHTML = '<img src="' + profile.avatarBase64 + '" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">';
+          }
+        }
+      } catch(e) {}
+    }
+    
+    function applyFont() {
+      var saved = localStorage.getItem('smartgrade_font_family') || 'inter';
+      var map = {
+        'inter': 'Inter, sans-serif',
+        'roboto': 'Roboto, sans-serif',
+        'cinzel': 'Cinzel, serif',
+        'quicksand': 'Quicksand, sans-serif',
+        'courier-prime': '"Courier Prime", monospace',
+        'fredoka': 'Fredoka, sans-serif',
+        'pacifico': 'Pacifico, cursive',
+        'bangers': 'Bangers, cursive',
+        'lobster': 'Lobster, cursive',
+        'permanent-marker': '"Permanent Marker", cursive',
+        'comfortaa': 'Comfortaa, sans-serif',
+        'righteous': 'Righteous, sans-serif'
+      };
+      document.body.style.fontFamily = map[saved] || 'Inter, sans-serif';
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      updateHeaderAvatar();
+      initMobileMenu();
+      initThemeSelector();
+      applyFont();
+    });
+    
+    var fontObserver = new MutationObserver(applyFont);
+    fontObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    
+    function logout() {
+      localStorage.removeItem('smartgrade_current');
+      window.location.href = 'index.html';
+    }
+    
+    window.logout = logout;
+    window.loadFiles = loadFiles;
+    window.copyList = copyList;
+    window.downloadSW = downloadSW;
+    window.copyFullSW = copyFullSW;
+    window.resetCache = resetCache;
+    window.filterFiles = filterFiles;
+  </script>
+  <!-- PWA Manager -->
+  <script src="js/pwa.js" defer></script>
+</body>
+</html>

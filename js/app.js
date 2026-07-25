@@ -1014,3 +1014,9 @@ window.checkWelcomeBadge = checkWelcomeBadge;
 window.installApp = installApp;
 
 console.log('SMART GRADE v5.0 - App initialized');
+// ============================================================
+// SW - Force update check
+// ============================================================
+if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+  navigator.serviceWorker.controller.postMessage('updateSW');
+}

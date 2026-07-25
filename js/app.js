@@ -846,21 +846,18 @@ document.addEventListener('visibilitychange', function() {
 })();
 
 // ============================================================
-// SERVICE WORKER - AUTO CACHE UPDATE SYSTEM
-// Updates cache automatically when online
-// No user intervention required
-// Check every 1 minute
+// SERVICE WORKER - AUTO UPDATE MANAGER
 // ============================================================
 
-(function initDynamicSW() {
+(function initSWManager() {
   if (!('serviceWorker' in navigator)) {
-    console.warn('[SW] Not supported on this browser');
+    console.warn('[SW] Not supported');
     return;
   }
 
   var swRegistration = null;
   var isReloading = false;
-  var isUpdatingCache = false;
+  var updateInterval = null;
 
   function registerSW() {
     navigator.serviceWorker.register('./sw.js', { scope: './' })
@@ -871,22 +868,21 @@ document.addEventListener('visibilitychange', function() {
         // Check for updates immediately
         registration.update();
 
-        // Start periodic update checks every 30 seconds
-        setInterval(function() {
+        // Check every 30 seconds
+        if (updateInterval) clearInterval(updateInterval);
+        updateInterval = setInterval(function() {
           if (swRegistration) {
             swRegistration.update();
             console.log('[SW] Periodic update check...');
           }
         }, 30000);
 
-        // Log controller status
         if (navigator.serviceWorker.controller) {
           console.log('[SW] Controls this page');
         } else {
           console.log('[SW] Waiting to control page...');
           setTimeout(function() {
             if (swRegistration && !navigator.serviceWorker.controller) {
-              console.log('[SW] Attempting to claim clients...');
               swRegistration.update();
             }
           }, 2000);
@@ -897,58 +893,33 @@ document.addEventListener('visibilitychange', function() {
       });
   }
 
-  // Function to refresh cache
-  function refreshCache() {
-    if (isUpdatingCache) return;
-    isUpdatingCache = true;
-
-    if (swRegistration) {
-      console.log('[SW] Refreshing cache...');
-      swRegistration.update();
-
-      // Send message to SW to refresh cache
-      if (navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage('refreshCache');
-      }
-
-      setTimeout(function() {
-        isUpdatingCache = false;
-      }, 5000);
-    }
-  }
-
-  // Listen for messages from Service Worker
+  // Listen for SW messages
   navigator.serviceWorker.addEventListener('message', function(event) {
     console.log('[SW] Message received:', event.data);
-
     if (event.data === 'updateReady' && !isReloading) {
       isReloading = true;
-      console.log('[SW] Update ready, reloading page...');
+      console.log('[SW] Update ready, reloading...');
       window.location.reload();
     }
   });
 
-  // Force update check when page comes to foreground
+  // Check on focus
   document.addEventListener('visibilitychange', function() {
     if (!document.hidden && swRegistration) {
       swRegistration.update();
-      refreshCache();
       console.log('[SW] Update check on focus');
     }
   });
 
-  // Force update check when internet connection is restored
+  // Check on online
   window.addEventListener('online', function() {
-    console.log('[SW] Connection restored - refreshing cache...');
     if (swRegistration) {
       swRegistration.update();
-      setTimeout(function() {
-        refreshCache();
-      }, 1000);
+      console.log('[SW] Update check - connection restored');
     }
   });
 
-  // Force update check on pageshow (back/forward cache)
+  // Check on pageshow
   window.addEventListener('pageshow', function() {
     if (swRegistration) {
       swRegistration.update();
@@ -956,21 +927,14 @@ document.addEventListener('visibilitychange', function() {
     }
   });
 
-  // Refresh cache every 1 minute when online
-  setInterval(function() {
-    if (navigator.onLine && swRegistration) {
-      refreshCache();
-    }
-  }, 60 * 1000);
-
-  // Register Service Worker when DOM is ready
+  // Register on load
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', registerSW);
   } else {
     registerSW();
   }
 
-  // Safety net: register on full page load if not already registered
+  // Safety net
   window.addEventListener('load', function() {
     if (!swRegistration) {
       registerSW();
@@ -978,7 +942,6 @@ document.addEventListener('visibilitychange', function() {
   });
 
 })();
-
 
 // ============================================
 // FIX MENU TITLE - VERSION ULTIMATE

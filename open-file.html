@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Open File - SMART GRADE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --primary: #0f3b48;
+      --secondary: #00b4d8;
+      --card-bg: #ffffff;
+      --text: #1a2a3a;
+      --text-light: #4a627a;
+      --border: rgba(0,0,0,0.08);
+      --shadow: rgba(0,0,0,0.15);
+      --radius: 20px;
+    }
+    
+    .theme-default { --primary: #0f3b48; --secondary: #00b4d8; }
+    .theme-crimson { --primary: #c0392b; --secondary: #ff4757; }
+    .theme-forest { --primary: #1e8449; --secondary: #2ecc71; }
+    .theme-ocean { --primary: #006994; --secondary: #00b4d8; }
+    .theme-royal { --primary: #6c3483; --secondary: #a569bd; }
+    .theme-sunset { --primary: #d35400; --secondary: #f39c12; }
+    .theme-rose { --primary: #c44569; --secondary: #fd79a8; }
+    .theme-turquoise { --primary: #00897b; --secondary: #1de9b6; }
+    .theme-amber { --primary: #b7950b; --secondary: #f1c40f; }
+    .theme-graphite { --primary: #455a64; --secondary: #90a4ae; }
+    .theme-lavender { --primary: #7b1fa2; --secondary: #ce93d8; }
+    .theme-cherry { --primary: #b71c1c; --secondary: #ef5350; }
+    .theme-midnight { --primary: #1a237e; --secondary: #5c6bc0; }
+    .theme-mint { --primary: #00b894; --secondary: #55efc4; }
+    .theme-coral { --primary: #e74c3c; --secondary: #ff6b6b; }
+    .theme-indigo { --primary: #283593; --secondary: #7986cb; }
+    .theme-chocolate { --primary: #5d4037; --secondary: #a1887f; }
+    .theme-electric { --primary: #6a1b9a; --secondary: #e040fb; }
+    .theme-steel { --primary: #37474f; --secondary: #78909c; }
+    .theme-lime { --primary: #558b2f; --secondary: #aed581; }
+    
+    body {
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      padding: 20px;
+      margin: 0;
+      transition: background 0.5s ease;
+    }
+    
+    .file-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 40px 32px;
+      max-width: 520px;
+      width: 100%;
+      border: 1px solid var(--border);
+      box-shadow: 0 30px 80px var(--shadow);
+      animation: fadeInUp 0.5s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .file-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 50%, var(--secondary), transparent 60%);
+      opacity: 0.03;
+      pointer-events: none;
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    
+    .file-card .icon-wrapper {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 8px 30px rgba(15,59,72,0.25);
+      transition: background 0.5s ease;
+    }
+    
+    .file-card .icon-wrapper i {
+      font-size: 36px;
+      color: white;
+    }
+    
+    .file-card h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    
+    .file-card .subtitle {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+    
+    .file-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(0,0,0,0.04);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      font-size: 0.8rem;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    
+    .file-info i { color: var(--primary); font-size: 1.2rem; }
+    .file-info .file-name { font-weight: 600; flex: 1; text-align: left; word-break: break-all; }
+    .file-info .file-size { font-size: 0.65rem; color: var(--text-light); }
+    
+    .file-content {
+      background: rgba(0,0,0,0.04);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 20px;
+      text-align: left;
+      font-size: 0.75rem;
+      max-height: 300px;
+      overflow-y: auto;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: 'Courier Prime', monospace;
+      border: 1px solid var(--border);
+      line-height: 1.6;
+      background: #f8f9fa;
+    }
+    
+    .file-content::-webkit-scrollbar { width: 4px; }
+    .file-content::-webkit-scrollbar-track { background: var(--border); border-radius: 4px; }
+    .file-content::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+    
+    .file-content .empty {
+      color: var(--text-light);
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .btn-file {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 60px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.9rem;
+      width: 100%;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .btn-file:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(15,59,72,0.3);
+    }
+    
+    .btn-file:active { transform: scale(0.96); }
+    
+    .back-link {
+      display: inline-block;
+      margin-top: 16px;
+      color: var(--primary);
+      font-size: 0.75rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    
+    .back-link:hover { text-decoration: underline; }
+    
+    .spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.6s linear infinite;
+    }
+    
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    /* ============================================
+       TOAST SYSTEM - 20 COULEURS
+       ============================================ */
+    .toast-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      animation: overlayIn 0.3s ease;
+    }
+    
+    .toast-overlay.show { display: flex; }
+    
+    @keyframes overlayIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .toast-box {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      max-width: 360px;
+      width: 90%;
+      text-align: center;
+      border: 2px solid var(--border);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+      animation: boxIn 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .toast-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: background 0.5s ease;
+    }
+    
+    @keyframes boxIn {
+      from { opacity: 0; transform: scale(0.9) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    
+    .toast-box .toast-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 28px;
+      color: white;
+      transition: background 0.5s ease;
+    }
+    
+    .toast-default { background: linear-gradient(135deg, #0f3b48, #00b4d8); }
+    .toast-crimson { background: linear-gradient(135deg, #c0392b, #ff4757); }
+    .toast-forest { background: linear-gradient(135deg, #1e8449, #2ecc71); }
+    .toast-ocean { background: linear-gradient(135deg, #006994, #00b4d8); }
+    .toast-royal { background: linear-gradient(135deg, #6c3483, #a569bd); }
+    .toast-sunset { background: linear-gradient(135deg, #d35400, #f39c12); }
+    .toast-rose { background: linear-gradient(135deg, #c44569, #fd79a8); }
+    .toast-turquoise { background: linear-gradient(135deg, #00897b, #1de9b6); }
+    .toast-amber { background: linear-gradient(135deg, #b7950b, #f1c40f); }
+    .toast-graphite { background: linear-gradient(135deg, #455a64, #90a4ae); }
+    .toast-lavender { background: linear-gradient(135deg, #7b1fa2, #ce93d8); }
+    .toast-cherry { background: linear-gradient(135deg, #b71c1c, #ef5350); }
+    .toast-midnight { background: linear-gradient(135deg, #1a237e, #5c6bc0); }
+    .toast-mint { background: linear-gradient(135deg, #00b894, #55efc4); }
+    .toast-coral { background: linear-gradient(135deg, #e74c3c, #ff6b6b); }
+    .toast-indigo { background: linear-gradient(135deg, #283593, #7986cb); }
+    .toast-chocolate { background: linear-gradient(135deg, #5d4037, #a1887f); }
+    .toast-electric { background: linear-gradient(135deg, #6a1b9a, #e040fb); }
+    .toast-steel { background: linear-gradient(135deg, #37474f, #78909c); }
+    .toast-lime { background: linear-gradient(135deg, #558b2f, #aed581); }
+    
+    .toast-box .toast-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    
+    .toast-box .toast-message {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    
+    .toast-box .toast-btn {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      padding: 10px 32px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.25s ease;
+      min-width: 120px;
+    }
+    
+    .toast-box .toast-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(15,59,72,0.25);
+    }
+    
+    .toast-box .toast-btn:active { transform: scale(0.95); }
+    
+    .toast-box .toast-emoji {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 8px;
+    }
+    
+    .toast-box .toast-tag {
+      display: inline-block;
+      font-size: 0.55rem;
+      font-weight: 600;
+      padding: 2px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      background: rgba(0,0,0,0.05);
+      color: var(--text-light);
+    }
+    
+    @media (max-width: 480px) {
+      .file-card { padding: 28px 20px; }
+      .file-card h2 { font-size: 1.2rem; }
+      .file-card .icon-wrapper { width: 64px; height: 64px; }
+      .file-card .icon-wrapper i { font-size: 28px; }
+      .file-content { font-size: 0.65rem; max-height: 200px; }
+      .file-info { flex-wrap: wrap; }
+      .toast-box { padding: 24px 20px; }
+      .toast-box .toast-icon { width: 56px; height: 56px; font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="file-card" id="fileCard">
+    <div class="icon-wrapper" id="iconWrapper">
+      <i class="fas fa-file-alt"></i>
+    </div>
+    
+    <h2>File Viewer</h2>
+    <p class="subtitle">View and manage imported files</p>
+    
+    <div class="file-info" id="fileInfo">
+      <i class="fas fa-file"></i>
+      <span class="file-name" id="fileName">Loading...</span>
+      <span class="file-size" id="fileSize">--</span>
+    </div>
+    
+    <div class="file-content" id="fileContent">
+      <div class="empty"><span class="spinner"></span> Loading file...</div>
+    </div>
+    
+    <button class="btn-file" onclick="saveFileToNotebook()">
+      <i class="fas fa-save"></i> Save to Notebook
+    </button>
+    
+    <a href="dashboard.html" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+  </div>
+
+  <!-- TOAST SYSTEM -->
+  <div class="toast-overlay" id="toastOverlay">
+    <div class="toast-box" id="toastBox">
+      <span class="toast-emoji" id="toastEmoji">✅</span>
+      <div class="toast-icon" id="toastIcon"><i class="fas fa-check"></i></div>
+      <span class="toast-tag" id="toastTag">SMART GRADE</span>
+      <div class="toast-title" id="toastTitle">Success!</div>
+      <div class="toast-message" id="toastMessage">File saved to your notebook.</div>
+      <button class="toast-btn" id="toastBtn" onclick="closeToast()">OK</button>
+    </div>
+  </div>
+
+  <script>
+    // ============================================================
+    //  20 COULEURS OFFICIELLES
+    // ============================================================
+    
+    var SMART_THEMES = [
+      { name: 'default', primary: '#0f3b48', secondary: '#00b4d8', class: 'toast-default' },
+      { name: 'crimson', primary: '#c0392b', secondary: '#ff4757', class: 'toast-crimson' },
+      { name: 'forest', primary: '#1e8449', secondary: '#2ecc71', class: 'toast-forest' },
+      { name: 'ocean', primary: '#006994', secondary: '#00b4d8', class: 'toast-ocean' },
+      { name: 'royal', primary: '#6c3483', secondary: '#a569bd', class: 'toast-royal' },
+      { name: 'sunset', primary: '#d35400', secondary: '#f39c12', class: 'toast-sunset' },
+      { name: 'rose', primary: '#c44569', secondary: '#fd79a8', class: 'toast-rose' },
+      { name: 'turquoise', primary: '#00897b', secondary: '#1de9b6', class: 'toast-turquoise' },
+      { name: 'amber', primary: '#b7950b', secondary: '#f1c40f', class: 'toast-amber' },
+      { name: 'graphite', primary: '#455a64', secondary: '#90a4ae', class: 'toast-graphite' },
+      { name: 'lavender', primary: '#7b1fa2', secondary: '#ce93d8', class: 'toast-lavender' },
+      { name: 'cherry', primary: '#b71c1c', secondary: '#ef5350', class: 'toast-cherry' },
+      { name: 'midnight', primary: '#1a237e', secondary: '#5c6bc0', class: 'toast-midnight' },
+      { name: 'mint', primary: '#00b894', secondary: '#55efc4', class: 'toast-mint' },
+      { name: 'coral', primary: '#e74c3c', secondary: '#ff6b6b', class: 'toast-coral' },
+      { name: 'indigo', primary: '#283593', secondary: '#7986cb', class: 'toast-indigo' },
+      { name: 'chocolate', primary: '#5d4037', secondary: '#a1887f', class: 'toast-chocolate' },
+      { name: 'electric', primary: '#6a1b9a', secondary: '#e040fb', class: 'toast-electric' },
+      { name: 'steel', primary: '#37474f', secondary: '#78909c', class: 'toast-steel' },
+      { name: 'lime', primary: '#558b2f', secondary: '#aed581', class: 'toast-lime' }
+    ];
+    
+    var TOAST_EMOJIS = ['✅', '🎉', '✨', '🌟', '💪', '🚀', '🔥', '⭐', '👏', '🎯', '📚', '💡', '🌈', '🎊'];
+    var TOAST_TITLES = {
+      success: ['Success!', 'Done!', 'Perfect!', 'Great!', 'Awesome!', 'Amazing!'],
+      error: ['Oops!', 'Error!', 'Something went wrong!', 'Try again!'],
+      info: ['Info', 'Heads up!', 'Note', 'Quick tip'],
+      warning: ['Warning', 'Careful!', 'Hold on!']
+    };
+    
+    var lastThemeIndex = -1;
+    
+    function getRandomTheme() {
+      var index;
+      do {
+        index = Math.floor(Math.random() * SMART_THEMES.length);
+      } while (index === lastThemeIndex && SMART_THEMES.length > 1);
+      lastThemeIndex = index;
+      return SMART_THEMES[index];
+    }
+    
+    function getRandomEmoji() {
+      return TOAST_EMOJIS[Math.floor(Math.random() * TOAST_EMOJIS.length)];
+    }
+    
+    function getRandomTitle(type) {
+      var list = TOAST_TITLES[type] || TOAST_TITLES.success;
+      return list[Math.floor(Math.random() * list.length)];
+    }
+    
+    function applyRandomTheme() {
+      var theme = getRandomTheme();
+      var body = document.body;
+      var card = document.getElementById('fileCard');
+      var iconWrapper = document.getElementById('iconWrapper');
+      
+      body.style.setProperty('--primary', theme.primary);
+      body.style.setProperty('--secondary', theme.secondary);
+      body.style.background = 'linear-gradient(135deg, ' + theme.primary + ', ' + theme.secondary + ')';
+      iconWrapper.style.background = 'linear-gradient(135deg, ' + theme.primary + ', ' + theme.secondary + ')';
+      
+      return theme;
+    }
+    
+    // ============================================================
+    //  TOAST SYSTEM
+    // ============================================================
+    
+    function showToast(type, message, redirectUrl) {
+      var overlay = document.getElementById('toastOverlay');
+      var icon = document.getElementById('toastIcon');
+      var emoji = document.getElementById('toastEmoji');
+      var title = document.getElementById('toastTitle');
+      var msg = document.getElementById('toastMessage');
+      var btn = document.getElementById('toastBtn');
+      var tag = document.getElementById('toastTag');
+      var box = document.getElementById('toastBox');
+      
+      var theme = getRandomTheme();
+      icon.className = 'toast-icon ' + theme.class;
+      box.style.setProperty('--primary', theme.primary);
+      box.style.setProperty('--secondary', theme.secondary);
+      
+      emoji.innerHTML = getRandomEmoji();
+      
+      var iconMap = {
+        success: 'fa-check-circle',
+        error: 'fa-exclamation-circle',
+        info: 'fa-info-circle',
+        warning: 'fa-exclamation-triangle'
+      };
+      icon.innerHTML = '<i class="fas ' + (iconMap[type] || 'fa-check-circle') + '"></i>';
+      
+      title.innerHTML = getRandomTitle(type);
+      
+      var tagMap = {
+        success: '✨ SMART GRADE',
+        error: '⚠️ SMART GRADE',
+        info: 'ℹ️ SMART GRADE',
+        warning: '🔔 SMART GRADE'
+      };
+      tag.innerHTML = tagMap[type] || 'SMART GRADE';
+      
+      msg.innerHTML = message;
+      
+      if (redirectUrl) {
+        btn.innerHTML = 'Continue <i class="fas fa-arrow-right"></i>';
+        btn.onclick = function() {
+          closeToast();
+          setTimeout(function() { window.location.href = redirectUrl; }, 200);
+        };
+      } else {
+        btn.innerHTML = 'OK';
+        btn.onclick = closeToast;
+      }
+      
+      overlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeToast() {
+      var overlay = document.getElementById('toastOverlay');
+      overlay.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    
+    document.getElementById('toastOverlay').addEventListener('click', function(e) {
+      if (e.target === this) closeToast();
+    });
+    
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeToast();
+    });
+
+    // ============================================================
+    //  FILE LOGIC
+    // ============================================================
+    
+    var fileData = { name: '', content: '', type: '', size: 0 };
+
+    function getUrlParams() {
+      var params = {};
+      var query = window.location.search.substring(1);
+      if (!query) return params;
+      var pairs = query.split('&');
+      for (var i = 0; i < pairs.length; i++) {
+        var pair = pairs[i].split('=');
+        if (pair.length === 2) {
+          params[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+        }
+      }
+      return params;
+    }
+
+    function getCurrentStudent() {
+      try {
+        var stored = localStorage.getItem('smartgrade_current');
+        return stored ? JSON.parse(stored) : null;
+      } catch(e) { return null; }
+    }
+
+    function formatFileSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / 1048576).toFixed(1) + ' MB';
+    }
+
+    function loadFile() {
+      var params = getUrlParams();
+      var fileUrl = params.url || '';
+      var fileName = params.name || 'file.txt';
+      
+      document.getElementById('fileName').innerHTML = fileName;
+      
+      if (fileUrl) {
+        fetch(fileUrl)
+          .then(function(res) {
+            if (!res.ok) throw new Error('File not found');
+            var contentLength = res.headers.get('content-length');
+            if (contentLength) {
+              fileData.size = parseInt(contentLength);
+              document.getElementById('fileSize').innerHTML = formatFileSize(fileData.size);
+            }
+            return res.text();
+          })
+          .then(function(text) {
+            fileData.content = text;
+            fileData.name = fileName;
+            document.getElementById('fileContent').innerHTML = text || '(Empty file)';
+          })
+          .catch(function(err) {
+            document.getElementById('fileContent').innerHTML = '<div class="empty">⚠️ Could not load file: ' + err.message + '</div>';
+          });
+      } else {
+        fileData.content = 'Sample file content\nThis is a demo file.\n\nCreated: ' + new Date().toLocaleString();
+        fileData.name = fileName;
+        document.getElementById('fileContent').innerHTML = fileData.content;
+        document.getElementById('fileSize').innerHTML = formatFileSize(fileData.content.length);
+      }
+    }
+
+    function saveFileToNotebook() {
+      var user = getCurrentStudent();
+      if (!user) {
+        showToast('error', 'Please login first to save files.', 'login.html');
+        return;
+      }
+      
+      var notes = JSON.parse(localStorage.getItem('smartgrade_notes_' + user.id) || '[]');
+      notes.unshift({
+        id: Date.now().toString(),
+        title: fileData.name || 'Imported File',
+        content: fileData.content || 'No content',
+        subject: 'General',
+        pinned: false,
+        important: false,
+        color: '#2ecc71',
+        tags: ['imported', 'file'],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      });
+      
+      localStorage.setItem('smartgrade_notes_' + user.id, JSON.stringify(notes));
+      
+      showToast('success', 'File saved to your notebook! 📄', 'notebook.html');
+    }
+
+    // ============================================================
+    //  INIT
+    // ============================================================
+    
+    applyRandomTheme();
+    loadFile();
+  </script>
+</body>
+</html>

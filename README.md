@@ -314,89 +314,134 @@
 
 ```
 SMART-GRADE/
-├── index.html                 Home page with account list
-├── login.html                 PIN + Fingerprint authentication
-├── register.html              Account creation
-├── dashboard.html             Main dashboard with statistics
-├── add-grade.html             Grade entry interface
-├── subjects.html              Subject management
-├── term1.html                 Term 1 report
-├── term2.html                 Term 2 report
-├── term3.html                 Term 3 report
-├── yearly.html                Yearly summary
-├── statistics.html            Charts and analytics
-├── achievements.html          Badges and streaks
-├── flashcards.html            Study cards
-├── goals.html                 Academic goals
-├── timetable.html             Class schedule
-├── homeworks.html             Homework viewer
-├── notebook.html              Personal notebook
-├── profile.html               User profile with avatar
-├── settings.html              App settings
-├── export.html                JSON, CSV, HTML, PDF export
-├── backup.html                Backup manager
-├── history.html               Activity log
-├── notifications.html         Notification center
-├── transfer.html              QR code and local transfer
-├── search.html                Multi-source search engine
-├── ai-assistant.html          AI Assistant with 3 models
-├── chat.html                  P2P chat system
-├── support.html               Help and support
-├── guide.html                 Public user guide
-├── guide-user.html            Private user guide
-├── about.html                 Public about page
-├── about-user.html            Private about page
-├── terms.html                 Terms of Use
-├── privacy.html               Privacy Policy
-├── cookies.html               Cookies Policy
-├── license.html               MIT License
-├── eula.html                  End User License Agreement
-├── doc.html                   Developer documentation
-├── README.md                  This file - Complete description
-├── splash.html                Loading screen
-├── welcome.html               Post-login welcome
-├── admin-homework.html        Homework admin panel
-├── dev-calculator.html        Grade Calculator
-├── dev-database.html          Database Manager
-├── dev-stats.html             Advanced Statistics
-├── dev-logs.html              System Logs
-├── dev-backup.html            Cloud Backup
-├── dev-config.html            System Config
-├── 400.html                   400 Bad Request
-├── 401.html                   401 Unauthorized
-├── 403.html                   403 Forbidden
-├── 404.html                   404 Not Found
-├── 500.html                   500 Internal Server Error
-├── 502.html                   502 Bad Gateway
-├── 503.html                   503 Service Unavailable
-│
-├── css/
-│   ├── base.css               Reset, variables, animations
-│   ├── layout.css             Header, sidebar, modals
-│   ├── components.css         Cards, buttons, forms
-│   ├── themes.css             20 color themes
-│   └── night-mode.css         Dark mode styles
-│
-├── js/
-│   ├── utils.js               Core utilities (toast, dates, calculations)
-│   ├── database.js            localStorage CRUD operations
-│   ├── auth.js                PIN and WebAuthn authentication
-│   ├── app.js                 UI initialization (themes, fonts, menu)
-│   ├── transfer.js            QR code and local transfer
-│   ├── confirm-dialog.js      Custom confirmation dialogs
-│   ├── install-handler.js     PWA installation
-│   ├── auto-save.js           Auto-save every 30 seconds
-│   ├── auto-update.js         Version checking
-│   ├── cloud-sync.js          Cloud backup (JSONBin.io)
-│   ├── pwa.js                 PWA configuration
-│   ├── storage.js             Storage manager
-│   └── auto-updater.js        Auto-update system
-│
-└── PWA/
-    ├── manifest.json          PWA manifest
-    ├── sw.js                  Service Worker
-    └── icon.svg               App icon
+├── 📁 .github/
+│   ├── 📁 ISSUE_TEMPLATE/
+│   │   ├── 📝 bug_report.md
+│   │   ├── 📝 custom.md
+│   │   └── 📝 feature_request.md
+│   └── 📁 workflows/
+├── 📁 css/
+│   ├── 🎨 ai-assistant.css
+│   ├── 🎨 base.css
+│   ├── 🎨 components.css
+│   ├── 🎨 layout.css
+│   ├── 🎨 night-mode.css
+│   └── 🎨 themes.css
+├── 📁 icons/
+│   ├── 🖼️ avatar-boy.png
+│   ├── 🖼️ avatar-girl.png
+│   ├── 🖼️ favicon.ico
+│   ├── 🖼️ icon-192x192.png
+│   ├── 🖼️ icon-512x512.png
+│   ├── 🖼️ icon-achievements.png
+│   ├── 🖼️ icon-addgrade.png
+│   ├── 🖼️ icon-dashboard.png
+│   ├── 🖼️ icon-stats.png
+│   ├── 🖼️ icon.png
+│   └── 🖼️ icon.svg
+├── 📁 images/
+│   ├── 🖼️ banner.png
+│   ├── 🖼️ dashboard.png
+│   ├── 🖼️ header_bg.png
+│   ├── 🖼️ home.png
+│   ├── 🖼️ login.png
+│   └── 🖼️ register.png
+├── 📁 js/
+│   ├── ⚡ ai-assistant-core.js
+│   ├── ⚡ ai-assistant-ui.js
+│   ├── ⚡ app.js
+│   ├── ⚡ auth.js
+│   ├── ⚡ auto-save.js
+│   ├── ⚡ auto-update.js
+│   ├── ⚡ auto-updater.js
+│   ├── ⚡ avatars-data.js
+│   ├── ⚡ cloud-sync.js
+│   ├── ⚡ confirm-dialog.js
+│   ├── ⚡ database.js
+│   ├── ⚡ export.js
+│   ├── ⚡ install-handler.js
+│   ├── ⚡ pwa.js
+│   ├── ⚡ storage.js
+│   ├── ⚡ transfer-local.js
+│   ├── ⚡ transfer-manager.js
+│   ├── ⚡ transfer.js
+│   ├── ⚡ utils.js
+│   └── ⚡ widget-data.js
+├── 🌐 400.html
+├── 🌐 401.html
+├── 🌐 403.html
+├── 🌐 404.html
+├── 🌐 500.html
+├── 🌐 502.html
+├── 🌐 503.html
+├── 🌐 about-user.html
+├── 🌐 about.html
+├── 🌐 achievements.html
+├── 🌐 add-grade.html
+├── 🌐 admin-homework.html
+├── 🌐 ai-assistant.html
+├── 🌐 backup.html
+├── 🌐 chat.html
+├── 📝 CODE_OF_CONDUCT.md
+├── ⚡ congfig.js
+├── 📝 CONTRIBUTING.md
+├── 🌐 cookies.html
+├── 🌐 dashboard.html
+├── 🌐 dev-backup.html
+├── 🌐 dev-calculator.html
+├── 🌐 dev-config.html
+├── 🌐 dev-database.html
+├── 🌐 dev-logs.html
+├── 🌐 dev-stats.html
+├── 🌐 doc.html
+├── 🌐 eula.html
+├── 🌐 export.html
+├── 🌐 flashcards.html
+├── 🌐 goals.html
+├── 🌐 google6523d76523928963.html
+├── 🌐 guide-user.html
+├── 🌐 guide.html
+├── 🌐 history.html
+├── 🌐 homeworks.html
+├── 📦 homeworks.json
+├── 🌐 index.html
+├── 🌐 license.html
+├── 📝 LICENSE.md
+├── 🌐 login.html
+├── ⚡ maintenance-config.js
+├── 🌐 maintenance.html
+├── 📦 manifest.json
+├── 🌐 notebook.html
+├── 🌐 notifications.html
+├── 🌐 privacy.html
+├── 🌐 profile.html
+├── 📝 README.md
+├── 🌐 register.html
+├── 📄 robots.txt
+├── 🌐 search.html
+├── 📝 SECURITY.md
+├── 🌐 settings.html
+├── 🌐 shortcuts.html
+├── 📄 sitemap.xml
+├── 🌐 splash.html
+├── 🌐 statistics.html
+├── 🌐 subject-detail.html
+├── 🌐 subjects.html
+├── 🌐 support.html
+├── 🌐 sw.html
+├── ⚡ sw.js
+├── 🌐 term1.html
+├── 🌐 term2.html
+├── 🌐 term3.html
+├── 🌐 terms.html
+├── 🌐 timetable.html
+├── 🌐 transfer.html
+├── 📦 version.json
+├── 🌐 welcome.html
+└── 🌐 yearly.html
 ```
+
+**Total:** 118 fille, 7 folders
 
 ---
 

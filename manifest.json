@@ -19,6 +19,7 @@
   "lang": "en",
   "id": "smart-grade-v5",
   "categories": ["education", "productivity"],
+  "iarc_rating_id": "",
   "screenshots": [
     {
       "src": "./screenshots/dashboard.png",
@@ -182,7 +183,6 @@
   "edge_side_panel": {
     "preferred_width": 400
   },
-  "iarc_rating_id": "",
   "widgets": [
     {
       "name": "SMART GRADE Widget",

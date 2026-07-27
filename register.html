@@ -21,8 +21,44 @@
     .form-group input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(15,59,72,0.1); }
     
     .flex-row { display: flex; gap: 10px; }
-    .btn-class { flex: 1; padding: 10px; border-radius: 10px; border: 2px solid var(--border); background: transparent; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: center; color: var(--text); font-size: 0.8rem; }
-    .btn-class.active { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border-color: transparent; }
+    .btn-class {
+      flex: 1;
+      padding: 12px 10px;
+      border-radius: 12px;
+      border: 2px solid var(--border);
+      background: transparent;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-align: center;
+      color: var(--text);
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .btn-class i {
+      font-size: 1.1rem;
+      color: var(--primary);
+      transition: color 0.25s ease;
+    }
+    .btn-class.active {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 4px 16px rgba(15,59,72,0.2);
+    }
+    .btn-class.active i {
+      color: white;
+    }
+    .btn-class:hover:not(.active) {
+      border-color: var(--primary);
+      background: rgba(15,59,72,0.04);
+    }
+    .btn-class:active {
+      transform: scale(0.96);
+    }
     
     .gender-group { display: flex; gap: 10px; }
     .gender-card { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 8px 10px; border-radius: 10px; border: 2px solid var(--border); background: var(--card-bg); cursor: pointer; transition: all 0.2s; color: var(--text); font-size: 0.8rem; }
@@ -47,9 +83,6 @@
     .pin-row { display: flex; gap: 10px; }
     .pin-row .form-group { flex: 1; }
     
-    /* ============================================
-       PIN INPUT WITH EYE TOGGLE
-    ============================================ */
     .pin-input-wrapper {
       position: relative;
       width: 100%;
@@ -167,12 +200,16 @@
           <input type="text" id="userName" placeholder="Your full name">
         </div>
         
-        <!-- 2. CLASS -->
+        <!-- 2. CLASS - MODIFIÉ AVEC ICÔNE fa-university -->
         <div class="form-group">
-          <label><i class="fas fa-school"></i> Class</label>
+          <label><i class="fas fa-university"></i> Class</label>
           <div class="flex-row">
-            <button type="button" id="classB1" class="btn-class active">B1</button>
-            <button type="button" id="classB2" class="btn-class">B2</button>
+            <button type="button" id="classB1" class="btn-class active">
+              <i class="fas fa-university"></i> Form 5 B1
+            </button>
+            <button type="button" id="classB2" class="btn-class">
+              <i class="fas fa-university"></i> Form 5 B2
+            </button>
           </div>
           <input type="hidden" id="userClass" value="B1">
         </div>

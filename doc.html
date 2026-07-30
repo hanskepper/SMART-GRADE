@@ -14,84 +14,6 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0f3b48">
   <style>
-  
-  /* ============================================
-   DOWNLOAD PDF BUTTONS - SMART GRADE STYLE
-   ============================================ */
-/* ============================================
-   DOWNLOAD PDF BUTTONS - SMART GRADE STYLE
-   ============================================ */
-
-.pdf-download-section {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  flex-wrap: nowrap;
-  margin-bottom: 20px;
-}
-
-.btn-pdf {
-  flex: 1;
-  padding: 10px 16px;
-  border-radius: 40px;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.75rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: all 0.3s ease;
-  color: white;
-  border: none;
-  cursor: pointer;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  box-shadow: 0 4px 16px rgba(15,59,72,0.25);
-  min-width: 0;
-  white-space: nowrap;
-}
-
-.btn-pdf:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(15,59,72,0.35);
-}
-
-.btn-pdf:active {
-  transform: scale(0.95);
-}
-
-.btn-pdf i {
-  font-size: 0.8rem;
-  flex-shrink: 0;
-}
-
-/* Mobile : toujours sur la même ligne */
-@media (max-width: 550px) {
-  .pdf-download-section {
-    flex-wrap: nowrap;
-    gap: 8px;
-  }
-  .btn-pdf {
-    font-size: 0.65rem;
-    padding: 10px 12px;
-    white-space: nowrap;
-  }
-  .btn-pdf i {
-    font-size: 0.7rem;
-  }
-}
-
-/* Très petit écran */
-@media (max-width: 380px) {
-  .btn-pdf {
-    font-size: 0.55rem;
-    padding: 8px 8px;
-  }
-  .btn-pdf i {
-    font-size: 0.6rem;
-  }
-}
-  
     /* ============================================
        DOC HERO
        ============================================ */
@@ -885,6 +807,79 @@
     }
 
     /* ============================================
+       DOWNLOAD PDF BUTTONS - SMART GRADE STYLE
+       ============================================ */
+    .pdf-download-section {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: nowrap;
+      margin-bottom: 20px;
+    }
+
+    .btn-pdf {
+      flex: 1;
+      padding: 10px 16px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      color: white;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: 0 4px 16px rgba(15,59,72,0.25);
+      min-width: 0;
+      white-space: nowrap;
+    }
+
+    .btn-pdf:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(15,59,72,0.35);
+    }
+
+    .btn-pdf:active {
+      transform: scale(0.95);
+    }
+
+    .btn-pdf i {
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    /* Mobile : toujours sur la même ligne */
+    @media (max-width: 550px) {
+      .pdf-download-section {
+        flex-wrap: nowrap;
+        gap: 8px;
+      }
+      .btn-pdf {
+        font-size: 0.65rem;
+        padding: 10px 12px;
+        white-space: nowrap;
+      }
+      .btn-pdf i {
+        font-size: 0.7rem;
+      }
+    }
+
+    /* Tres petit ecran */
+    @media (max-width: 380px) {
+      .btn-pdf {
+        font-size: 0.55rem;
+        padding: 8px 8px;
+      }
+      .btn-pdf i {
+        font-size: 0.6rem;
+      }
+    }
+
+    /* ============================================
        LEGAL DATE
        ============================================ */
     .legal-date {
@@ -916,8 +911,6 @@
       .file-tree-modal-body .tree-files-grid { grid-template-columns: 1fr; }
       .file-tree-modal-header h2 { font-size: 1rem; }
     }
-  
-  
   </style>
 </head>
 <body>
@@ -971,17 +964,18 @@
           <i class="fas fa-calendar-alt"></i> Last updated: July 08, 2026
         </div>
       </div>
+
       <!-- ============================================
-     DOWNLOAD PDF BUTTONS
-     ============================================ -->
-<div class="pdf-download-section">
-  <a href="./docs/SMART-GRADE-User-Guide.pdf" download class="btn-pdf btn-pdf-user">
-    <i class="fas fa-file-pdf"></i> User Guide
-  </a>
-  <a href="./docs/SMART-GRAND-Features.pdf" download class="btn-pdf btn-pdf-features">
-    <i class="fas fa-file-pdf"></i> Features Sheet
-  </a>
-</div>
+           DOWNLOAD PDF BUTTONS
+           ============================================ -->
+      <div class="pdf-download-section">
+        <a href="./docs/SMART-GRADE-User-Guide.pdf" download class="btn-pdf">
+          <i class="fas fa-file-pdf"></i> User Guide
+        </a>
+        <a href="./docs/SMART-GRAND-Features.pdf" download class="btn-pdf">
+          <i class="fas fa-file-pdf"></i> Features Sheet
+        </a>
+      </div>
       
       <div class="doc-content">
         
@@ -1739,17 +1733,17 @@ console.log(badge.name);  // "First Grade"</code>
   <script src="js/app.js"></script>
   
   <script>
-    // ============================================
-    // CONFIGURATION
-    // ============================================
+    // ============================================================
+    //  CONFIGURATION
+    // ============================================================
 
     var REPO_OWNER = 'hanskepper';
     var REPO_NAME = 'SMART-GRADE';
     var BASE_URL = 'https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + '/contents/';
 
-    // ============================================
-    // GET FOLDER CONTENTS RECURSIVE
-    // ============================================
+    // ============================================================
+    //  GET FOLDER CONTENTS RECURSIVE
+    // ============================================================
 
     async function getFolderContentsRecursive(path) {
       path = path || '';
@@ -1766,9 +1760,9 @@ console.log(badge.name);  // "First Grade"</code>
       }
     }
 
-    // ============================================
-    // EXPLORE FOLDER
-    // ============================================
+    // ============================================================
+    //  EXPLORE FOLDER
+    // ============================================================
 
     async function exploreFolder(path, name) {
       var items = await getFolderContentsRecursive(path);
@@ -1799,9 +1793,9 @@ console.log(badge.name);  // "First Grade"</code>
       };
     }
 
-    // ============================================
-    // ICON FOR FILE
-    // ============================================
+    // ============================================================
+    //  ICON FOR FILE
+    // ============================================================
 
     function getIconForFile(filename) {
       var ext = filename.split('.').pop().toLowerCase();
@@ -1831,9 +1825,9 @@ console.log(badge.name);  // "First Grade"</code>
       return icons[ext] || 'fa-file';
     }
 
-    // ============================================
-    // RENDER FOLDER IN MODAL
-    // ============================================
+    // ============================================================
+    //  RENDER FOLDER IN MODAL - Sans dossier Root
+    // ============================================================
 
     function renderFolderInModal(folder) {
       var totalFiles = folder.children.length;
@@ -1855,7 +1849,7 @@ console.log(badge.name);  // "First Grade"</code>
       }
 
       if (folder.children.length > 0) {
-        html += '<div class="tree-files-grid">';
+        html += '<div class="tree-files-grid" style="margin-bottom:8px;">';
         for (var i = 0; i < folder.children.length; i++) {
           var file = folder.children[i];
           var icon = getIconForFile(file);
@@ -1871,9 +1865,9 @@ console.log(badge.name);  // "First Grade"</code>
       return html;
     }
 
-    // ============================================
-    // TOGGLE FOLDER IN MODAL
-    // ============================================
+    // ============================================================
+    //  TOGGLE FOLDER IN MODAL
+    // ============================================================
 
     function toggleFolderInModal(header) {
       header.classList.toggle('open');
@@ -1883,9 +1877,9 @@ console.log(badge.name);  // "First Grade"</code>
       }
     }
 
-    // ============================================
-    // OPEN FILE TREE MODAL
-    // ============================================
+    // ============================================================
+    //  OPEN FILE TREE MODAL
+    // ============================================================
 
     function openFileTreeModal() {
       var modal = document.getElementById('fileTreeModal');
@@ -1899,9 +1893,9 @@ console.log(badge.name);  // "First Grade"</code>
       }
     }
 
-    // ============================================
-    // CLOSE FILE TREE MODAL
-    // ============================================
+    // ============================================================
+    //  CLOSE FILE TREE MODAL
+    // ============================================================
 
     function closeFileTreeModal() {
       var modal = document.getElementById('fileTreeModal');
@@ -1909,9 +1903,9 @@ console.log(badge.name);  // "First Grade"</code>
       document.body.style.overflow = '';
     }
 
-    // ============================================
-    // BUILD FILE TREE IN MODAL
-    // ============================================
+    // ============================================================
+    //  BUILD FILE TREE IN MODAL - Sans dossier Root
+    // ============================================================
 
     async function buildFileTreeInModal() {
       var body = document.getElementById('fileTreeModalBody');
@@ -1950,16 +1944,9 @@ console.log(badge.name);  // "First Grade"</code>
           html += renderFolderInModal(folders[i]);
         }
 
+        // Root files - affichés directement sans dossier Root
         if (rootFiles.length > 0) {
-          html += '<div class="tree-folder">';
-          html += '<div class="tree-folder-header" onclick="toggleFolderInModal(this)">';
-          html += '<i class="fas fa-chevron-right tree-arrow"></i>';
-          html += '<i class="fas fa-folder tree-folder-icon"></i>';
-          html += '<span class="tree-folder-name">Root</span>';
-          html += '<span class="tree-folder-count">' + rootFiles.length + '</span>';
-          html += '</div>';
-          html += '<div class="tree-folder-content">';
-          html += '<div class="tree-files-grid">';
+          html += '<div class="tree-files-grid" style="margin-bottom:12px;">';
           for (var j = 0; j < rootFiles.length; j++) {
             var file = rootFiles[j];
             var icon = getIconForFile(file);
@@ -1968,7 +1955,7 @@ console.log(badge.name);  // "First Grade"</code>
             html += '<span>' + file + '</span>';
             html += '</div>';
           }
-          html += '</div></div></div>';
+          html += '</div>';
         }
 
         html += '</div></div>';
@@ -1979,11 +1966,10 @@ console.log(badge.name);  // "First Grade"</code>
       }
     }
 
-    // ============================================
-    // LOAD FILE STRUCTURE STATS
-    // ============================================
+    // ============================================================
+    //  LOAD FILE STRUCTURE STATS
+    // ============================================================
 
-    var fileStructureData = null;
     var totalFilesCount = 0;
     var totalFoldersCount = 0;
 
@@ -1996,7 +1982,6 @@ console.log(badge.name);  // "First Grade"</code>
         totalFoldersCount = 0;
         var totalSize = 0;
         var folders = [];
-        var files = [];
 
         for (var i = 0; i < rootItems.length; i++) {
           var item = rootItems[i];
@@ -2014,7 +1999,6 @@ console.log(badge.name);  // "First Grade"</code>
             }
           } else if (item.type === 'file') {
             totalFilesCount++;
-            files.push(item);
             if (item.size) totalSize += item.size;
           }
         }
@@ -2064,9 +2048,9 @@ console.log(badge.name);  // "First Grade"</code>
       }
     }
 
-    // ============================================
-    // REFRESH FILE STRUCTURE
-    // ============================================
+    // ============================================================
+    //  REFRESH FILE STRUCTURE
+    // ============================================================
 
     function refreshFileStructure() {
       showToast('Refreshing file structure...');
@@ -2077,9 +2061,9 @@ console.log(badge.name);  // "First Grade"</code>
       }
     }
 
-    // ============================================
-    // DOWNLOAD SOURCE CODE AS ZIP
-    // ============================================
+    // ============================================================
+    //  DOWNLOAD SOURCE CODE AS ZIP
+    // ============================================================
 
     function downloadSourceCode() {
       var url = 'https://github.com/' + REPO_OWNER + '/' + REPO_NAME + '/archive/refs/heads/main.zip';
@@ -2088,9 +2072,9 @@ console.log(badge.name);  // "First Grade"</code>
       showToast('Download started!');
     }
 
-    // ============================================
-    // TOAST NOTIFICATION
-    // ============================================
+    // ============================================================
+    //  TOAST NOTIFICATION
+    // ============================================================
 
     function showToast(message) {
       var container = document.getElementById('toastContainer');
@@ -2106,9 +2090,9 @@ console.log(badge.name);  // "First Grade"</code>
       }, 3000);
     }
 
-    // ============================================
-    // AVATAR, FONT, MENU
-    // ============================================
+    // ============================================================
+    //  AVATAR, FONT, MENU
+    // ============================================================
 
     function updateHeaderAvatar() {
       try {
@@ -2143,9 +2127,9 @@ console.log(badge.name);  // "First Grade"</code>
       document.body.style.fontFamily = fontMap[savedFont] || 'Inter, sans-serif';
     }
 
-    // ============================================
-    // INIT
-    // ============================================
+    // ============================================================
+    //  INIT
+    // ============================================================
 
     document.addEventListener('DOMContentLoaded', function() {
       updateHeaderAvatar();

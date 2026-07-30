@@ -14,6 +14,84 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0f3b48">
   <style>
+  
+  /* ============================================
+   DOWNLOAD PDF BUTTONS - SMART GRADE STYLE
+   ============================================ */
+/* ============================================
+   DOWNLOAD PDF BUTTONS - SMART GRADE STYLE
+   ============================================ */
+
+.pdf-download-section {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: nowrap;
+  margin-bottom: 20px;
+}
+
+.btn-pdf {
+  flex: 1;
+  padding: 10px 16px;
+  border-radius: 40px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  color: white;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  box-shadow: 0 4px 16px rgba(15,59,72,0.25);
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.btn-pdf:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(15,59,72,0.35);
+}
+
+.btn-pdf:active {
+  transform: scale(0.95);
+}
+
+.btn-pdf i {
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+/* Mobile : toujours sur la même ligne */
+@media (max-width: 550px) {
+  .pdf-download-section {
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+  .btn-pdf {
+    font-size: 0.65rem;
+    padding: 10px 12px;
+    white-space: nowrap;
+  }
+  .btn-pdf i {
+    font-size: 0.7rem;
+  }
+}
+
+/* Très petit écran */
+@media (max-width: 380px) {
+  .btn-pdf {
+    font-size: 0.55rem;
+    padding: 8px 8px;
+  }
+  .btn-pdf i {
+    font-size: 0.6rem;
+  }
+}
+  
     /* ============================================
        DOC HERO
        ============================================ */
@@ -838,6 +916,8 @@
       .file-tree-modal-body .tree-files-grid { grid-template-columns: 1fr; }
       .file-tree-modal-header h2 { font-size: 1rem; }
     }
+  
+  
   </style>
 </head>
 <body>
@@ -891,6 +971,17 @@
           <i class="fas fa-calendar-alt"></i> Last updated: July 08, 2026
         </div>
       </div>
+      <!-- ============================================
+     DOWNLOAD PDF BUTTONS
+     ============================================ -->
+<div class="pdf-download-section">
+  <a href="./docs/SMART-GRADE-User-Guide.pdf" download class="btn-pdf btn-pdf-user">
+    <i class="fas fa-file-pdf"></i> User Guide
+  </a>
+  <a href="./docs/SMART-GRAND-Features.pdf" download class="btn-pdf btn-pdf-features">
+    <i class="fas fa-file-pdf"></i> Features Sheet
+  </a>
+</div>
       
       <div class="doc-content">
         

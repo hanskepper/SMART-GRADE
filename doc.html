@@ -1888,9 +1888,10 @@ console.log(badge.name);  // "First Grade"</code>
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
       
-      if (body.querySelector('.loading-state') || body.innerHTML.trim() === '') {
-        buildFileTreeInModal();
-      }
+      // Toujours rafraîchir à l'ouverture
+      body.innerHTML = '<div class="loading-state"><i class="fas fa-spinner fa-spin"></i><p>Loading file structure from GitHub...</p></div>';
+      buildFileTreeInModal();
+      loadFileStructureStats();
     }
 
     // ============================================================
@@ -1901,6 +1902,7 @@ console.log(badge.name);  // "First Grade"</code>
       var modal = document.getElementById('fileTreeModal');
       modal.classList.remove('active');
       document.body.style.overflow = '';
+      // Le rafraîchissement continue en arrière-plan
     }
 
     // ============================================================
@@ -1963,6 +1965,37 @@ console.log(badge.name);  // "First Grade"</code>
 
       } catch(error) {
         body.innerHTML = '<div class="error-state"><i class="fas fa-exclamation-triangle"></i><p>Could not load file structure from GitHub.</p><p style="font-size:0.7rem;margin-top:8px;">' + error.message + '</p><button class="btn btn-secondary" onclick="buildFileTreeInModal()" style="margin-top:12px;padding:8px 20px;border-radius:30px;cursor:pointer;"><i class="fas fa-sync-alt"></i> Retry</button></div>';
+      }
+    }
+
+    // ============================================================
+    //  AUTO-REFRESH STATS - Toutes les 60 secondes
+    // ============================================================
+
+    var autoRefreshInterval = null;
+
+    function startAutoRefresh() {
+      if (autoRefreshInterval) {
+        clearInterval(autoRefreshInterval);
+      }
+      
+      // Rafraîchir toutes les 60 secondes
+      autoRefreshInterval = setInterval(function() {
+        console.log('[File Structure] Auto-refresh...');
+        loadFileStructureStats();
+        
+        // Si la modale est ouverte, la rafraîchir aussi
+        var modal = document.getElementById('fileTreeModal');
+        if (modal.classList.contains('active')) {
+          buildFileTreeInModal();
+        }
+      }, 60000); // 60 secondes
+    }
+
+    function stopAutoRefresh() {
+      if (autoRefreshInterval) {
+        clearInterval(autoRefreshInterval);
+        autoRefreshInterval = null;
       }
     }
 
@@ -2137,6 +2170,7 @@ console.log(badge.name);  // "First Grade"</code>
       initThemeSelector();
       applyGlobalFont();
       setTimeout(loadFileStructureStats, 500);
+      startAutoRefresh(); // Démarrer l'auto-refresh
     });
 
     // Close modal on Escape key
@@ -2171,6 +2205,8 @@ console.log(badge.name);  // "First Grade"</code>
     window.exploreFolder = exploreFolder;
     window.loadFileStructureStats = loadFileStructureStats;
     window.refreshFileStructure = refreshFileStructure;
+    window.startAutoRefresh = startAutoRefresh;
+    window.stopAutoRefresh = stopAutoRefresh;
   </script>
   <!-- PWA Manager -->
   <script src="js/pwa.js" defer></script>

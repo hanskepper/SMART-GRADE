@@ -3,14 +3,14 @@
 // ============================================
 
 var APP_CONFIG = {
-  // 🔑 TOKEN GITHUB (fractionné)
-  githubTokenPart1: 'ghp_RKHqkcc2T5CNnzH1D3Svt8iYFuI0ld1',
-  githubTokenPart2: '1HSRw',
+  // 🔑 TOKEN GITHUB
+  githubTokenPart1: 'ghp_f4TjBSdBbxx8mlQXFK3RW',
+  githubTokenPart2: 'OyRwKQwzo1z7Ei5',
   
-  // 📦 GISTS SÉPARÉS
+  // 📦 GISTS - TOUS LES IDs SONT MAINTENANT À JOUR
   gists: {
-    transfer: 'cee23be9d46c872a81061f3b2b986fa1',
-    homeworks: null,
+    transfer: '1bfd71bdd3000bc36897dce828c4059d',
+    homeworks: '235b10d5857c3c2ba651763084037d0d',  // ← NOUVEAU GIST
     chat: 'c5aecf9b63facc6fa6af50eee3dd4b1b',
     universal: '63e5bc65589c1ce622459ab48c167a1b'
   },
@@ -203,4 +203,6 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 
 console.log('[Config] SMART GRADE v' + APP_CONFIG.version);
-console.log('[Config] Gist Chat:', APP_CONFIG.gists.chat || 'Non configuré');
+console.log('[Config] Gist Transfer:', APP_CONFIG.gists.transfer);
+console.log('[Config] Gist Homeworks:', APP_CONFIG.gists.homeworks);
+console.log('[Config] Gist Chat:', APP_CONFIG.gists.chat);

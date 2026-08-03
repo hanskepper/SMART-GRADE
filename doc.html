@@ -4,19 +4,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SMART GRADE - Developer Documentation</title>
+
+  
+  <!-- ============================================
+       FONTS
+  ============================================ -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=Cinzel:wght@400;700&family=Quicksand:wght@400;600;700&family=Courier+Prime:wght@400;700&family=Fredoka:wght@400;600;700&family=Pacifico&family=Bangers&family=Lobster&family=Permanent+Marker&family=Comfortaa:wght@300;400;700&family=Righteous&display=swap" rel="stylesheet">
+  
+  <!-- ============================================
+       FONT AWESOME
+  ============================================ -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- ============================================
+       PRISM.JS - COLORATION SYNTAXIQUE
+  ============================================ -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-html.min.js"></script>
+  
+  <!-- ============================================
+       STYLES SMART GRADE
+  ============================================ -->
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/themes.css">
   <link rel="stylesheet" href="css/night-mode.css">
   <link rel="manifest" href="manifest.json">
+  
   <meta name="theme-color" content="#0f3b48">
+  
   <style>
     /* ============================================
        DOC HERO
-       ============================================ */
+    ============================================ */
     .doc-hero {
       text-align: center;
       padding: 40px 20px;
@@ -56,7 +85,7 @@
 
     /* ============================================
        DOC CONTENT
-       ============================================ */
+    ============================================ */
     .doc-content {
       background: var(--card-bg);
       border-radius: 24px;
@@ -65,11 +94,11 @@
     }
 
     .doc-section {
-      margin-bottom: 32px;
+      margin-bottom: 40px;
       scroll-margin-top: 80px;
     }
     .doc-section h3 {
-      font-size: 1rem;
+      font-size: 1.1rem;
       font-weight: 700;
       color: var(--primary);
       margin-bottom: 16px;
@@ -85,15 +114,15 @@
       color: var(--secondary);
     }
     .doc-section h4 {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-weight: 700;
       color: var(--text);
-      margin: 16px 0 10px 0;
+      margin: 20px 0 12px 0;
     }
     .doc-section p {
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       color: var(--text-light);
-      line-height: 1.6;
+      line-height: 1.7;
       margin-bottom: 16px;
     }
     .doc-section ul, .doc-section ol {
@@ -101,9 +130,9 @@
       margin-bottom: 16px;
     }
     .doc-section li {
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       color: var(--text-light);
-      line-height: 1.6;
+      line-height: 1.7;
       margin-bottom: 8px;
     }
     .doc-section li i {
@@ -112,84 +141,167 @@
     }
 
     /* ============================================
-       CODE BLOCKS
-       ============================================ */
-    .doc-section .code-block {
-      background: rgba(0,0,0,0.05);
-      border-radius: 12px;
-      padding: 14px 16px;
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.7rem;
-      overflow-x: auto;
-      overflow-y: hidden;
-      white-space: pre;
-      word-break: normal;
-      word-wrap: normal;
+       PRISM.JS - BLOCS DE CODE PERSONNALISÉS
+    ============================================ */
+    .code-block-wrapper {
+      position: relative;
+      margin: 20px 0;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #0d1117;
       border: 1px solid var(--border);
-      margin: 12px 0;
-      -webkit-overflow-scrolling: touch;
-      line-height: 1.8;
-      max-width: 100%;
+      transition: border-color 0.3s ease;
     }
 
-    .doc-section .code-block code {
-      display: block;
-      white-space: pre;
-      word-break: normal;
-      word-wrap: normal;
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.7rem;
-      color: var(--text);
+    .code-block-wrapper:hover {
+      border-color: var(--primary);
     }
 
-    .doc-section .code-block::-webkit-scrollbar {
+    .code-block-wrapper pre {
+      margin: 0 !important;
+      padding: 24px 28px !important;
+      background: transparent !important;
+      border-radius: 0 !important;
+      font-size: 0.82rem !important;
+      line-height: 1.8 !important;
+      overflow-x: auto;
+    }
+
+    .code-block-wrapper pre::-webkit-scrollbar {
       height: 4px;
     }
-    .doc-section .code-block::-webkit-scrollbar-track {
-      background: rgba(0,0,0,0.05);
+    .code-block-wrapper pre::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.05);
       border-radius: 4px;
     }
-    .doc-section .code-block::-webkit-scrollbar-thumb {
+    .code-block-wrapper pre::-webkit-scrollbar-thumb {
       background: var(--primary);
       border-radius: 4px;
     }
 
-    body.night-mode .doc-section .code-block {
-      background: rgba(255,255,255,0.05);
-      border-color: rgba(255,255,255,0.08);
+    .code-block-wrapper code {
+      font-family: 'Courier Prime', 'Fira Code', monospace !important;
+      font-size: 0.78rem !important;
+      color: #e6edf3 !important;
     }
-    body.night-mode .doc-section .code-block::-webkit-scrollbar-thumb {
-      background: var(--secondary);
+
+    /* Badge de langue */
+    .code-block-wrapper .language-badge {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-size: 0.5rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.06);
+      padding: 3px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      font-family: 'Inter', sans-serif;
+      user-select: none;
+      pointer-events: none;
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    /* Bouton de copie */
+    .code-block-wrapper .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 90px;
+      background: rgba(255,255,255,0.06);
+      border: none;
+      border-radius: 6px;
+      padding: 3px 12px;
+      font-size: 0.5rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.4);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.3px;
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .code-block-wrapper .copy-btn:hover {
+      background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.8);
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    .code-block-wrapper .copy-btn.copied {
+      background: rgba(46,204,113,0.2);
+      color: #2ecc71;
+      border-color: rgba(46,204,113,0.2);
+    }
+
+    /* ============================================
+       MODE CLAIR - PRISM.JS
+    ============================================ */
+    body:not(.night-mode) .code-block-wrapper {
+      background: #f6f8fa;
+      border-color: var(--border);
+    }
+
+    body:not(.night-mode) .code-block-wrapper code {
+      color: #24292e !important;
+    }
+
+    body:not(.night-mode) .code-block-wrapper .language-badge {
+      color: rgba(0,0,0,0.25);
+      border-color: rgba(0,0,0,0.04);
+    }
+
+    body:not(.night-mode) .code-block-wrapper .copy-btn {
+      color: rgba(0,0,0,0.25);
+      border-color: rgba(0,0,0,0.04);
+    }
+
+    body:not(.night-mode) .code-block-wrapper .copy-btn:hover {
+      background: rgba(0,0,0,0.04);
+      color: rgba(0,0,0,0.6);
+      border-color: rgba(0,0,0,0.08);
+    }
+
+    body:not(.night-mode) .code-block-wrapper .copy-btn.copied {
+      background: rgba(46,204,113,0.1);
+      color: #27ae60;
+      border-color: rgba(46,204,113,0.15);
     }
 
     /* ============================================
        HIGHLIGHT, WARNING, INFO
-       ============================================ */
+    ============================================ */
     .doc-section .highlight {
-      background: rgba(46,204,113,0.1);
-      padding: 12px 16px;
-      border-radius: 12px;
-      border-left: 3px solid #2ecc71;
+      background: rgba(46,204,113,0.08);
+      padding: 14px 18px;
+      border-radius: 14px;
+      border-left: 4px solid #2ecc71;
       margin: 16px 0;
     }
+    .doc-section .highlight i { color: #2ecc71; margin-right: 8px; }
+
     .doc-section .warning {
-      background: rgba(231,76,60,0.1);
-      padding: 12px 16px;
-      border-radius: 12px;
-      border-left: 3px solid #e74c3c;
+      background: rgba(231,76,60,0.08);
+      padding: 14px 18px;
+      border-radius: 14px;
+      border-left: 4px solid #e74c3c;
       margin: 16px 0;
     }
+    .doc-section .warning i { color: #e74c3c; margin-right: 8px; }
+
     .doc-section .info {
-      background: rgba(52,152,219,0.1);
-      padding: 12px 16px;
-      border-radius: 12px;
-      border-left: 3px solid #3498db;
+      background: rgba(52,152,219,0.08);
+      padding: 14px 18px;
+      border-radius: 14px;
+      border-left: 4px solid #3498db;
       margin: 16px 0;
     }
+    .doc-section .info i { color: #3498db; margin-right: 8px; }
 
     /* ============================================
        API GRID
-       ============================================ */
+    ============================================ */
     .api-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -221,7 +333,7 @@
       margin-bottom: 8px;
     }
     .api-card .api-path {
-      font-family: monospace;
+      font-family: 'Courier Prime', monospace;
       font-size: 0.65rem;
       background: rgba(0,0,0,0.05);
       padding: 4px 8px;
@@ -234,7 +346,7 @@
 
     /* ============================================
        BADGE LIST
-       ============================================ */
+    ============================================ */
     .badge-list {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -244,10 +356,14 @@
     .badge-item {
       background: rgba(0,0,0,0.02);
       border-radius: 12px;
-      padding: 8px;
+      padding: 8px 10px;
       text-align: center;
       font-size: 0.65rem;
       border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+    .badge-item:hover {
+      border-color: var(--primary);
     }
     .badge-item i {
       color: #f39c12;
@@ -256,7 +372,7 @@
 
     /* ============================================
        TOC
-       ============================================ */
+    ============================================ */
     .toc {
       background: rgba(0,0,0,0.02);
       border-radius: 16px;
@@ -273,7 +389,7 @@
     .toc-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+      gap: 6px;
     }
     .toc a {
       font-size: 0.7rem;
@@ -283,532 +399,15 @@
       align-items: center;
       gap: 6px;
       padding: 4px 0;
+      transition: color 0.2s;
     }
     .toc a:hover {
       color: var(--primary);
     }
 
     /* ============================================
-       FILE STRUCTURE SECTION
-       ============================================ */
-    .file-structure-wrapper {
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 24px;
-      border: 1px solid var(--border);
-      margin: 16px 0;
-      transition: all 0.3s ease;
-    }
-
-    .file-structure-wrapper:hover {
-      border-color: var(--primary);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    }
-
-    .file-structure-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin-bottom: 20px;
-      padding-bottom: 16px;
-      border-bottom: 2px solid var(--border);
-    }
-
-    .file-structure-header .title {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .file-structure-header .title i {
-      font-size: 1.8rem;
-      color: var(--primary);
-    }
-
-    .file-structure-header .title h3 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin: 0;
-      color: var(--text);
-    }
-
-    .file-structure-header .title span {
-      font-size: 0.65rem;
-      color: var(--text-light);
-      display: block;
-      font-weight: 400;
-    }
-
-    .file-structure-header .badge-github {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-      padding: 4px 14px;
-      border-radius: 20px;
-      font-size: 0.6rem;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .file-structure-stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    .file-structure-stats .stat-item {
-      text-align: center;
-      padding: 14px 10px;
-      background: rgba(0,0,0,0.02);
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      transition: all 0.2s ease;
-    }
-
-    .file-structure-stats .stat-item:hover {
-      border-color: var(--primary);
-      transform: translateY(-2px);
-    }
-
-    .file-structure-stats .stat-number {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: var(--primary);
-    }
-
-    .file-structure-stats .stat-label {
-      font-size: 0.55rem;
-      color: var(--text-light);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-top: 4px;
-    }
-
-    .file-structure-preview {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      margin-bottom: 20px;
-    }
-
-    .file-structure-preview .folder-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 14px;
-      background: rgba(0,0,0,0.02);
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      transition: all 0.2s ease;
-      cursor: default;
-    }
-
-    .file-structure-preview .folder-item:hover {
-      border-color: var(--primary);
-      background: rgba(15,59,72,0.03);
-      transform: translateX(4px);
-    }
-
-    .file-structure-preview .folder-item i {
-      font-size: 1.2rem;
-      width: 32px;
-      text-align: center;
-      color: #f39c12;
-    }
-
-    .file-structure-preview .folder-item .folder-name {
-      flex: 1;
-      font-weight: 600;
-      font-size: 0.8rem;
-      color: var(--text);
-    }
-
-    .file-structure-preview .folder-item .folder-count {
-      font-size: 0.6rem;
-      color: var(--text-light);
-      background: rgba(0,0,0,0.05);
-      padding: 2px 10px;
-      border-radius: 20px;
-    }
-
-    .file-structure-actions {
-      display: flex;
-      gap: 12px;
-      margin-top: 16px;
-      padding-top: 16px;
-      border-top: 2px solid var(--border);
-      flex-wrap: wrap;
-    }
-
-    .file-structure-actions .btn {
-      flex: 1;
-      min-width: 140px;
-      padding: 12px 24px;
-      border-radius: 40px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-size: 0.8rem;
-      transition: all 0.2s;
-      text-decoration: none;
-    }
-
-    .file-structure-actions .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-    }
-
-    .file-structure-actions .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 20px rgba(15,59,72,0.3);
-    }
-
-    .file-structure-actions .btn-secondary {
-      background: rgba(0,0,0,0.05);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-
-    .file-structure-actions .btn-secondary:hover {
-      background: rgba(0,0,0,0.08);
-    }
-
-    .file-structure-actions .btn-success {
-      background: linear-gradient(135deg, #27ae60, #2ecc71);
-      color: white;
-    }
-
-    .file-structure-actions .btn-success:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 20px rgba(46,204,113,0.3);
-    }
-
-    /* ============================================
-       FILE TREE MODAL
-       ============================================ */
-    .file-tree-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(8px);
-      z-index: 9999;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .file-tree-modal.active {
-      display: flex;
-    }
-
-    .file-tree-modal-content {
-      background: var(--card-bg);
-      border-radius: 24px;
-      padding: 24px;
-      width: 95%;
-      max-width: 900px;
-      max-height: 90vh;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      border: 1px solid var(--border);
-      animation: modalFadeIn 0.3s ease;
-    }
-
-    @keyframes modalFadeIn {
-      from {
-        opacity: 0;
-        transform: scale(0.95) translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-      }
-    }
-
-    .file-tree-modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 16px;
-      border-bottom: 2px solid var(--border);
-      flex-shrink: 0;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .file-tree-modal-header h2 {
-      font-size: 1.2rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--text);
-      margin: 0;
-    }
-
-    .file-tree-modal-header h2 i {
-      color: var(--primary);
-    }
-
-    .file-tree-modal-close {
-      background: none;
-      border: none;
-      font-size: 28px;
-      cursor: pointer;
-      color: var(--text-light);
-      padding: 0 8px;
-      transition: all 0.2s;
-    }
-
-    .file-tree-modal-close:hover {
-      color: #e74c3c;
-      transform: rotate(90deg);
-    }
-
-    .file-tree-modal-body {
-      flex: 1;
-      overflow-y: auto;
-      padding: 16px 4px 8px 4px;
-      margin-top: 4px;
-    }
-
-    .file-tree-modal-body::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .file-tree-modal-body::-webkit-scrollbar-track {
-      background: var(--border);
-      border-radius: 4px;
-    }
-
-    .file-tree-modal-body::-webkit-scrollbar-thumb {
-      background: var(--primary);
-      border-radius: 4px;
-    }
-
-    .file-tree-modal-footer {
-      display: flex;
-      gap: 12px;
-      padding-top: 16px;
-      border-top: 2px solid var(--border);
-      flex-shrink: 0;
-      flex-wrap: wrap;
-    }
-
-    .file-tree-modal-footer .btn {
-      flex: 1;
-      min-width: 120px;
-      padding: 12px 20px;
-      border-radius: 40px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-size: 0.8rem;
-      transition: all 0.2s;
-      text-decoration: none;
-    }
-
-    .file-tree-modal-footer .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-    }
-
-    .file-tree-modal-footer .btn-secondary {
-      background: rgba(0,0,0,0.05);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-
-    .file-tree-modal-footer .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 20px rgba(15,59,72,0.3);
-    }
-
-    .file-tree-modal-footer .btn-secondary:hover {
-      background: rgba(0,0,0,0.08);
-    }
-
-    /* File tree inside modal */
-    .file-tree-modal-body .tree-root-header {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      border-radius: 16px;
-      padding: 12px 16px;
-      color: white;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .file-tree-modal-body .tree-root-header i {
-      font-size: 1.3rem;
-    }
-
-    .file-tree-modal-body .tree-root-header .tree-root-name {
-      font-weight: 700;
-      font-size: 1rem;
-    }
-
-    .file-tree-modal-body .tree-root-header .tree-root-badge {
-      background: rgba(255,255,255,0.2);
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.65rem;
-      margin-left: auto;
-    }
-
-    .file-tree-modal-body .tree-children {
-      margin-left: 16px;
-      border-left: 2px dashed var(--border);
-      padding-left: 16px;
-    }
-
-    .file-tree-modal-body .tree-folder {
-      margin-bottom: 12px;
-    }
-
-    .file-tree-modal-body .tree-folder-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      background: rgba(0,0,0,0.02);
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      border: 1px solid transparent;
-    }
-
-    .file-tree-modal-body .tree-folder-header:hover {
-      background: rgba(0,0,0,0.04);
-      border-color: var(--border);
-      transform: translateX(4px);
-    }
-
-    .file-tree-modal-body .tree-arrow {
-      font-size: 0.7rem;
-      color: var(--primary);
-      transition: transform 0.2s ease;
-      width: 16px;
-    }
-
-    .file-tree-modal-body .tree-folder-header.open .tree-arrow {
-      transform: rotate(90deg);
-    }
-
-    .file-tree-modal-body .tree-folder-icon {
-      color: #f39c12;
-      font-size: 1rem;
-    }
-
-    .file-tree-modal-body .tree-folder-name {
-      font-weight: 600;
-      font-size: 0.85rem;
-      color: var(--text);
-    }
-
-    .file-tree-modal-body .tree-folder-count {
-      font-size: 0.6rem;
-      background: rgba(0,0,0,0.05);
-      padding: 2px 8px;
-      border-radius: 20px;
-      color: var(--text-light);
-      margin-left: auto;
-    }
-
-    .file-tree-modal-body .tree-folder-content {
-      display: none;
-      margin-left: 28px;
-      margin-top: 8px;
-      margin-bottom: 8px;
-    }
-
-    .file-tree-modal-body .tree-folder-content.show {
-      display: block;
-    }
-
-    .file-tree-modal-body .tree-files-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 6px;
-    }
-
-    .file-tree-modal-body .tree-file {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 12px;
-      background: rgba(0,0,0,0.02);
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      font-size: 0.7rem;
-      transition: all 0.2s ease;
-    }
-
-    .file-tree-modal-body .tree-file:hover {
-      border-color: var(--primary);
-      transform: translateX(4px);
-      background: rgba(0,0,0,0.04);
-    }
-
-    .file-tree-modal-body .tree-file i {
-      width: 24px;
-      font-size: 1rem;
-      color: var(--primary);
-    }
-
-    .file-tree-modal-body .tree-file span {
-      flex: 1;
-      font-family: monospace;
-      font-size: 0.7rem;
-      font-weight: 500;
-      color: var(--text);
-    }
-
-    .file-tree-modal-body .loading-state {
-      text-align: center;
-      padding: 40px;
-      color: var(--text-light);
-    }
-
-    .file-tree-modal-body .loading-state i {
-      font-size: 40px;
-      margin-bottom: 12px;
-      display: block;
-    }
-
-    .file-tree-modal-body .error-state {
-      text-align: center;
-      padding: 40px;
-      color: #e74c3c;
-    }
-
-    .file-tree-modal-body .error-state i {
-      font-size: 40px;
-      margin-bottom: 12px;
-      display: block;
-    }
-
-    /* ============================================
-       DOWNLOAD PDF BUTTONS - SMART GRADE STYLE
-       ============================================ */
+       PDF DOWNLOAD BUTTONS
+    ============================================ */
     .pdf-download-section {
       display: flex;
       gap: 12px;
@@ -816,13 +415,12 @@
       flex-wrap: nowrap;
       margin-bottom: 20px;
     }
-
     .btn-pdf {
       flex: 1;
-      padding: 10px 16px;
+      padding: 12px 18px;
       border-radius: 40px;
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.75rem;
       display: inline-flex;
       align-items: center;
@@ -837,51 +435,16 @@
       min-width: 0;
       white-space: nowrap;
     }
-
     .btn-pdf:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 30px rgba(15,59,72,0.35);
     }
-
-    .btn-pdf:active {
-      transform: scale(0.95);
-    }
-
-    .btn-pdf i {
-      font-size: 0.8rem;
-      flex-shrink: 0;
-    }
-
-    /* Mobile : toujours sur la même ligne */
-    @media (max-width: 550px) {
-      .pdf-download-section {
-        flex-wrap: nowrap;
-        gap: 8px;
-      }
-      .btn-pdf {
-        font-size: 0.65rem;
-        padding: 10px 12px;
-        white-space: nowrap;
-      }
-      .btn-pdf i {
-        font-size: 0.7rem;
-      }
-    }
-
-    /* Tres petit ecran */
-    @media (max-width: 380px) {
-      .btn-pdf {
-        font-size: 0.55rem;
-        padding: 8px 8px;
-      }
-      .btn-pdf i {
-        font-size: 0.6rem;
-      }
-    }
+    .btn-pdf:active { transform: scale(0.95); }
+    .btn-pdf i { font-size: 0.8rem; flex-shrink: 0; }
 
     /* ============================================
        LEGAL DATE
-       ============================================ */
+    ============================================ */
     .legal-date {
       text-align: center;
       font-size: 0.65rem;
@@ -893,23 +456,84 @@
 
     /* ============================================
        RESPONSIVE
-       ============================================ */
+    ============================================ */
+    @media (max-width: 768px) {
+      .api-grid { grid-template-columns: 1fr; }
+      .badge-list { grid-template-columns: repeat(3, 1fr); }
+      .toc-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
     @media (max-width: 550px) {
       .doc-hero h1 { font-size: 1.4rem; }
       .doc-content { padding: 16px; }
-      .doc-section h3 { font-size: 0.9rem; }
-      .toc-grid { grid-template-columns: repeat(2, 1fr); }
-      .api-grid { grid-template-columns: 1fr; }
+      .doc-section h3 { font-size: 0.95rem; }
+      .doc-section p, .doc-section li { font-size: 0.75rem; }
       .badge-list { grid-template-columns: repeat(2, 1fr); }
-      .file-structure-stats { grid-template-columns: repeat(2, 1fr); }
-      .file-structure-preview { grid-template-columns: 1fr; }
-      .file-structure-actions { flex-direction: column; }
-      .file-structure-actions .btn { width: 100%; }
-      .file-tree-modal-content { padding: 16px; width: 98%; }
-      .file-tree-modal-footer { flex-direction: column; }
-      .file-tree-modal-footer .btn { width: 100%; }
-      .file-tree-modal-body .tree-files-grid { grid-template-columns: 1fr; }
-      .file-tree-modal-header h2 { font-size: 1rem; }
+      .pdf-download-section { flex-wrap: nowrap; gap: 8px; }
+      .btn-pdf { font-size: 0.65rem; padding: 10px 12px; white-space: nowrap; }
+      .btn-pdf i { font-size: 0.7rem; }
+      .code-block-wrapper pre { padding: 16px 18px !important; font-size: 0.7rem !important; }
+      .code-block-wrapper code { font-size: 0.68rem !important; }
+      .code-block-wrapper .copy-btn { right: 12px; top: 6px; font-size: 0.45rem; padding: 2px 8px; }
+      .code-block-wrapper .language-badge { display: none; }
+    }
+
+    @media (max-width: 400px) {
+      .toc-grid { grid-template-columns: 1fr; }
+      .badge-list { grid-template-columns: 1fr 1fr; }
+      .btn-pdf { font-size: 0.55rem; padding: 8px 8px; }
+      .btn-pdf i { font-size: 0.6rem; }
+      .code-block-wrapper pre { padding: 12px 14px !important; font-size: 0.65rem !important; }
+      .code-block-wrapper code { font-size: 0.6rem !important; }
+    }
+
+    /* Fix pour le mode nuit avec Prism */
+    body.night-mode .code-block-wrapper .token.comment,
+    body.night-mode .code-block-wrapper .token.prolog,
+    body.night-mode .code-block-wrapper .token.doctype,
+    body.night-mode .code-block-wrapper .token.cdata {
+      color: #8b949e !important;
+    }
+    body.night-mode .code-block-wrapper .token.punctuation {
+      color: #e6edf3 !important;
+    }
+    body.night-mode .code-block-wrapper .token.property,
+    body.night-mode .code-block-wrapper .token.tag,
+    body.night-mode .code-block-wrapper .token.boolean,
+    body.night-mode .code-block-wrapper .token.number,
+    body.night-mode .code-block-wrapper .token.constant,
+    body.night-mode .code-block-wrapper .token.symbol,
+    body.night-mode .code-block-wrapper .token.deleted {
+      color: #79c0ff !important;
+    }
+    body.night-mode .code-block-wrapper .token.selector,
+    body.night-mode .code-block-wrapper .token.attr-name,
+    body.night-mode .code-block-wrapper .token.string,
+    body.night-mode .code-block-wrapper .token.char,
+    body.night-mode .code-block-wrapper .token.builtin,
+    body.night-mode .code-block-wrapper .token.inserted {
+      color: #a5d6ff !important;
+    }
+    body.night-mode .code-block-wrapper .token.operator,
+    body.night-mode .code-block-wrapper .token.entity,
+    body.night-mode .code-block-wrapper .token.url,
+    body.night-mode .code-block-wrapper .language-css .token.string,
+    body.night-mode .code-block-wrapper .style .token.string {
+      color: #ff7b72 !important;
+    }
+    body.night-mode .code-block-wrapper .token.atrule,
+    body.night-mode .code-block-wrapper .token.attr-value,
+    body.night-mode .code-block-wrapper .token.keyword {
+      color: #ff7b72 !important;
+    }
+    body.night-mode .code-block-wrapper .token.function,
+    body.night-mode .code-block-wrapper .token.class-name {
+      color: #d2a8ff !important;
+    }
+    body.night-mode .code-block-wrapper .token.regex,
+    body.night-mode .code-block-wrapper .token.important,
+    body.night-mode .code-block-wrapper .token.variable {
+      color: #ffa657 !important;
     }
   </style>
 </head>
@@ -917,26 +541,46 @@
   <div class="particles" id="particles"></div>
   <div class="app-container">
     
+    <!-- ============================================
+         HEADER
+    ============================================ -->
     <div class="mobile-header">
       <button class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
       <div class="header-logo"><i class="fas fa-file-alt"></i><span>DOCUMENTATION</span></div>
       <div style="display:flex;align-items:center;gap:8px;">
-        <a href="profile.html"><div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;color:white;font-size:0.8rem;" id="headerAvatar"><i class="fas fa-user-graduate"></i></div></a>
+        <a href="profile.html">
+          <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;color:white;font-size:0.8rem;" id="headerAvatar">
+            <i class="fas fa-user-graduate"></i>
+          </div>
+        </a>
         <div class="theme-btn-header" id="themeBtn"><i class="fas fa-palette"></i><span>Theme</span></div>
       </div>
     </div>
     
+    <!-- ============================================
+         BOTTOM SHEET (Thèmes)
+    ============================================ -->
     <div class="sheet-overlay" id="sheetOverlay"></div>
     <div class="bottom-sheet" id="bottomSheet">
       <div class="bottom-sheet-header"><h3><i class="fas fa-brush"></i> Theme</h3><button class="close-sheet" id="closeSheet"><i class="fas fa-times"></i></button></div>
       <div class="bottom-sheet-content">
         <div class="theme-grid-rect" id="themeGrid"></div>
-        <div class="font-row-sheet"><div class="font-sheet" data-font="small">A<sup>-</sup></div><div class="font-sheet" data-font="medium">A</div><div class="font-sheet" data-font="large">A<sup>+</sup></div></div>
+        <div class="font-row-sheet">
+          <div class="font-sheet" data-font="small">A<sup>-</sup></div>
+          <div class="font-sheet" data-font="medium">A</div>
+          <div class="font-sheet" data-font="large">A<sup>+</sup></div>
+        </div>
       </div>
     </div>
     
+    <!-- ============================================
+         SIDEBAR
+    ============================================ -->
     <div class="sidebar-menu" id="sidebarMenu">
-      <div class="sidebar-header"><h3><i class="fas fa-graduation-cap"></i> SMART GRADE</h3><button class="close-sidebar" id="closeSidebar"><i class="fas fa-times"></i></button></div>
+      <div class="sidebar-header">
+        <h3><i class="fas fa-graduation-cap"></i> SMART GRADE</h3>
+        <button class="close-sidebar" id="closeSidebar"><i class="fas fa-times"></i></button>
+      </div>
       <nav class="sidebar-nav">
         <a href="dashboard.html" class="nav-item"><i class="fas fa-chalkboard-user"></i> Dashboard</a>
         <a href="doc.html" class="nav-item active"><i class="fas fa-file-alt"></i> Documentation</a>
@@ -954,29 +598,32 @@
     </div>
     <div class="overlay" id="overlay"></div>
     
+    <!-- ============================================
+         MAIN CONTENT
+    ============================================ -->
     <main class="main-content">
       
+      <!-- HERO -->
       <div class="doc-hero">
         <i class="fas fa-file-alt" style="font-size:55px;opacity:0.5;"></i>
         <h1>Developer Documentation</h1>
         <p>Complete technical reference for SMART GRADE v5.0</p>
         <div class="version-badge">
-          <i class="fas fa-calendar-alt"></i> Last updated: July 08, 2026
+          <i class="fas fa-calendar-alt"></i> Last updated: August 03, 2026
         </div>
       </div>
 
-      <!-- ============================================
-           DOWNLOAD PDF BUTTONS
-           ============================================ -->
+      <!-- PDF DOWNLOAD BUTTONS -->
       <div class="pdf-download-section">
         <a href="./docs/SMART-GRADE-User-Guide.pdf" download class="btn-pdf">
           <i class="fas fa-file-pdf"></i> User Guide
         </a>
-        <a href="./docs/SMART-GRAND-Features.pdf" download class="btn-pdf">
+        <a href="./docs/SMART-GRADE-Features.pdf" download class="btn-pdf">
           <i class="fas fa-file-pdf"></i> Features Sheet
         </a>
       </div>
       
+      <!-- DOC CONTENT -->
       <div class="doc-content">
         
         <!-- TABLE OF CONTENTS -->
@@ -986,37 +633,48 @@
             <a href="#overview"><i class="fas fa-chevron-right"></i> Overview</a>
             <a href="#tech-stack"><i class="fas fa-chevron-right"></i> Tech Stack</a>
             <a href="#architecture"><i class="fas fa-chevron-right"></i> Architecture</a>
-            <a href="#file-structure"><i class="fas fa-chevron-right"></i> File Structure</a>
             <a href="#storage"><i class="fas fa-chevron-right"></i> Storage System</a>
             <a href="#api-functions"><i class="fas fa-chevron-right"></i> API Functions</a>
             <a href="#authentication"><i class="fas fa-chevron-right"></i> Authentication</a>
-            <a href="#subjects"><i class="fas fa-chevron-right"></i> Subjects & Grades</a>
+            <a href="#subjects"><i class="fas fa-chevron-right"></i> Subjects &amp; Grades</a>
             <a href="#achievements"><i class="fas fa-chevron-right"></i> Achievements</a>
-            <a href="#themes"><i class="fas fa-chevron-right"></i> Themes & Fonts</a>
+            <a href="#themes"><i class="fas fa-chevron-right"></i> Themes &amp; Fonts</a>
             <a href="#pwa"><i class="fas fa-chevron-right"></i> PWA Configuration</a>
             <a href="#transfer"><i class="fas fa-chevron-right"></i> Cloud Transfer</a>
             <a href="#export-import"><i class="fas fa-chevron-right"></i> Export/Import</a>
             <a href="#badges"><i class="fas fa-chevron-right"></i> Badges List</a>
             <a href="#ai-assistant"><i class="fas fa-chevron-right"></i> AI Assistant</a>
-            <a href="#transfer-system"><i class="fas fa-chevron-right"></i> Transfer System</a>
             <a href="#homework-manager"><i class="fas fa-chevron-right"></i> Homework Manager</a>
             <a href="#contact"><i class="fas fa-chevron-right"></i> Contact</a>
           </div>
         </div>
         
-        <!-- SECTION 1: OVERVIEW -->
+        <!-- ============================================
+             SECTION 1: OVERVIEW
+        ============================================ -->
         <div id="overview" class="doc-section">
           <h3><i class="fas fa-info-circle"></i> 1. System Overview</h3>
-          <p>SMART GRADE is a Progressive Web Application (PWA) for grade management, designed for SIN GBHS FOUMBAN Form 5B Science. The application works 100% offline after first installation and stores all data locally on the user's device.</p>
+          <p>
+            <strong>SMART GRADE</strong> is a Progressive Web Application (PWA) for grade management, 
+            designed for <strong>SIN GBHS FOUMBAN Form 5B Science</strong>. The application works 
+            <strong>100% offline</strong> after first installation and stores all data locally on the 
+            user's device.
+          </p>
           <div class="highlight">
-            <i class="fas fa-check-circle"></i> <strong>Key Features:</strong> 14 subjects, 6 sequences, 3 terms, 23 badges, 20 themes, 12 fonts, biometric login, QR code transfer, cloud backup, PWA offline support.
+            <i class="fas fa-check-circle"></i> 
+            <strong>Key Features:</strong> 14 subjects, 6 sequences, 3 terms, 23 badges, 20 themes, 
+            12 fonts, biometric login, QR code transfer, cloud backup, PWA offline support.
           </div>
           <div class="info">
-            <i class="fas fa-shield-alt"></i> <strong>Data Privacy:</strong> All data stays on the user's device. No external servers store personal data unless the user explicitly uses cloud backup.
+            <i class="fas fa-shield-alt"></i> 
+            <strong>Data Privacy:</strong> All data stays on the user's device. No external servers 
+            store personal data unless the user explicitly uses cloud backup.
           </div>
         </div>
         
-        <!-- SECTION 2: TECH STACK -->
+        <!-- ============================================
+             SECTION 2: TECH STACK
+        ============================================ -->
         <div id="tech-stack" class="doc-section">
           <h3><i class="fas fa-microchip"></i> 2. Technology Stack</h3>
           <div class="api-grid">
@@ -1039,7 +697,9 @@
           </div>
         </div>
         
-        <!-- SECTION 3: ARCHITECTURE -->
+        <!-- ============================================
+             SECTION 3: ARCHITECTURE
+        ============================================ -->
         <div id="architecture" class="doc-section">
           <h3><i class="fas fa-project-diagram"></i> 3. Application Architecture</h3>
           <p>The application follows a modular architecture with separate JavaScript files for different concerns:</p>
@@ -1055,86 +715,39 @@
             <li><strong>ai-assistant-core.js</strong> - AI chat and model management</li>
             <li><strong>ai-assistant-ui.js</strong> - Mermaid diagrams and zoom</li>
           </ul>
-          <div class="code-block">
-<code>// Example: Getting current user
+          
+          <h4>Example Usage</h4>
+          <div class="code-block-wrapper">
+            <span class="language-badge">JavaScript</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code class="language-javascript">
+// ============================================
+// BASIC API USAGE EXAMPLES
+// ============================================
+
+// Get current logged in user
 var user = getCurrentStudent();
 
-// Example: Calculating term average
+// Calculate term average
 var term1Avg = calculateStudentTermAverage(user.id, 1);
 
-// Example: Exporting all user data
-var data = exportCompleteUserData(user.id);</code>
+// Export all user data as JSON
+var data = exportCompleteUserData(user.id);
+
+// Unlock a badge
+unlockBadgeById(user.id, 1); // Unlocks "First Grade"
+
+// Check all badges
+checkAndUnlockAllNewBadges(user.id);
+            </code></pre>
           </div>
         </div>
         
-        <!-- SECTION 4: FILE STRUCTURE -->
-        <div id="file-structure" class="doc-section">
-          <h3><i class="fas fa-folder-tree"></i> 4. File Structure</h3>
-          
-          <div class="file-structure-wrapper" id="fileTreeContainer">
-            
-            <!-- HEADER -->
-            <div class="file-structure-header">
-              <div class="title">
-                <i class="fas fa-folder-tree"></i>
-                <div>
-                  <h3>File Structure</h3>
-                  <span>Complete project structure from GitHub</span>
-                </div>
-              </div>
-              <span class="badge-github">
-                <i class="fab fa-github"></i> GitHub
-              </span>
-            </div>
-            
-            <!-- STATISTICS -->
-            <div class="file-structure-stats">
-              <div class="stat-item">
-                <div class="stat-number" id="totalFiles">-</div>
-                <div class="stat-label">Total Files</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-number" id="totalFolders">-</div>
-                <div class="stat-label">Folders</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-number" id="totalSize">-</div>
-                <div class="stat-label">Size (KB)</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-number" id="totalCommits">-</div>
-                <div class="stat-label">Commits</div>
-              </div>
-            </div>
-            
-            <!-- PREVIEW FOLDERS -->
-            <div class="file-structure-preview" id="folderPreview">
-              <div class="folder-item">
-                <i class="fas fa-folder"></i>
-                <span class="folder-name">Loading...</span>
-                <span class="folder-count">...</span>
-              </div>
-            </div>
-            
-            <!-- ACTIONS -->
-            <div class="file-structure-actions">
-              <button class="btn btn-primary" onclick="openFileTreeModal()">
-                <i class="fas fa-eye"></i> View Full Structure
-              </button>
-              <button class="btn btn-success" onclick="downloadSourceCode()">
-                <i class="fas fa-download"></i> Download ZIP
-              </button>
-              <button class="btn btn-secondary" onclick="refreshFileStructure()">
-                <i class="fas fa-sync-alt"></i> Refresh
-              </button>
-            </div>
-            
-          </div>
-        </div>
-        
-        <!-- SECTION 5: STORAGE SYSTEM -->
+        <!-- ============================================
+             SECTION 4: STORAGE SYSTEM
+        ============================================ -->
         <div id="storage" class="doc-section">
-          <h3><i class="fas fa-database"></i> 5. Storage System (localStorage)</h3>
+          <h3><i class="fas fa-database"></i> 4. Storage System (localStorage)</h3>
           <p>All data is stored using localStorage with specific key patterns. Maximum storage is ~5-10MB per domain.</p>
           <div class="api-grid">
             <div class="api-card">
@@ -1187,117 +800,358 @@ var data = exportCompleteUserData(user.id);</code>
               <p><code class="api-path">smartgrade_history_{userId}</code></p>
               <p>Activity log</p>
             </div>
-            <div class="api-card">
-              <h4>Notifications</h4>
-              <p><code class="api-path">smartgrade_notifications_{userId}</code></p>
-              <p>User notifications</p>
-            </div>
-            <div class="api-card">
-              <h4>Goals</h4>
-              <p><code class="api-path">smartgrade_goal_{userId}</code></p>
-              <p>Target yearly average</p>
-            </div>
           </div>
         </div>
         
-        <!-- SECTION 6: API FUNCTIONS -->
+        <!-- ============================================
+             SECTION 5: API FUNCTIONS (COMPLETE)
+        ============================================ -->
         <div id="api-functions" class="doc-section">
-          <h3><i class="fas fa-code"></i> 6. Core API Functions</h3>
+          <h3><i class="fas fa-code"></i> 5. Core API Functions</h3>
           
           <h4>Student Management</h4>
-          <div class="code-block">
-<code>getCurrentStudent()        // Returns current logged in student object
-getAllStudents()           // Returns array of all students
-getStudentById(id)         // Returns student by ID
-createStudentAccount(name, number, className, pin)  // Creates new account
-deleteStudent(id)          // Deletes student and all associated data</code>
+          <div class="code-block-wrapper">
+            <span class="language-badge">JavaScript</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code class="language-javascript">
+// ============================================
+// STUDENT MANAGEMENT
+// ============================================
+
+/**
+ * Returns the currently logged in student
+ * @returns {Object|null} Student object or null
+ */
+function getCurrentStudent() {
+  try {
+    var stored = localStorage.getItem('smartgrade_current');
+    return stored ? JSON.parse(stored) : null;
+  } catch(e) {
+    return null;
+  }
+}
+
+/**
+ * Returns all registered students
+ * @returns {Array} Array of student objects
+ */
+function getAllStudents() {
+  try {
+    var data = localStorage.getItem('smartgrade_students');
+    return data ? JSON.parse(data) : [];
+  } catch(e) {
+    return [];
+  }
+}
+
+/**
+ * Returns a student by their ID
+ * @param {number} id - Student ID
+ * @returns {Object|null} Student object or null
+ */
+function getStudentById(id) {
+  var students = getAllStudents();
+  for (var i = 0; i < students.length; i++) {
+    if (students[i].id === id) return students[i];
+  }
+  return null;
+}
+
+/**
+ * Creates a new student account
+ * @param {string} name - Student name
+ * @param {number} number - Student number (1-70)
+ * @param {string} className - Class name (B1 or B2)
+ * @param {string} pin - 4-digit PIN
+ * @param {string} gender - 'boy' or 'girl'
+ * @returns {Object} { success: boolean, message: string, student: Object }
+ */
+function createStudentAccount(name, number, className, pin, gender) {
+  // ... implementation in database.js
+}
+
+/**
+ * Deletes a student and all associated data
+ * @param {number} id - Student ID
+ */
+function deleteStudent(id) {
+  // ... implementation in database.js
+}
+            </code></pre>
           </div>
           
           <h4>Grade Management</h4>
-          <div class="code-block">
-<code>getStudentGrades(id)                    // Returns all grades for a student
-saveStudentGrades(id, grades)           // Saves grades array
-calculateStudentTermAverage(id, term)   // Returns term average (0-20)
-calculateYearlyAverage(id)              // Returns yearly average (0-20)
-calculateSubjectTermAverage(subjectId, term, grades)  // Subject average
-getGradeLetter(avg)                     // Returns A+, A, B+, B, C, D, F
-getStatusText(avg)                      // Excellent, Very Good, Good, etc.</code>
+          <div class="code-block-wrapper">
+            <span class="language-badge">JavaScript</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code class="language-javascript">
+// ============================================
+// GRADE MANAGEMENT
+// ============================================
+
+/**
+ * Returns all grades for a student
+ * @param {number} id - Student ID
+ * @returns {Array} Array of grade objects
+ */
+function getStudentGrades(id) {
+  try {
+    var data = localStorage.getItem('smartgrade_grades_' + id);
+    return data ? JSON.parse(data) : [];
+  } catch(e) {
+    return [];
+  }
+}
+
+/**
+ * Saves grades for a student
+ * @param {number} id - Student ID
+ * @param {Array} grades - Array of grade objects
+ */
+function saveStudentGrades(id, grades) {
+  localStorage.setItem('smartgrade_grades_' + id, JSON.stringify(grades));
+}
+
+/**
+ * Calculates the average for a specific term
+ * @param {number} id - Student ID
+ * @param {number} term - Term number (1-3)
+ * @returns {number} Term average (0-20)
+ */
+function calculateStudentTermAverage(id, term) {
+  // ... implementation in database.js
+}
+
+/**
+ * Calculates the yearly average
+ * @param {number} id - Student ID
+ * @returns {number} Yearly average (0-20)
+ */
+function calculateYearlyAverage(id) {
+  var t1 = calculateStudentTermAverage(id, 1);
+  var t2 = calculateStudentTermAverage(id, 2);
+  var t3 = calculateStudentTermAverage(id, 3);
+  return Math.round(((t1 + t2 + t3) / 3) * 100) / 100;
+}
+
+/**
+ * Calculates the average for a specific subject in a term
+ * @param {number} subjectId - Subject ID (1-14)
+ * @param {number} term - Term number (1-3)
+ * @param {Array} grades - Array of grade objects
+ * @returns {number} Subject average (0-20)
+ */
+function calculateSubjectTermAverage(subjectId, term, grades) {
+  // ... implementation in database.js
+}
+
+/**
+ * Returns the letter grade for a numerical average
+ * @param {number} avg - Numerical average (0-20)
+ * @returns {string} Letter grade (A+, A, B+, B, C, D, F)
+ */
+function getGradeLetter(avg) {
+  if (avg >= 18) return 'A+';
+  if (avg >= 16) return 'A';
+  if (avg >= 14) return 'B+';
+  if (avg >= 12) return 'B';
+  if (avg >= 10) return 'C';
+  if (avg >= 8) return 'D';
+  return 'F';
+}
+
+/**
+ * Returns the status text for a numerical average
+ * @param {number} avg - Numerical average (0-20)
+ * @returns {string} Status (Excellent, Very Good, Good, Average, Below Average, Needs Work)
+ */
+function getStatusText(avg) {
+  if (avg >= 16) return 'Excellent';
+  if (avg >= 14) return 'Very Good';
+  if (avg >= 12) return 'Good';
+  if (avg >= 10) return 'Average';
+  if (avg >= 8) return 'Below Average';
+  return 'Needs Work';
+}
+            </code></pre>
           </div>
           
           <h4>Subject Management</h4>
-          <div class="code-block">
-<code>getStudentSelectedSubjects(id, term)        // Returns selected subject IDs
-saveStudentSelectedSubjects(id, term, subjects)  // Saves subject selection
-getSubjectCoefficients(id)                  // Returns coefficients object
-getSubjectCoefficient(id, subjectId)        // Returns coefficient for subject
-getActiveSubjectsWithCoefficients(id, term) // Returns subjects with coeffs</code>
-          </div>
-          
-          <h4>Achievements & Streaks</h4>
-          <div class="code-block">
-<code>getStudentAchievements(id)     // Returns achievements array
-unlockBadgeById(id, badgeId)   // Unlocks specific badge
-updateStreakOnVisit(id)        // Updates daily streak
-getStudentStreak(id)           // Returns streak object {days, lastLogin}
-checkAndUnlockAllNewBadges(id) // Checks and unlocks all available badges</code>
-          </div>
-          
-          <h4>Profile & Settings</h4>
-          <div class="code-block">
-<code>getProfile(id)                 // Returns {avatarBase64, bio, favorites}
-saveProfile(id, profile)       // Saves profile data
-getSavedTheme()                // Returns current theme name
-saveTheme(theme)               // Saves theme preference
-getSavedFontSize()             // Returns 'small', 'medium', or 'large'</code>
+          <div class="code-block-wrapper">
+            <span class="language-badge">JavaScript</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code class="language-javascript">
+// ============================================
+// SUBJECT MANAGEMENT
+// ============================================
+
+/**
+ * Returns the subjects selected by a student for a term
+ * @param {number} id - Student ID
+ * @param {number} term - Term number (1-3)
+ * @returns {Array} Array of subject IDs
+ */
+function getStudentSelectedSubjects(id, term) {
+  try {
+    var data = localStorage.getItem('smartgrade_selected_' + id + '_term' + term);
+    return data ? JSON.parse(data) : DEFAULT_SUBJECTS.map(function(s) { return s.id; });
+  } catch(e) {
+    return DEFAULT_SUBJECTS.map(function(s) { return s.id; });
+  }
+}
+
+/**
+ * Saves selected subjects for a student and term
+ * @param {number} id - Student ID
+ * @param {number} term - Term number (1-3)
+ * @param {Array} subjects - Array of subject IDs
+ */
+function saveStudentSelectedSubjects(id, term, subjects) {
+  localStorage.setItem('smartgrade_selected_' + id + '_term' + term, JSON.stringify(subjects));
+}
+
+/**
+ * Returns all subject coefficients for a student
+ * @param {number} id - Student ID
+ * @returns {Object} Object mapping subjectId to coefficient
+ */
+function getSubjectCoefficients(id) {
+  try {
+    var data = localStorage.getItem('smartgrade_coeffs_' + id);
+    if (!data) {
+      var c = {};
+      DEFAULT_SUBJECTS.forEach(function(s) { c[s.id] = 5; });
+      return c;
+    }
+    return JSON.parse(data);
+  } catch(e) {
+    var c = {};
+    DEFAULT_SUBJECTS.forEach(function(s) { c[s.id] = 5; });
+    return c;
+  }
+}
+
+/**
+ * Returns the coefficient for a specific subject
+ * @param {number} id - Student ID
+ * @param {number} subjectId - Subject ID (1-14)
+ * @returns {number} Coefficient (1-10)
+ */
+function getSubjectCoefficient(id, subjectId) {
+  var coeffs = getSubjectCoefficients(id);
+  return coeffs[subjectId] || 5;
+}
+
+/**
+ * Returns active subjects with coefficients for a term
+ * @param {number} id - Student ID
+ * @param {number} term - Term number (1-3)
+ * @returns {Array} Array of subject objects with coefficient
+ */
+function getActiveSubjectsWithCoefficients(id, term) {
+  var selected = getStudentSelectedSubjects(id, term);
+  return DEFAULT_SUBJECTS.filter(function(s) {
+    return selected.indexOf(s.id) !== -1;
+  }).map(function(s) {
+    s.coefficient = getSubjectCoefficient(id, s.id);
+    return s;
+  });
+}
+            </code></pre>
           </div>
         </div>
         
-        <!-- SECTION 7: AUTHENTICATION -->
+        <!-- ============================================
+             SECTION 6: AUTHENTICATION
+        ============================================ -->
         <div id="authentication" class="doc-section">
-          <h3><i class="fas fa-fingerprint"></i> 7. Authentication System</h3>
+          <h3><i class="fas fa-fingerprint"></i> 6. Authentication System</h3>
           <p>The authentication system supports both PIN (4-digit) and fingerprint (WebAuthn) login methods.</p>
           
-          <div class="code-block">
-<code>// PIN Authentication
-var result = authenticateWithPin(studentId, pin);
-if (result.success) {
-  // User is logged in as result.student
-  // Redirect to dashboard
+          <div class="code-block-wrapper">
+            <span class="language-badge">JavaScript</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code class="language-javascript">
+// ============================================
+// AUTHENTICATION
+// ============================================
+
+/**
+ * Authenticate a user with PIN
+ * @param {number} studentId - Student ID
+ * @param {string} pin - 4-digit PIN
+ * @returns {Object} { success: boolean, message: string, student: Object }
+ */
+function authenticateWithPin(studentId, pin) {
+  var student = getStudentById(studentId);
+  if (!student) return { success: false, message: 'Account not found' };
+  if (student.pin !== pin) return { success: false, message: 'Incorrect PIN' };
+  
+  setCurrentStudent(student);
+  updateStreakOnVisit(student.id);
+  return { success: true, student: student };
 }
 
-// Fingerprint Authentication
-loginWithFingerprint(function(result) {
-  if (result.success) {
-    // User authenticated via fingerprint
-    // result.student contains user data
-  }
-});
+/**
+ * Login with fingerprint (WebAuthn)
+ * @param {Function} callback - Callback function
+ */
+function loginWithFingerprint(callback) {
+  // ... implementation in auth.js
+}
 
-// Register Fingerprint
-registerFingerprint(studentId, studentName, function(result) {
-  if (result.success) {
-    // Fingerprint registered successfully
-  }
-});
+/**
+ * Register a fingerprint for a user
+ * @param {number} studentId - Student ID
+ * @param {string} studentName - Student name
+ * @param {Function} callback - Callback function
+ */
+function registerFingerprint(studentId, studentName, callback) {
+  // ... implementation in auth.js
+}
 
-// Remove Fingerprint
-removeFingerprint(studentId);
+/**
+ * Remove fingerprint for a user
+ * @param {number} studentId - Student ID
+ * @returns {boolean} Success status
+ */
+function removeFingerprint(studentId) {
+  // ... implementation in auth.js
+}
 
-// Logout
-logout();  // Redirects to index.html</code>
+/**
+ * Logout current user
+ */
+function logout() {
+  localStorage.removeItem('smartgrade_current');
+  window.location.href = 'index.html';
+}
+            </code></pre>
           </div>
           
           <div class="info">
-            <i class="fas fa-info-circle"></i> Fingerprint uses WebAuthn API and requires HTTPS or localhost. Not all browsers support this feature.
+            <i class="fas fa-info-circle"></i> 
+            <strong>Fingerprint:</strong> Uses WebAuthn API and requires HTTPS or localhost. 
+            Works on Android devices with Chrome or Edge browsers.
           </div>
         </div>
         
-        <!-- SECTION 8: SUBJECTS & GRADES -->
+        <!-- ============================================
+             SECTION 7: SUBJECTS & GRADES
+        ============================================ -->
         <div id="subjects" class="doc-section">
-          <h3><i class="fas fa-book"></i> 8. Subjects & Grades Configuration</h3>
+          <h3><i class="fas fa-book"></i> 7. Subjects &amp; Grades Configuration</h3>
           <p>The application supports 14 subjects, each with customizable coefficients (1-10).</p>
-          <div class="code-block">
-<code>var DEFAULT_SUBJECTS = [
+          
+          <div class="code-block-wrapper">
+            <span class="language-badge">JavaScript</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code class="language-javascript">
+// ============================================
+// DEFAULT SUBJECTS
+// ============================================
+
+var DEFAULT_SUBJECTS = [
   { id: 1, name: "COMPUTER SCIENCES", icon: "fa-laptop-code" },
   { id: 2, name: "MATHEMATICS", icon: "fa-square-root-variable" },
   { id: 3, name: "CHEMISTRY", icon: "fa-flask" },
@@ -1312,24 +1166,32 @@ logout();  // Redirects to index.html</code>
   { id: 12, name: "CITIZENSHIP", icon: "fa-landmark" },
   { id: 13, name: "FRENCH", icon: "fa-flag" },
   { id: 14, name: "FOOD AND NUTRITION", icon: "fa-apple-whole" }
-];</code>
+];
+
+// ============================================
+// GRADING SYSTEM
+// ============================================
+
+// Scale: 0-20 with letter grades
+var GRADING_SCALE = [
+  { min: 18, letter: 'A+', label: 'Excellent' },
+  { min: 16, letter: 'A', label: 'Very Good' },
+  { min: 14, letter: 'B+', label: 'Good' },
+  { min: 12, letter: 'B', label: 'Above Average' },
+  { min: 10, letter: 'C', label: 'Average' },
+  { min: 8, letter: 'D', label: 'Below Average' },
+  { min: 0, letter: 'F', label: 'Needs Work' }
+];
+            </code></pre>
           </div>
-          <p><strong>Grading System:</strong> 0-20 scale with letter grades:</p>
-          <ul>
-            <li><strong>A+</strong> (18-20) - Excellent</li>
-            <li><strong>A</strong> (16-17.9) - Very Good</li>
-            <li><strong>B+</strong> (14-15.9) - Good</li>
-            <li><strong>B</strong> (12-13.9) - Above Average</li>
-            <li><strong>C</strong> (10-11.9) - Average</li>
-            <li><strong>D</strong> (8-9.9) - Below Average</li>
-            <li><strong>F</strong> (0-7.9) - Needs Work</li>
-          </ul>
         </div>
         
-        <!-- SECTION 9: ACHIEVEMENTS -->
+        <!-- ============================================
+             SECTION 8: ACHIEVEMENTS
+        ============================================ -->
         <div id="achievements" class="doc-section">
-          <h3><i class="fas fa-medal"></i> 9. Achievements System</h3>
-          <p>The application has 23 badges (14 achievement badges + 4 streak badges + 5 special badges).</p>
+          <h3><i class="fas fa-medal"></i> 8. Achievements System</h3>
+          <p>The application has <strong>23 badges</strong> (14 achievement badges + 4 streak badges + 5 special badges).</p>
           
           <h4>Streak Badges (Auto-unlock)</h4>
           <ul>
@@ -1365,21 +1227,63 @@ logout();  // Redirects to index.html</code>
             <div class="badge-item"><i class="fas fa-layer-group"></i> Flashcard Master</div>
           </div>
           
-          <div class="code-block">
-<code>// Unlock a badge programmatically
-unlockBadgeById(studentId, 1);  // Unlocks "First Grade"
+          <div class="code-block-wrapper">
+            <span class="language-badge">JavaScript</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code class="language-javascript">
+// ============================================
+// ACHIEVEMENTS API
+// ============================================
 
-// Check all badges for a student
-checkAndUnlockAllNewBadges(studentId);
+/**
+ * Get all achievements for a student
+ * @param {number} studentId - Student ID
+ * @returns {Array} Array of achievement objects
+ */
+function getStudentAchievements(studentId) {
+  try {
+    var data = localStorage.getItem('smartgrade_achievements_' + studentId);
+    return data ? JSON.parse(data) : [];
+  } catch(e) {
+    return [];
+  }
+}
 
-// Get all achievements for a student
-var achievements = getStudentAchievements(studentId);</code>
+/**
+ * Unlock a specific badge
+ * @param {number} studentId - Student ID
+ * @param {number} badgeId - Badge ID
+ * @returns {boolean} True if successfully unlocked
+ */
+function unlockBadgeById(studentId, badgeId) {
+  // ... implementation in database.js
+}
+
+/**
+ * Check and unlock all new badges
+ * @param {number} studentId - Student ID
+ */
+function checkAndUnlockAllNewBadges(studentId) {
+  // ... implementation in database.js
+}
+
+/**
+ * Update streak on visit
+ * @param {number} studentId - Student ID
+ * @returns {Object} Streak object
+ */
+function updateStreakOnVisit(studentId) {
+  // ... implementation in database.js
+}
+            </code></pre>
           </div>
         </div>
         
-        <!-- SECTION 10: THEMES & FONTS -->
+        <!-- ============================================
+             SECTION 9: THEMES & FONTS
+        ============================================ -->
         <div id="themes" class="doc-section">
-          <h3><i class="fas fa-palette"></i> 10. Themes & Fonts Configuration</h3>
+          <h3><i class="fas fa-palette"></i> 9. Themes &amp; Fonts Configuration</h3>
           <p><strong>20 Color Themes available:</strong></p>
           <div class="badge-list">
             <div class="badge-item">default (Deep Teal)</div>
@@ -1420,115 +1324,332 @@ var achievements = getStudentAchievements(studentId);</code>
             <div class="badge-item">Righteous</div>
           </div>
           
-          <div class="code-block">
-<code>// Set theme programmatically
-document.body.classList.add('theme-crimson');
-localStorage.setItem('smartgrade_theme', 'crimson');
+          <div class="code-block-wrapper">
+            <span class="language-badge">JavaScript</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code class="language-javascript">
+// ============================================
+// THEMES & FONTS API
+// ============================================
 
-// Set font family
-localStorage.setItem('smartgrade_font_family', 'roboto');
-initFontFamily();  // Apply the font</code>
+/**
+ * Get saved theme
+ * @returns {string} Theme name
+ */
+function getSavedTheme() {
+  return localStorage.getItem('smartgrade_theme') || 'default';
+}
+
+/**
+ * Save theme
+ * @param {string} theme - Theme name
+ */
+function saveTheme(theme) {
+  localStorage.setItem('smartgrade_theme', theme);
+  document.body.className = document.body.className.replace(/theme-\w+/g, '').trim();
+  document.body.classList.add('theme-' + theme);
+}
+
+/**
+ * Get saved font size
+ * @returns {string} Font size (small, medium, large)
+ */
+function getSavedFontSize() {
+  return localStorage.getItem('smartgrade_font') || 'medium';
+}
+
+/**
+ * Save font size
+ * @param {string} size - Font size (small, medium, large)
+ */
+function saveFontSize(size) {
+  localStorage.setItem('smartgrade_font', size);
+}
+
+/**
+ * Apply font family
+ * @param {string} fontId - Font identifier
+ */
+function applyFontToAllElements(fontId) {
+  var fontMap = {
+    'inter': 'Inter, sans-serif',
+    'roboto': 'Roboto, sans-serif',
+    // ... etc
+  };
+  document.body.style.fontFamily = fontMap[fontId] || 'Inter, sans-serif';
+}
+            </code></pre>
           </div>
           
           <div class="highlight">
-            <i class="fas fa-moon"></i> <strong>Night Mode:</strong> Activates automatically between 20:00 and 06:00. Manual override available via theme button.
+            <i class="fas fa-moon"></i> 
+            <strong>Night Mode:</strong> Activates automatically between 20:00 and 06:00. 
+            Manual override available via theme button.
           </div>
         </div>
         
-        <!-- SECTION 11: PWA CONFIGURATION -->
+        <!-- ============================================
+             SECTION 10: PWA CONFIGURATION
+        ============================================ -->
         <div id="pwa" class="doc-section">
-          <h3><i class="fas fa-mobile-alt"></i> 11. Progressive Web App (PWA)</h3>
+          <h3><i class="fas fa-mobile-alt"></i> 10. Progressive Web App (PWA)</h3>
           <p>The application is a fully functional PWA that works offline after first installation.</p>
           
-          <div class="code-block">
-<code>// Service Worker registration (in sw.js)
+          <div class="code-block-wrapper">
+            <span class="language-badge">JavaScript</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code class="language-javascript">
+// ============================================
+// SERVICE WORKER (sw.js)
+// ============================================
+
+var CACHE_NAME = 'smartgrade-v5';
+var STATIC_ASSETS = [
+  './',
+  './index.html',
+  './dashboard.html',
+  './css/base.css',
+  './css/layout.css',
+  './js/app.js',
+  './js/database.js',
+  // ... all assets
+];
+
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(CACHE_NAME).then(function(cache) {
-      return cache.addAll(ASSETS);
+      return cache.addAll(STATIC_ASSETS);
     })
   );
 });
 
-// Install handler (in install-handler.js)
-if (typeof InstallHandler !== 'undefined') {
-  InstallHandler.init();
-  InstallHandler.install();  // Trigger installation
-}
+self.addEventListener('activate', function(event) {
+  event.waitUntil(
+    caches.keys().then(function(keys) {
+      return Promise.all(
+        keys.map(function(key) {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
+      );
+    })
+  );
+});
 
-// Auto-update (in auto-updater.js)
-AutoUpdate.start();  // Checks GitHub every 10 minutes</code>
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+    caches.match(event.request).then(function(cached) {
+      return cached || fetch(event.request);
+    })
+  );
+});
+
+// ============================================
+// INSTALL HANDLER (install-handler.js)
+// ============================================
+
+// Disable native browser prompt
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  deferredPrompt = e;
+  showCustomInstallBanner();
+});
+
+// Install app
+function installApp() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function(result) {
+      if (result.outcome === 'accepted') {
+        localStorage.setItem('smartgrade_installed', 'true');
+      }
+      deferredPrompt = null;
+    });
+  }
+}
+            </code></pre>
           </div>
           
           <div class="info">
-            <i class="fas fa-info-circle"></i> The Service Worker caches all HTML, CSS, JS, and assets. The app works 100% offline after the first successful load.
+            <i class="fas fa-info-circle"></i> 
+            The Service Worker caches all HTML, CSS, JS, and assets. The app works 
+            <strong>100% offline</strong> after the first successful load.
           </div>
         </div>
         
-        <!-- SECTION 12: CLOUD TRANSFER -->
+        <!-- ============================================
+             SECTION 11: CLOUD TRANSFER
+        ============================================ -->
         <div id="transfer" class="doc-section">
-          <h3><i class="fas fa-exchange-alt"></i> 12. Cloud Transfer System</h3>
+          <h3><i class="fas fa-exchange-alt"></i> 11. Cloud Transfer System</h3>
           <p>The cloud transfer system uses GitHub Gist API (free, unlimited) to store temporary transfer data.</p>
           
-          <div class="code-block">
-<code>// Generate cloud transfer code
-CloudTransfer.generateCode(userId, userName, function(result) {
-  if (result.success) {
-    var code = result.code;  // 6-character code
-    // Share this code with the other device
+          <div class="code-block-wrapper">
+            <span class="language-badge">JavaScript</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code class="language-javascript">
+// ============================================
+// TRANSFER SYSTEM (transfer.js)
+// ============================================
+
+/**
+ * Generate a transfer code
+ * @param {number} studentId - Student ID
+ * @returns {string} 6-character transfer code
+ */
+function generateTransferCode(studentId) {
+  var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  var code = '';
+  for (var i = 0; i < 6; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
   }
-});
+  return code;
+}
 
-// Import from cloud
-CloudTransfer.importWithCode(code, function(result) {
-  if (result.success) {
-    // Data imported successfully
-    location.reload();
+/**
+ * Store transfer data
+ * @param {string} code - Transfer code
+ * @param {number} studentId - Student ID
+ * @param {string} data - JSON string of user data
+ */
+function storeTransferData(code, studentId, data) {
+  var transferData = {
+    studentId: studentId,
+    data: data,
+    expires: Date.now() + 10 * 60 * 1000 // 10 minutes
+  };
+  localStorage.setItem('smartgrade_transfer_' + code, JSON.stringify(transferData));
+}
+
+/**
+ * Get transfer data
+ * @param {string} code - Transfer code
+ * @returns {Object|null} Transfer data or null if expired/invalid
+ */
+function getTransferData(code) {
+  var data = localStorage.getItem('smartgrade_transfer_' + code);
+  if (!data) return null;
+  
+  var parsed = JSON.parse(data);
+  if (parsed.expires < Date.now()) {
+    localStorage.removeItem('smartgrade_transfer_' + code);
+    return null;
   }
-});
+  return parsed;
+}
 
-// Generate QR Code
-QRTransfer.generateQR(code, 'containerId');
-
-// Local transfer (same device/network)
-var localCode = generateLocalCode();</code>
+/**
+ * Generate QR code
+ * @param {string} code - Transfer code
+ * @param {string} containerId - DOM element ID for QR code
+ */
+function generateQRCode(code, containerId) {
+  // Uses QRCode.js library
+  new QRCode(document.getElementById(containerId), {
+    text: window.location.origin + '/transfer.html?code=' + code,
+    width: 200,
+    height: 200,
+    colorDark: '#0f3b48',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.H
+  });
+}
+            </code></pre>
           </div>
           
           <div class="warning">
-            <i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> Transfer codes expire after 10 minutes for security. QR codes are also valid for 10 minutes.
+            <i class="fas fa-exclamation-triangle"></i> 
+            <strong>Important:</strong> Transfer codes expire after 10 minutes for security. 
+            QR codes are also valid for 10 minutes.
           </div>
         </div>
         
-        <!-- SECTION 13: EXPORT/IMPORT -->
+        <!-- ============================================
+             SECTION 12: EXPORT/IMPORT
+        ============================================ -->
         <div id="export-import" class="doc-section">
-          <h3><i class="fas fa-file-export"></i> 13. Export & Import System</h3>
+          <h3><i class="fas fa-file-export"></i> 12. Export &amp; Import System</h3>
           <p>The application supports multiple export formats: JSON (complete backup), CSV (spreadsheet), HTML (bulletin), PDF (report).</p>
           
-          <div class="code-block">
-<code>// Export all user data as JSON
-var jsonData = exportCompleteUserData(userId);
-// Download as file
-downloadJSON(jsonData, 'backup.json');
+          <div class="code-block-wrapper">
+            <span class="language-badge">JavaScript</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code class="language-javascript">
+// ============================================
+// EXPORT / IMPORT (export.js)
+// ============================================
 
-// Import JSON backup
-var result = importCompleteUserData(userId, jsonData);
-if (result.success) {
-  // Data restored successfully
+/**
+ * Export all user data as JSON
+ * @param {number} studentId - Student ID
+ * @returns {string} JSON string of all user data
+ */
+function exportCompleteUserData(studentId) {
+  var data = {
+    version: '5.0',
+    exportDate: new Date().toISOString(),
+    student: getStudentById(studentId),
+    grades: getStudentGrades(studentId),
+    subjects: {
+      term1: getStudentSelectedSubjects(studentId, 1),
+      term2: getStudentSelectedSubjects(studentId, 2),
+      term3: getStudentSelectedSubjects(studentId, 3)
+    },
+    coeffs: getSubjectCoefficients(studentId),
+    achievements: getStudentAchievements(studentId),
+    goal: parseFloat(localStorage.getItem('smartgrade_goal_' + studentId) || 12),
+    streak: getStudentStreak(studentId),
+    profile: getProfile(studentId),
+    history: JSON.parse(localStorage.getItem('smartgrade_history_' + studentId) || '[]')
+  };
+  return JSON.stringify(data, null, 2);
 }
 
-// CSV export format
-// Subject, Code, Sequence, Value, Date, Term
-// COMPUTER SCIENCES, CS, 1, 15.50, 2025-01-15, 1</code>
+/**
+ * Import data from JSON backup
+ * @param {number} studentId - Student ID
+ * @param {string} jsonData - JSON string of user data
+ * @returns {Object} { success: boolean, message: string }
+ */
+function importCompleteUserData(studentId, jsonData) {
+  try {
+    var data = typeof jsonData === 'string' ? JSON.parse(jsonData) : jsonData;
+    
+    // Restore all data
+    if (data.grades) localStorage.setItem('smartgrade_grades_' + studentId, JSON.stringify(data.grades));
+    if (data.subjects) {
+      if (data.subjects.term1) localStorage.setItem('smartgrade_selected_' + studentId + '_term1', JSON.stringify(data.subjects.term1));
+      if (data.subjects.term2) localStorage.setItem('smartgrade_selected_' + studentId + '_term2', JSON.stringify(data.subjects.term2));
+      if (data.subjects.term3) localStorage.setItem('smartgrade_selected_' + studentId + '_term3', JSON.stringify(data.subjects.term3));
+    }
+    if (data.coeffs) localStorage.setItem('smartgrade_coeffs_' + studentId, JSON.stringify(data.coeffs));
+    if (data.achievements) localStorage.setItem('smartgrade_achievements_' + studentId, JSON.stringify(data.achievements));
+    if (data.goal !== undefined) localStorage.setItem('smartgrade_goal_' + studentId, data.goal);
+    if (data.streak) localStorage.setItem('smartgrade_streak_' + studentId, JSON.stringify(data.streak));
+    if (data.profile) localStorage.setItem('smartgrade_profile_' + studentId, JSON.stringify(data.profile));
+    if (data.history) localStorage.setItem('smartgrade_history_' + studentId, JSON.stringify(data.history));
+    
+    return { success: true, message: 'Data imported successfully' };
+  } catch(e) {
+    return { success: false, message: 'Invalid data: ' + e.message };
+  }
+}
+            </code></pre>
           </div>
           
           <div class="info">
-            <i class="fas fa-info-circle"></i> The JSON backup includes all user data: grades, subjects, coefficients, achievements, streak, profile, flashcards, and history.
+            <i class="fas fa-info-circle"></i> 
+            The JSON backup includes all user data: grades, subjects, coefficients, achievements, 
+            streak, profile, flashcards, and history.
           </div>
         </div>
         
-        <!-- SECTION 14: BADGES -->
+        <!-- ============================================
+             SECTION 13: BADGES LIST
+        ============================================ -->
         <div id="badges" class="doc-section">
-          <h3><i class="fas fa-trophy"></i> 14. Complete Badges Reference</h3>
+          <h3><i class="fas fa-trophy"></i> 13. Complete Badges Reference</h3>
           
           <h4>Unlock Conditions</h4>
           <ul>
@@ -1556,90 +1677,103 @@ if (result.success) {
             <li><strong>Flashcard Master (id:59)</strong> - Create 10 custom flashcards</li>
           </ul>
           
-          <div class="code-block">
-<code>// Force unlock a badge (for testing)
+          <div class="code-block-wrapper">
+            <span class="language-badge">JavaScript</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code class="language-javascript">
+// ============================================
+// BADGE UNLOCKING
+// ============================================
+
+// Force unlock a badge (for testing)
 unlockBadgeById(studentId, 1);
 
+// Check all badges
+checkAndUnlockAllNewBadges(studentId);
+
 // Get badge by ID
-var badge = ACHIEVEMENTS.find(function(b) { return b.id === 1; });
-console.log(badge.name);  // "First Grade"</code>
+var badge = ACHIEVEMENTS.find(function(b) {
+  return b.id === 1;
+});
+console.log(badge.name); // "First Grade"
+            </code></pre>
           </div>
         </div>
         
-        <!-- SECTION 15: AI ASSISTANT -->
+        <!-- ============================================
+             SECTION 14: AI ASSISTANT
+        ============================================ -->
         <div id="ai-assistant" class="doc-section">
-          <h3><i class="fas fa-robot"></i> 15. AI Assistant</h3>
+          <h3><i class="fas fa-robot"></i> 14. AI Assistant</h3>
           <p>SMART GRADE includes an AI Assistant powered by Groq and Mistral models to help students with homework, explanations, and problem-solving.</p>
           
           <div class="highlight">
-            <i class="fas fa-check-circle"></i> <strong>Available Models:</strong> Groq (ultra fast), Devstral (medium), Codestral (code-focused)
+            <i class="fas fa-check-circle"></i> 
+            <strong>Available Models:</strong> Groq (ultra fast), Devstral (medium), 
+            Codestral (code-focused)
           </div>
           
           <h4>Features</h4>
           <ul>
-            <li><i class="fas fa-square-root-variable"></i> <strong>LaTeX Support:</strong> Write mathematical equations using $...$ or $$...$$ syntax</li>
+            <li><i class="fas fa-square-root-variable"></i> <strong>LaTeX Support:</strong> Write mathematical equations using <code>$...$</code> or <code>$$...$$</code> syntax</li>
             <li><i class="fas fa-code"></i> <strong>Code Highlighting:</strong> Supports JavaScript, Python, Bash, JSON, HTML, CSS, and more</li>
-            <li><i class="fas fa-chart-simple"></i> <strong>Mermaid Diagrams:</strong> Generate flowcharts, sequence diagrams, and more using ```mermaid syntax</li>
+            <li><i class="fas fa-chart-simple"></i> <strong>Mermaid Diagrams:</strong> Generate flowcharts, sequence diagrams, and more using <code>```mermaid</code> syntax</li>
             <li><i class="fas fa-history"></i> <strong>Conversation History:</strong> All conversations are saved locally</li>
             <li><i class="fas fa-download"></i> <strong>Export:</strong> Export conversations as JSON files</li>
             <li><i class="fas fa-sync-alt"></i> <strong>Auto-fallback:</strong> If one model fails, the system automatically switches to another</li>
           </ul>
           
-          <h4>How to Use</h4>
-          <ul>
-            <li>Open the AI Assistant page from the sidebar</li>
-            <li>Choose a model (Groq, Devstral, or Codestral)</li>
-            <li>Type your question in the chat input</li>
-            <li>Press Ctrl+Enter or click the send button</li>
-            <li>The AI will respond with formatted text, code, or diagrams</li>
-          </ul>
+          <div class="code-block-wrapper">
+            <span class="language-badge">JavaScript</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code class="language-javascript">
+// ============================================
+// AI ASSISTANT (ai-assistant-core.js)
+// ============================================
+
+// Available models
+var MODELS = {
+  'groq': { 
+    name: 'Groq', 
+    model: 'qwen/qwen3.6-27b',
+    available: true 
+  },
+  'mistral-devstral': { 
+    name: 'Devstral', 
+    model: 'devstral-medium-latest',
+    available: true 
+  },
+  'mistral-codestral': { 
+    name: 'Codestral', 
+    model: 'codestral-latest',
+    available: true 
+  }
+};
+
+// Send message to AI
+async function sendMessage() {
+  // ... implementation in ai-assistant-core.js
+}
+
+// Render Mermaid diagrams
+function renderMermaidDiagrams() {
+  // ... implementation in ai-assistant-ui.js
+}
+            </code></pre>
+          </div>
           
           <div class="info">
-            <i class="fas fa-info-circle"></i> <strong>Tip:</strong> Use the AI Assistant for homework help, concept explanations, and problem-solving in any subject.
+            <i class="fas fa-info-circle"></i> 
+            <strong>Tip:</strong> Use the AI Assistant for homework help, concept explanations, 
+            and problem-solving in any subject.
           </div>
         </div>
         
-        <!-- SECTION 16: TRANSFER SYSTEM -->
-        <div id="transfer-system" class="doc-section">
-          <h3><i class="fas fa-exchange-alt"></i> 16. Transfer System</h3>
-          <p>The transfer system allows users to move their data between devices using three different methods.</p>
-          
-          <h4>Transfer Methods</h4>
-          
-          <div class="api-grid">
-            <div class="api-card">
-              <h4><i class="fas fa-server"></i> Local Transfer</h4>
-              <p>Generate a 6-character code valid for 10 minutes. Data is stored locally on the device.</p>
-              <p><code class="api-path">smartgrade_local_transfers</code></p>
-            </div>
-            <div class="api-card">
-              <h4><i class="fas fa-cloud-upload-alt"></i> Cloud Transfer</h4>
-              <p>Upload data to GitHub Gist. Generates a 6-character code valid for 10 minutes.</p>
-              <p><code class="api-path">transfer.json (GitHub Gist)</code></p>
-            </div>
-            <div class="api-card">
-              <h4><i class="fas fa-qrcode"></i> QR Code Transfer</h4>
-              <p>Generate a QR code containing the transfer data. Scan with the destination device.</p>
-              <p><code class="api-path">QRCode.js + html5-qrcode</code></p>
-            </div>
-          </div>
-          
-          <h4>How to Use</h4>
-          <ul>
-            <li><strong>Export:</strong> Go to Transfer page > Choose method > Generate code/QR</li>
-            <li><strong>Import:</strong> Go to Transfer page > Choose method > Enter code or scan QR</li>
-            <li>All codes expire after 10 minutes for security</li>
-            <li>Data is automatically deleted after import</li>
-          </ul>
-          
-          <div class="warning">
-            <i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> Transfer codes are valid for 10 minutes only. QR codes also expire after 10 minutes.
-          </div>
-        </div>
-        
-        <!-- SECTION 17: HOMEWORK MANAGER -->
+        <!-- ============================================
+             SECTION 15: HOMEWORK MANAGER
+        ============================================ -->
         <div id="homework-manager" class="doc-section">
-          <h3><i class="fas fa-tasks"></i> 17. Homework Manager</h3>
+          <h3><i class="fas fa-tasks"></i> 15. Homework Manager</h3>
           <p>The Homework Manager allows teachers to create and manage assignments, and students to view them.</p>
           
           <h4>Features</h4>
@@ -1651,28 +1785,55 @@ console.log(badge.name);  // "First Grade"</code>
             <li><i class="fas fa-edit"></i> <strong>Edit/Delete:</strong> Teachers can edit or delete assignments</li>
           </ul>
           
-          <h4>Admin Access</h4>
-          <ul>
-            <li>Teachers access the admin panel via <code>admin-homework.html</code></li>
-            <li>Admin password is required for security</li>
-            <li>Homework is stored in <code>homeworks.json</code> on GitHub Gist</li>
-          </ul>
-          
-          <h4>Student View</h4>
-          <ul>
-            <li>Students view homework on the <code>homeworks.html</code> page</li>
-            <li>Click on any homework card to see full details</li>
-            <li>Attachments can be downloaded directly</li>
-          </ul>
+          <div class="code-block-wrapper">
+            <span class="language-badge">JavaScript</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code class="language-javascript">
+// ============================================
+// HOMEWORK MANAGER (admin-homework.js)
+// ============================================
+
+// GitHub Gist configuration
+var GITHUB_TOKEN = 'your_github_token';
+var GITHUB_GIST_ID = 'your_gist_id';
+
+// Load homework from GitHub
+async function loadHomeworks() {
+  var response = await fetch('https://api.github.com/gists/' + GITHUB_GIST_ID, {
+    headers: { 'Authorization': 'token ' + GITHUB_TOKEN }
+  });
+  var gist = await response.json();
+  return JSON.parse(gist.files['homeworks.json'].content);
+}
+
+// Save homework to GitHub
+async function saveHomeworks(data) {
+  await fetch('https://api.github.com/gists/' + GITHUB_GIST_ID, {
+    method: 'PATCH',
+    headers: {
+      'Authorization': 'token ' + GITHUB_TOKEN,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      files: { 'homeworks.json': { content: JSON.stringify(data) } }
+    })
+  });
+}
+            </code></pre>
+          </div>
           
           <div class="info">
-            <i class="fas fa-info-circle"></i> <strong>Note:</strong> The Homework Manager uses GitHub Gist for cloud storage. All data is synced automatically.
+            <i class="fas fa-info-circle"></i> 
+            <strong>Note:</strong> The Homework Manager uses GitHub Gist for cloud storage. 
+            All data is synced automatically.
           </div>
         </div>
         
-        <!-- SECTION 18: CONTACT -->
+        <!-- ============================================
+             SECTION 16: CONTACT
+        ============================================ -->
         <div id="contact" class="doc-section">
-          <h3><i class="fas fa-envelope"></i> 18. Developer Contact</h3>
+          <h3><i class="fas fa-envelope"></i> 16. Developer Contact</h3>
           <p>If you have any questions about this documentation or the software, please contact the developer:</p>
           <ul>
             <li><i class="fas fa-user"></i> <strong>Developer:</strong> HANS KEPPER</li>
@@ -1684,449 +1845,88 @@ console.log(badge.name);  // "First Grade"</code>
           </ul>
         </div>
         
+        <!-- FOOTER -->
         <div class="legal-date">
-          <i class="fas fa-calendar-alt"></i> Documentation updated: July 08, 2026<br>
+          <i class="fas fa-calendar-alt"></i> Documentation updated: August 03, 2026<br>
           <i class="fas fa-code-branch"></i> Version: 5.0 "Ultimate"<br>
           <i class="fas fa-school"></i> SIN GBHS FOUMBAN - Form 5B Science<br>
           <i class="fas fa-copyright"></i> 2026-2027 HANS KEPPER. All rights reserved.
         </div>
         
-      </div>
+      </div><!-- end doc-content -->
       
     </main>
   </div>
   
-  <!-- ============================================ -->
-  <!-- FILE TREE MODAL -->
-  <!-- ============================================ -->
-  <div class="file-tree-modal" id="fileTreeModal">
-    <div class="file-tree-modal-content">
-      <div class="file-tree-modal-header">
-        <h2><i class="fas fa-folder-tree"></i> File Structure</h2>
-        <button class="file-tree-modal-close" onclick="closeFileTreeModal()">&times;</button>
-      </div>
-      <div class="file-tree-modal-body" id="fileTreeModalBody">
-        <div class="loading-state">
-          <i class="fas fa-spinner fa-spin"></i>
-          <p>Loading file structure from GitHub...</p>
-        </div>
-      </div>
-      <div class="file-tree-modal-footer">
-        <button class="btn btn-primary" onclick="downloadSourceCode()">
-          <i class="fas fa-download"></i> Download ZIP
-        </button>
-        <button class="btn btn-secondary" onclick="closeFileTreeModal()">
-          <i class="fas fa-times"></i> Close
-        </button>
-      </div>
-    </div>
-  </div>
-  
+  <!-- ============================================
+       TOAST CONTAINER
+  ============================================ -->
   <div id="toastContainer" class="toast-container"></div>
   
-  <!-- ============================================ -->
-  <!-- SCRIPTS -->
-  <!-- ============================================ -->
+  <!-- ============================================
+       SCRIPTS
+  ============================================ -->
   <script src="js/utils.js"></script>
   <script src="js/database.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/app.js"></script>
   
   <script>
-    // ============================================================
-    //  CONFIGURATION
-    // ============================================================
-
-    var REPO_OWNER = 'hanskepper';
-    var REPO_NAME = 'SMART-GRADE';
-    var BASE_URL = 'https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + '/contents/';
-
-    // ============================================================
-    //  GET FOLDER CONTENTS RECURSIVE
-    // ============================================================
-
-    async function getFolderContentsRecursive(path) {
-      path = path || '';
-      var url = path ? BASE_URL + path : BASE_URL;
-      try {
-        var response = await fetch(url, {
-          headers: { 'Accept': 'application/vnd.github.v3+json' }
-        });
-        if (!response.ok) return null;
-        return await response.json();
-      } catch(e) {
-        console.error('Error fetching folder:', path, e);
-        return null;
-      }
-    }
-
-    // ============================================================
-    //  EXPLORE FOLDER
-    // ============================================================
-
-    async function exploreFolder(path, name) {
-      var items = await getFolderContentsRecursive(path);
-      if (!items) return { name: name, path: path, type: 'dir', children: [], subFolders: [] };
-
-      var children = [];
-      var subFolders = [];
-
-      for (var i = 0; i < items.length; i++) {
-        var item = items[i];
-        if (item.type === 'dir') {
-          var subTree = await exploreFolder(item.path, item.name);
-          subFolders.push(subTree);
-        } else if (item.type === 'file') {
-          children.push(item.name);
-        }
-      }
-
-      subFolders.sort(function(a, b) { return a.name.localeCompare(b.name); });
-      children.sort();
-
-      return {
-        name: name,
-        path: path,
-        type: 'dir',
-        children: children,
-        subFolders: subFolders
-      };
-    }
-
-    // ============================================================
-    //  ICON FOR FILE
-    // ============================================================
-
-    function getIconForFile(filename) {
-      var ext = filename.split('.').pop().toLowerCase();
-      var icons = {
-        'html': 'fa-html5',
-        'css': 'fa-css3-alt',
-        'js': 'fa-js',
-        'json': 'fa-file-code',
-        'png': 'fa-image',
-        'jpg': 'fa-image',
-        'jpeg': 'fa-image',
-        'svg': 'fa-image',
-        'ico': 'fa-image',
-        'webp': 'fa-image',
-        'md': 'fa-file-alt',
-        'txt': 'fa-file-alt',
-        'xml': 'fa-sitemap',
-        'pdf': 'fa-file-pdf',
-        'zip': 'fa-file-archive',
-        'gz': 'fa-file-archive',
-        'map': 'fa-sitemap',
-        'webmanifest': 'fa-file-code',
-        'gitignore': 'fa-code',
-        'yml': 'fa-code',
-        'yaml': 'fa-code'
-      };
-      return icons[ext] || 'fa-file';
-    }
-
-    // ============================================================
-    //  RENDER FOLDER IN MODAL - Sans dossier Root
-    // ============================================================
-
-    function renderFolderInModal(folder) {
-      var totalFiles = folder.children.length;
-      for (var i = 0; i < folder.subFolders.length; i++) {
-        totalFiles += folder.subFolders[i].children.length;
-      }
-
-      var html = '<div class="tree-folder">';
-      html += '<div class="tree-folder-header" onclick="toggleFolderInModal(this)">';
-      html += '<i class="fas fa-chevron-right tree-arrow"></i>';
-      html += '<i class="fas fa-folder tree-folder-icon"></i>';
-      html += '<span class="tree-folder-name">' + folder.name + '</span>';
-      html += '<span class="tree-folder-count">' + totalFiles + '</span>';
-      html += '</div>';
-      html += '<div class="tree-folder-content">';
-
-      for (var i = 0; i < folder.subFolders.length; i++) {
-        html += renderFolderInModal(folder.subFolders[i]);
-      }
-
-      if (folder.children.length > 0) {
-        html += '<div class="tree-files-grid" style="margin-bottom:8px;">';
-        for (var i = 0; i < folder.children.length; i++) {
-          var file = folder.children[i];
-          var icon = getIconForFile(file);
-          html += '<div class="tree-file">';
-          html += '<i class="fas ' + icon + '"></i>';
-          html += '<span>' + file + '</span>';
-          html += '</div>';
-        }
-        html += '</div>';
-      }
-
-      html += '</div></div>';
-      return html;
-    }
-
-    // ============================================================
-    //  TOGGLE FOLDER IN MODAL
-    // ============================================================
-
-    function toggleFolderInModal(header) {
-      header.classList.toggle('open');
-      var content = header.nextElementSibling;
-      if (content) {
-        content.classList.toggle('show');
-      }
-    }
-
-    // ============================================================
-    //  OPEN FILE TREE MODAL
-    // ============================================================
-
-    function openFileTreeModal() {
-      var modal = document.getElementById('fileTreeModal');
-      var body = document.getElementById('fileTreeModalBody');
+    // ============================================
+    // COPY CODE FUNCTION
+    // ============================================
+    
+    function copyCode(btn) {
+      var wrapper = btn.closest('.code-block-wrapper');
+      var codeEl = wrapper.querySelector('code');
+      var text = codeEl.textContent;
       
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-      
-      // Toujours rafraîchir à l'ouverture
-      body.innerHTML = '<div class="loading-state"><i class="fas fa-spinner fa-spin"></i><p>Loading file structure from GitHub...</p></div>';
-      buildFileTreeInModal();
-      loadFileStructureStats();
+      navigator.clipboard.writeText(text).then(function() {
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = 'Copy';
+          btn.classList.remove('copied');
+        }, 2000);
+        showToast('Code copied to clipboard');
+      }).catch(function() {
+        // Fallback
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        showToast('Code copied to clipboard');
+      });
     }
-
-    // ============================================================
-    //  CLOSE FILE TREE MODAL
-    // ============================================================
-
-    function closeFileTreeModal() {
-      var modal = document.getElementById('fileTreeModal');
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-      // Le rafraîchissement continue en arrière-plan
-    }
-
-    // ============================================================
-    //  BUILD FILE TREE IN MODAL - Sans dossier Root
-    // ============================================================
-
-    async function buildFileTreeInModal() {
-      var body = document.getElementById('fileTreeModalBody');
-      
-      body.innerHTML = '<div class="loading-state"><i class="fas fa-spinner fa-spin"></i><p>Loading file structure from GitHub...</p></div>';
-
-      try {
-        var rootItems = await getFolderContentsRecursive('');
-        if (!rootItems) throw new Error('Could not fetch root');
-
-        var folders = [];
-        var rootFiles = [];
-
-        for (var i = 0; i < rootItems.length; i++) {
-          var item = rootItems[i];
-          if (item.type === 'dir') {
-            var folderTree = await exploreFolder(item.path, item.name);
-            folders.push(folderTree);
-          } else if (item.type === 'file') {
-            rootFiles.push(item.name);
-          }
-        }
-
-        folders.sort(function(a, b) { return a.name.localeCompare(b.name); });
-        rootFiles.sort();
-
-        var html = '<div class="tree-root">';
-        html += '<div class="tree-root-header">';
-        html += '<i class="fas fa-folder-open"></i>';
-        html += '<span class="tree-root-name">SMART GRADE v5.0</span>';
-        html += '<span class="tree-root-badge">GitHub</span>';
-        html += '</div>';
-        html += '<div class="tree-children">';
-
-        for (var i = 0; i < folders.length; i++) {
-          html += renderFolderInModal(folders[i]);
-        }
-
-        // Root files - affichés directement sans dossier Root
-        if (rootFiles.length > 0) {
-          html += '<div class="tree-files-grid" style="margin-bottom:12px;">';
-          for (var j = 0; j < rootFiles.length; j++) {
-            var file = rootFiles[j];
-            var icon = getIconForFile(file);
-            html += '<div class="tree-file">';
-            html += '<i class="fas ' + icon + '"></i>';
-            html += '<span>' + file + '</span>';
-            html += '</div>';
-          }
-          html += '</div>';
-        }
-
-        html += '</div></div>';
-        body.innerHTML = html;
-
-      } catch(error) {
-        body.innerHTML = '<div class="error-state"><i class="fas fa-exclamation-triangle"></i><p>Could not load file structure from GitHub.</p><p style="font-size:0.7rem;margin-top:8px;">' + error.message + '</p><button class="btn btn-secondary" onclick="buildFileTreeInModal()" style="margin-top:12px;padding:8px 20px;border-radius:30px;cursor:pointer;"><i class="fas fa-sync-alt"></i> Retry</button></div>';
-      }
-    }
-
-    // ============================================================
-    //  AUTO-REFRESH STATS - Toutes les 60 secondes
-    // ============================================================
-
-    var autoRefreshInterval = null;
-
-    function startAutoRefresh() {
-      if (autoRefreshInterval) {
-        clearInterval(autoRefreshInterval);
-      }
-      
-      // Rafraîchir toutes les 60 secondes
-      autoRefreshInterval = setInterval(function() {
-        console.log('[File Structure] Auto-refresh...');
-        loadFileStructureStats();
-        
-        // Si la modale est ouverte, la rafraîchir aussi
-        var modal = document.getElementById('fileTreeModal');
-        if (modal.classList.contains('active')) {
-          buildFileTreeInModal();
-        }
-      }, 60000); // 60 secondes
-    }
-
-    function stopAutoRefresh() {
-      if (autoRefreshInterval) {
-        clearInterval(autoRefreshInterval);
-        autoRefreshInterval = null;
-      }
-    }
-
-    // ============================================================
-    //  LOAD FILE STRUCTURE STATS
-    // ============================================================
-
-    var totalFilesCount = 0;
-    var totalFoldersCount = 0;
-
-    async function loadFileStructureStats() {
-      try {
-        var rootItems = await getFolderContentsRecursive('');
-        if (!rootItems) return;
-
-        totalFilesCount = 0;
-        totalFoldersCount = 0;
-        var totalSize = 0;
-        var folders = [];
-
-        for (var i = 0; i < rootItems.length; i++) {
-          var item = rootItems[i];
-          if (item.type === 'dir') {
-            totalFoldersCount++;
-            folders.push(item);
-            var subItems = await getFolderContentsRecursive(item.path);
-            if (subItems) {
-              for (var j = 0; j < subItems.length; j++) {
-                if (subItems[j].type === 'file') {
-                  totalFilesCount++;
-                  if (subItems[j].size) totalSize += subItems[j].size;
-                }
-              }
-            }
-          } else if (item.type === 'file') {
-            totalFilesCount++;
-            if (item.size) totalSize += item.size;
-          }
-        }
-
-        document.getElementById('totalFiles').innerHTML = totalFilesCount;
-        document.getElementById('totalFolders').innerHTML = totalFoldersCount;
-        document.getElementById('totalSize').innerHTML = Math.round(totalSize / 1024);
-
-        try {
-          var commitResponse = await fetch('https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + '/commits?per_page=1');
-          if (commitResponse.ok) {
-            var commitData = await commitResponse.json();
-            var totalCommits = commitData.length > 0 ? '500+' : 'N/A';
-            document.getElementById('totalCommits').innerHTML = totalCommits;
-          }
-        } catch(e) {}
-
-        var previewContainer = document.getElementById('folderPreview');
-        var previewHtml = '';
-
-        var topFolders = folders.slice(0, 4);
-        for (var i = 0; i < topFolders.length; i++) {
-          var folder = topFolders[i];
-          var count = 0;
-          try {
-            var subItems = await getFolderContentsRecursive(folder.path);
-            if (subItems) count = subItems.length;
-          } catch(e) {}
-          previewHtml += '<div class="folder-item">';
-          previewHtml += '<i class="fas fa-folder"></i>';
-          previewHtml += '<span class="folder-name">' + folder.name + '</span>';
-          previewHtml += '<span class="folder-count">' + count + ' items</span>';
-          previewHtml += '</div>';
-        }
-
-        if (folders.length > 4) {
-          previewHtml += '<div class="folder-item" style="border-style:dashed;opacity:0.6;">';
-          previewHtml += '<i class="fas fa-ellipsis-h"></i>';
-          previewHtml += '<span class="folder-name">+ ' + (folders.length - 4) + ' more folders</span>';
-          previewHtml += '</div>';
-        }
-
-        previewContainer.innerHTML = previewHtml;
-
-      } catch(e) {
-        console.error('Error loading stats:', e);
-      }
-    }
-
-    // ============================================================
-    //  REFRESH FILE STRUCTURE
-    // ============================================================
-
-    function refreshFileStructure() {
-      showToast('Refreshing file structure...');
-      loadFileStructureStats();
-      var modal = document.getElementById('fileTreeModal');
-      if (modal.classList.contains('active')) {
-        buildFileTreeInModal();
-      }
-    }
-
-    // ============================================================
-    //  DOWNLOAD SOURCE CODE AS ZIP
-    // ============================================================
-
-    function downloadSourceCode() {
-      var url = 'https://github.com/' + REPO_OWNER + '/' + REPO_NAME + '/archive/refs/heads/main.zip';
-      showToast('Downloading source code...');
-      window.open(url, '_blank');
-      showToast('Download started!');
-    }
-
-    // ============================================================
-    //  TOAST NOTIFICATION
-    // ============================================================
-
+    
+    // ============================================
+    // TOAST FUNCTION
+    // ============================================
+    
     function showToast(message) {
       var container = document.getElementById('toastContainer');
       if (!container) return;
+      
       var toast = document.createElement('div');
       toast.className = 'toast';
       toast.innerHTML = '<i class="fas fa-info-circle"></i> ' + message;
       container.appendChild(toast);
+      
       setTimeout(function() {
         toast.style.opacity = '0';
         toast.style.transition = 'opacity 0.3s';
-        setTimeout(function() { if (toast.parentNode) toast.remove(); }, 300);
+        setTimeout(function() {
+          if (toast.parentNode) toast.parentNode.removeChild(toast);
+        }, 300);
       }, 3000);
     }
-
-    // ============================================================
-    //  AVATAR, FONT, MENU
-    // ============================================================
-
+    
+    // ============================================
+    // AVATAR
+    // ============================================
+    
     function updateHeaderAvatar() {
       try {
         var stored = localStorage.getItem('smartgrade_current');
@@ -2140,7 +1940,11 @@ console.log(badge.name);  // "First Grade"</code>
         }
       } catch(e) {}
     }
-
+    
+    // ============================================
+    // APPLY FONT
+    // ============================================
+    
     function applyGlobalFont() {
       var savedFont = localStorage.getItem('smartgrade_font_family') || 'inter';
       var fontMap = {
@@ -2159,55 +1963,52 @@ console.log(badge.name);  // "First Grade"</code>
       };
       document.body.style.fontFamily = fontMap[savedFont] || 'Inter, sans-serif';
     }
-
-    // ============================================================
-    //  INIT
-    // ============================================================
-
+    
+    // ============================================
+    // LOGOUT
+    // ============================================
+    
+    function logout() {
+      localStorage.removeItem('smartgrade_current');
+      window.location.href = 'index.html';
+    }
+    
+    // ============================================
+    // INIT
+    // ============================================
+    
     document.addEventListener('DOMContentLoaded', function() {
       updateHeaderAvatar();
       initMobileMenu();
       initThemeSelector();
       applyGlobalFont();
-      setTimeout(loadFileStructureStats, 500);
-      startAutoRefresh(); // Démarrer l'auto-refresh
-    });
-
-    // Close modal on Escape key
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        closeFileTreeModal();
+      initParticles();
+      
+      // Re-highlight code after page load
+      if (typeof Prism !== 'undefined') {
+        setTimeout(function() {
+          document.querySelectorAll('pre code').forEach(function(block) {
+            Prism.highlightElement(block);
+          });
+        }, 100);
       }
     });
-
-    // Close modal on click outside
-    document.getElementById('fileTreeModal').addEventListener('click', function(e) {
-      if (e.target === this) {
-        closeFileTreeModal();
-      }
+    
+    // Observer les changements de thème
+    var themeObserver = new MutationObserver(function() {
+      applyGlobalFont();
     });
-
-    var fontObserver = new MutationObserver(function() { applyGlobalFont(); });
-    fontObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-
-    function logout() {
-      localStorage.removeItem('smartgrade_current');
-      window.location.href = 'index.html';
-    }
-
+    themeObserver.observe(document.body, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+    
+    // Exposer les fonctions globales
+    window.copyCode = copyCode;
     window.logout = logout;
-    window.toggleFolderInModal = toggleFolderInModal;
-    window.openFileTreeModal = openFileTreeModal;
-    window.closeFileTreeModal = closeFileTreeModal;
-    window.downloadSourceCode = downloadSourceCode;
-    window.buildFileTreeInModal = buildFileTreeInModal;
-    window.getFolderContentsRecursive = getFolderContentsRecursive;
-    window.exploreFolder = exploreFolder;
-    window.loadFileStructureStats = loadFileStructureStats;
-    window.refreshFileStructure = refreshFileStructure;
-    window.startAutoRefresh = startAutoRefresh;
-    window.stopAutoRefresh = stopAutoRefresh;
+    window.showToast = showToast;
   </script>
+  
   <!-- PWA Manager -->
   <script src="js/pwa.js" defer></script>
 </body>

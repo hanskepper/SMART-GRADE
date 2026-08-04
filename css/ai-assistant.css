@@ -1503,3 +1503,32 @@ body.night-mode .zoom-indicator {
     padding: 4px 10px;
   }
 }
+/* ============================================
+   INDICATEUR DE SAISIE EN TEMPS RÉEL
+   ============================================ */
+
+.typing-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2ecc71;
+  animation: typingPulse 0.8s ease-in-out infinite;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+@keyframes typingPulse {
+  0%, 100% { 
+    opacity: 0.2; 
+    transform: scale(0.6);
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1.2);
+  }
+}
+
+body.night-mode .typing-indicator {
+  background: var(--secondary);
+}

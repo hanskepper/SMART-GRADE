@@ -1,7 +1,8 @@
 // ============================================
 // SMART GRADE - AI ASSISTANT (CORE)
-// UI, Chat, Conversations, Modèles
+// AVEC STREAMING - RÉPONSES EN TEMPS RÉEL
 // ============================================
+
 // ============================================
 // CONFIGURATION
 // ============================================
@@ -28,23 +29,27 @@ const MODELS = {
     url: 'https://api.groq.com/openai/v1/chat/completions', 
     model: 'qwen/qwen3.6-27b', 
     auth: 'Bearer ' + getGroqToken(),
-    available: true 
+    available: true,
+    supportsStreaming: true
   },
   'mistral-devstral': { 
     name: 'Devstral', 
     url: 'https://api.mistral.ai/v1/chat/completions', 
     model: 'devstral-medium-latest', 
     auth: 'Bearer ' + getMistralToken(),
-    available: true 
+    available: true,
+    supportsStreaming: true
   },
   'mistral-codestral': { 
     name: 'Codestral', 
     url: 'https://api.mistral.ai/v1/chat/completions', 
     model: 'codestral-latest', 
     auth: 'Bearer ' + getMistralToken(),
-    available: true 
+    available: true,
+    supportsStreaming: true
   }
 };
+
 const SUBJECTS_LIST = ["COMPUTER SCIENCES", "MATHEMATICS", "CHEMISTRY", "HUMAN BIOLOGY", "GEOLOGY", "PHYSICS", "ADDITIONAL MATHEMATICS", "BIOLOGY", "ECONOMICS", "ENGLISH LANGUAGE", "GEOGRAPHY", "CITIZENSHIP", "FRENCH", "FOOD AND NUTRITION"];
 
 const SMART_GRADE_INFO = `
@@ -86,6 +91,7 @@ var currentUser = null;
 var conversations = [];
 var currentConvId = null;
 var isLoading = false;
+var streamingActive = false;
 
 // ============================================
 // UTILITIES
@@ -279,12 +285,16 @@ function renderCurrentChat() {
 
     var avatarHtml = isUser ? getUserAvatar(currentUser.id) : getAssistantAvatar();
 
+    // Si c'est le dernier message et qu'il est en cours d'écriture
+    var isStreaming = streamingActive && i === conv.messages.length - 1 && !isUser;
+
     html += '<div class="message ' + (isUser ? 'user' : 'assistant') + '" id="msg_' + msg.id + '">' +
       '<div class="message-icon">' + avatarHtml + '</div>' +
       '<div class="message-bubble">' +
         formatMessage(content) +
         '<div class="message-time">' +
           '<i class="far fa-clock"></i> ' + formatTime(msg.timestamp) +
+          (isStreaming ? ' <span class="typing-indicator"></span>' : '') +
           '<span class="message-actions">' +
             '<button onclick="copyMessage(\'' + msg.id + '\')" title="Copy"><i class="fas fa-copy"></i></button>' +
             (isUser ? '<button onclick="editMessage(\'' + msg.id + '\')" title="Edit"><i class="fas fa-edit"></i></button>' : '') +
@@ -324,6 +334,50 @@ function renderCurrentChat() {
     });
 
   }, 400);
+}
+
+// ============================================
+// METTRE À JOUR UN MESSAGE EN TEMPS RÉEL (STREAMING)
+// ============================================
+
+function updateMessageContent(messageId, content) {
+  var container = document.getElementById('chatMessages');
+  if (!container) return;
+
+  var msgElement = document.getElementById('msg_' + messageId);
+  if (msgElement) {
+    var bubble = msgElement.querySelector('.message-bubble');
+    if (bubble) {
+      // Mettre à jour le contenu sans re-rendre tout
+      var formatted = formatMessage(content);
+      var timeStr = formatTime(new Date().toISOString());
+      
+      bubble.innerHTML = formatted + 
+        '<div class="message-time">' +
+          '<i class="far fa-clock"></i> ' + timeStr +
+          ' <span class="typing-indicator"></span>' +
+          '<span class="message-actions">' +
+            '<button onclick="copyMessage(\'' + messageId + '\')" title="Copy"><i class="fas fa-copy"></i></button>' +
+            '<button onclick="deleteMessage(\'' + messageId + '\')" class="delete-btn" title="Delete"><i class="fas fa-trash-alt"></i></button>' +
+          '</span>' +
+        '</div>';
+      
+      // Re-rendre Mermaid et MathJax
+      setTimeout(function() {
+        if (typeof renderMermaidDiagrams === 'function') {
+          renderMermaidDiagrams();
+        }
+        if (window.MathJax) {
+          MathJax.typesetPromise();
+        }
+        if (typeof Prism !== 'undefined') {
+          document.querySelectorAll('pre code').forEach(function(block) {
+            Prism.highlightElement(block);
+          });
+        }
+      }, 100);
+    }
+  }
 }
 
 // ============================================
@@ -494,8 +548,77 @@ function showThinking() {
 }
 
 // ============================================
-// API CALL
+// API CALL AVEC STREAMING (réponse mot par mot)
 // ============================================
+
+async function callAIAPIStream(messages, modelKey, onChunk) {
+  var config = MODELS[modelKey];
+  if (!config || !config.available) throw new Error(modelKey + ' not available');
+  if (!config.supportsStreaming) throw new Error(modelKey + ' does not support streaming');
+
+  var response = await fetch(config.url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': config.auth
+    },
+    body: JSON.stringify({
+      model: config.model,
+      messages: messages,
+      temperature: 0.7,
+      max_tokens: 4000,
+      stream: true  // ← ACTIVATION DU STREAMING
+    })
+  });
+
+  if (!response.ok) {
+    var errorText = await response.text();
+    if (response.status === 401) throw new Error('Invalid API key');
+    if (response.status === 429) throw new Error('Rate limit exceeded');
+    throw new Error('API error: ' + response.status);
+  }
+
+  // Lire le flux en temps réel
+  var reader = response.body.getReader();
+  var decoder = new TextDecoder();
+  var fullText = '';
+  var buffer = '';
+
+  while (true) {
+    var { done, value } = await reader.read();
+    if (done) break;
+
+    var chunk = decoder.decode(value);
+    buffer += chunk;
+    
+    // Traiter les lignes complètes
+    var lines = buffer.split('\n');
+    buffer = lines.pop() || '';
+
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i].trim();
+      if (line === '') continue;
+      
+      if (line.startsWith('data: ')) {
+        var jsonStr = line.substring(6);
+        if (jsonStr === '[DONE]') continue;
+
+        try {
+          var data = JSON.parse(jsonStr);
+          var content = data.choices[0].delta.content || '';
+          if (content) {
+            fullText += content;
+            if (onChunk) onChunk(content, fullText);
+          }
+        } catch(e) {
+          // Ignorer les erreurs de parsing
+        }
+      }
+    }
+  }
+
+  return fullText;
+}
 
 async function callAIAPI(messages, modelKey) {
   var config = MODELS[modelKey];
@@ -553,7 +676,7 @@ async function sendMessageWithFallback(messages) {
 }
 
 // ============================================
-// SEND MESSAGE
+// SEND MESSAGE AVEC STREAMING
 // ============================================
 
 async function sendMessage() {
@@ -565,6 +688,7 @@ async function sendMessage() {
   var conv = conversations.find(function(c) { return c.id === currentConvId; });
   if (!conv) return;
 
+  // Ajouter le message utilisateur
   var messageId = Date.now().toString() + '_' + Math.random().toString(36).substr(2, 6);
   conv.messages.push({ id: messageId, role: 'user', content: message, timestamp: new Date().toISOString() });
 
@@ -577,32 +701,77 @@ async function sendMessage() {
   input.value = '';
   input.style.height = 'auto';
   isLoading = true;
+  streamingActive = true;
 
-  var thinkingDiv = showThinking();
+  // Créer un message assistant vide
+  var assistantId = Date.now().toString() + '_' + Math.random().toString(36).substr(2, 6);
+  var assistantMessage = { 
+    id: assistantId, 
+    role: 'assistant', 
+    content: '', 
+    timestamp: new Date().toISOString() 
+  };
+  conv.messages.push(assistantMessage);
+  
+  // Afficher immédiatement le message vide avec indicateur de saisie
+  renderCurrentChat();
 
-  var historyMessages = conv.messages.slice(-10).map(function(msg) {
+  // Préparer l'historique
+  var historyMessages = conv.messages.slice(-10).filter(function(msg) {
+    return msg.role === 'user' || msg.role === 'assistant';
+  }).map(function(msg) {
     return { role: msg.role, content: msg.role === 'user' ? msg.content : cleanAIResponse(msg.content) };
   });
   var apiMessages = [{ role: 'system', content: getSystemPrompt(currentUser ? currentUser.name : 'student') }].concat(historyMessages);
 
-  var result = await sendMessageWithFallback(apiMessages);
+  try {
+    // Vérifier si le modèle supporte le streaming
+    var modelSupportsStreaming = MODELS[currentModel] && MODELS[currentModel].supportsStreaming;
+    
+    if (modelSupportsStreaming) {
+      // Appeler l'API en streaming
+      await callAIAPIStream(apiMessages, currentModel, function(chunk, fullText) {
+        // Mettre à jour le message en temps réel
+        var lastMsg = conv.messages[conv.messages.length - 1];
+        if (lastMsg && lastMsg.id === assistantId) {
+          lastMsg.content = fullText;
+          // Mettre à jour l'affichage
+          updateMessageContent(assistantId, fullText);
+        }
+      });
+    } else {
+      // Fallback sans streaming
+      var response = await callAIAPI(apiMessages, currentModel);
+      var lastMsg = conv.messages[conv.messages.length - 1];
+      if (lastMsg && lastMsg.id === assistantId) {
+        lastMsg.content = response;
+      }
+      renderCurrentChat();
+    }
 
-  if (thinkingDiv) thinkingDiv.remove();
-
-  var assistantId = Date.now().toString() + '_' + Math.random().toString(36).substr(2, 6);
-  if (result.success) {
-    var response = cleanAIResponse(result.response);
-    conv.messages.push({ id: assistantId, role: 'assistant', content: response, timestamp: new Date().toISOString() });
-    if (result.model !== currentModel) showToast('Used fallback: ' + MODELS[result.model].name);
-  } else {
-    conv.messages.push({ id: assistantId, role: 'assistant', content: '[ERROR] ' + result.error + '\n\nPlease try again later.', timestamp: new Date().toISOString() });
-    showToast(result.error);
+    // Nettoyer la réponse finale
+    var lastMsg = conv.messages[conv.messages.length - 1];
+    if (lastMsg && lastMsg.id === assistantId) {
+      lastMsg.content = cleanAIResponse(lastMsg.content);
+    }
+    
+    saveConversations();
+    renderCurrentChat();
+    
+  } catch(error) {
+    var lastMsg = conv.messages[conv.messages.length - 1];
+    if (lastMsg && lastMsg.id === assistantId) {
+      lastMsg.content = '[ERROR] ' + error.message + '\n\nPlease try again later.';
+    }
+    showToast(error.message);
+    renderCurrentChat();
   }
 
+  streamingActive = false;
+  isLoading = false;
   saveConversations();
   renderCurrentChat();
   renderConvListSettings();
-  isLoading = false;
 }
 
 // ============================================
@@ -1006,6 +1175,7 @@ window.copyMessage = copyMessage;
 window.editMessage = editMessage;
 window.deleteMessage = deleteMessage;
 window.exportConversation = exportConversation;
+window.updateMessageContent = updateMessageContent;
 
 // ============================================
 // DÉMARRER
@@ -1016,3 +1186,5 @@ if (document.readyState === 'loading') {
 } else {
   initChatPage();
 }
+
+console.log('AI Assistant Core loaded with STREAMING support');

@@ -1,6 +1,7 @@
 // ============================================
 // SMART GRADE - AI ASSISTANT (CORE)
-// AVEC STREAMING - RÉPONSES EN TEMPS RÉEL
+// STREAMING + TYPEWRITER INTELLIGENT
+// Détection LaTeX - Rendu complet des équations
 // ============================================
 
 // ============================================
@@ -92,6 +93,305 @@ var conversations = [];
 var currentConvId = null;
 var isLoading = false;
 var streamingActive = false;
+var mathJaxRenderTimeout = null;
+
+// ============================================
+// MATHJAX RENDU OPTIMISÉ
+// ============================================
+
+function renderMathJaxOptimized() {
+  if (!window.MathJax) {
+    console.warn('MathJax not loaded');
+    loadMathJax();
+    return;
+  }
+
+  if (mathJaxRenderTimeout) {
+    clearTimeout(mathJaxRenderTimeout);
+    mathJaxRenderTimeout = null;
+  }
+
+  mathJaxRenderTimeout = setTimeout(function() {
+    if (window.MathJax && MathJax.typesetPromise) {
+      MathJax.typesetPromise().then(function() {
+        console.log('MathJax rendered');
+        mathJaxRenderTimeout = null;
+      }).catch(function(err) {
+        console.warn('MathJax error:', err);
+        mathJaxRenderTimeout = null;
+      });
+    } else if (window.MathJax && MathJax.Hub) {
+      MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
+      mathJaxRenderTimeout = null;
+    }
+  }, 150);
+}
+
+function loadMathJax() {
+  if (document.getElementById('mathjax-script')) return;
+  
+  var script = document.createElement('script');
+  script.id = 'mathjax-script';
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js';
+  script.async = true;
+  script.onload = function() {
+    console.log('MathJax loaded');
+    setTimeout(renderMathJaxOptimized, 500);
+  };
+  document.head.appendChild(script);
+}
+
+function finalRenderComplete() {
+  // 1. MathJax
+  if (window.MathJax) {
+    if (MathJax.typesetPromise) {
+      MathJax.typesetPromise().then(function() {
+        console.log('MathJax final render complete');
+      });
+    } else if (MathJax.Hub) {
+      MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
+    }
+  }
+  
+  // 2. Mermaid
+  if (typeof renderMermaidDiagrams === 'function') {
+    renderMermaidDiagrams();
+  }
+  
+  // 3. Prism
+  if (typeof Prism !== 'undefined') {
+    document.querySelectorAll('pre code').forEach(function(block) {
+      Prism.highlightElement(block);
+    });
+  }
+  
+  // 4. Tableaux
+  document.querySelectorAll('.table-wrapper').forEach(function(el) {
+    el.style.overflowX = 'auto';
+  });
+}
+
+// ============================================
+// DÉTECTION DES ÉQUATIONS LATEX
+// ============================================
+
+function detectLatexBlocks(text) {
+  var blocks = [];
+  var i = 0;
+  var insideLatex = false;
+  var latexStart = 0;
+  var latexType = '';
+  
+  while (i < text.length) {
+    // Détection $$ ... $$
+    if (i < text.length - 1 && text[i] === '$' && text[i+1] === '$') {
+      if (!insideLatex) {
+        insideLatex = true;
+        latexStart = i;
+        latexType = 'display';
+        i += 2;
+      } else {
+        insideLatex = false;
+        blocks.push({
+          type: 'latex',
+          content: text.substring(latexStart + 2, i),
+          start: latexStart,
+          end: i + 2,
+          display: true
+        });
+        i += 2;
+      }
+      continue;
+    }
+    
+    // Détection $ ... $
+    if (text[i] === '$' && !insideLatex) {
+      if (i < text.length - 1 && text[i+1] === '$') {
+        i++;
+        continue;
+      }
+      insideLatex = true;
+      latexStart = i;
+      latexType = 'inline';
+      i++;
+      continue;
+    }
+    
+    if (text[i] === '$' && insideLatex && latexType === 'inline') {
+      insideLatex = false;
+      blocks.push({
+        type: 'latex',
+        content: text.substring(latexStart + 1, i),
+        start: latexStart,
+        end: i + 1,
+        display: false
+      });
+      i++;
+      continue;
+    }
+    
+    i++;
+  }
+  
+  // Équation non fermée
+  if (insideLatex) {
+    blocks.push({
+      type: 'latex',
+      content: text.substring(latexStart + (latexType === 'display' ? 2 : 1)),
+      start: latexStart,
+      end: text.length,
+      display: latexType === 'display',
+      incomplete: true
+    });
+  }
+  
+  return blocks;
+}
+
+// ============================================
+// TYPEWRITER INTELLIGENT AVEC DÉTECTION LATEX
+// ============================================
+
+function typewriterSmart(messageId, fullText, speed, onComplete) {
+  speed = speed || 25;
+  
+  var msgElement = document.getElementById('msg_' + messageId);
+  if (!msgElement) { if (onComplete) onComplete(); return; }
+  
+  var bubble = msgElement.querySelector('.message-bubble');
+  if (!bubble) { if (onComplete) onComplete(); return; }
+  
+  var timeHtml = bubble.querySelector('.message-time');
+  
+  // Détecter les équations
+  var latexBlocks = detectLatexBlocks(fullText);
+  var currentText = '';
+  var index = 0;
+  var isPaused = false;
+  
+  function renderCurrent(isFinal) {
+    var formatted = formatMessage(currentText);
+    
+    if (timeHtml) {
+      var timeHtmlClone = timeHtml.cloneNode(true);
+      
+      if (!isFinal) {
+        if (!timeHtmlClone.querySelector('.typing-indicator')) {
+          var indicator = document.createElement('span');
+          indicator.className = 'typing-indicator';
+          timeHtmlClone.appendChild(indicator);
+        }
+        if (!timeHtmlClone.querySelector('.typewriter-cursor')) {
+          var cursor = document.createElement('span');
+          cursor.className = 'typewriter-cursor';
+          timeHtmlClone.appendChild(cursor);
+        }
+      } else {
+        var indicator = timeHtmlClone.querySelector('.typing-indicator');
+        if (indicator) indicator.remove();
+        var cursor = timeHtmlClone.querySelector('.typewriter-cursor');
+        if (cursor) cursor.remove();
+      }
+      
+      bubble.innerHTML = formatted;
+      bubble.appendChild(timeHtmlClone);
+    } else {
+      bubble.innerHTML = formatted;
+    }
+    
+    var container = document.getElementById('chatMessages');
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
+    
+    if (window.MathJax && !isPaused) {
+      renderMathJaxOptimized();
+    }
+    
+    if (isFinal) {
+      setTimeout(function() {
+        finalRenderComplete();
+        if (onComplete) onComplete();
+      }, 300);
+    }
+  }
+  
+  function addLetter() {
+    if (isPaused) return;
+    
+    if (index >= fullText.length) {
+      renderCurrent(true);
+      return;
+    }
+    
+    // Vérifier si on est à une équation
+    var nextLatex = null;
+    for (var i = 0; i < latexBlocks.length; i++) {
+      var lb = latexBlocks[i];
+      if (lb.start <= index && lb.end > index) {
+        nextLatex = lb;
+        break;
+      }
+    }
+    
+    if (nextLatex) {
+      // PAUSE - RENDRE L'ÉQUATION COMPLÈTE
+      isPaused = true;
+      
+      // Ajouter indicateur de chargement
+      var loadingEl = document.createElement('span');
+      loadingEl.className = 'latex-loading';
+      loadingEl.innerHTML = ' ⏳';
+      
+      var timeEl = bubble.querySelector('.message-time');
+      if (timeEl) {
+        timeEl.appendChild(loadingEl);
+      }
+      
+      var eqEnd = nextLatex.end;
+      currentText = fullText.substring(0, eqEnd);
+      index = eqEnd;
+      
+      renderCurrent(false);
+      
+      // FORCER MATHJAX
+      setTimeout(function() {
+        if (window.MathJax) {
+          renderMathJaxOptimized();
+        }
+        var loading = bubble.querySelector('.latex-loading');
+        if (loading) loading.remove();
+        
+        isPaused = false;
+        setTimeout(addLetter, speed * 2);
+      }, 200);
+      
+      return;
+    }
+    
+    // Lettre normale
+    currentText += fullText[index];
+    index++;
+    
+    renderCurrent(false);
+    
+    var char = fullText[index - 1];
+    var delay = speed;
+    
+    if (char === ' ' || char === '\n') {
+      delay = speed * 1.5;
+    } else if (char === '.' || char === '!' || char === '?' || char === ',') {
+      delay = speed * 2.5;
+    }
+    
+    setTimeout(addLetter, delay);
+  }
+  
+  setTimeout(addLetter, 100);
+}
+
+// Alias pour compatibilité
+var typewriterEffect = typewriterSmart;
 
 // ============================================
 // UTILITIES
@@ -212,7 +512,7 @@ function formatMessage(text) {
   // Liens
   html = html.replace(/<a href=/g, '<a class="markdown-link" target="_blank" rel="noopener noreferrer" href=');
 
-  // Mermaid - appel à la fonction de zoom
+  // Mermaid - avec placeholder pendant le typewriter
   html = html.replace(/<pre><code class="language-mermaid">([\s\S]*?)<\/code><\/pre>/g, function(match, code) {
     var imgId = 'mermaid_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
     var escapedCode = code.replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -228,7 +528,11 @@ function formatMessage(text) {
             '<i class="fas fa-search-plus"></i>' +
           '</button>' +
         '</div>' +
-        '<div class="mermaid-render" id="mermaid_render_' + imgId + '"></div>' +
+        '<div class="mermaid-render" id="mermaid_render_' + imgId + '">' +
+          '<div style="text-align:center;padding:20px;color:var(--text-light);">' +
+            '<i class="fas fa-spinner fa-spin"></i> Diagram loading...' +
+          '</div>' +
+        '</div>' +
       '</div>' +
     '</div>';
   });
@@ -285,13 +589,14 @@ function renderCurrentChat() {
 
     var avatarHtml = isUser ? getUserAvatar(currentUser.id) : getAssistantAvatar();
 
-    // Si c'est le dernier message et qu'il est en cours d'écriture
     var isStreaming = streamingActive && i === conv.messages.length - 1 && !isUser;
+
+    var formattedContent = formatMessage(content);
 
     html += '<div class="message ' + (isUser ? 'user' : 'assistant') + '" id="msg_' + msg.id + '">' +
       '<div class="message-icon">' + avatarHtml + '</div>' +
       '<div class="message-bubble">' +
-        formatMessage(content) +
+        formattedContent +
         '<div class="message-time">' +
           '<i class="far fa-clock"></i> ' + formatTime(msg.timestamp) +
           (isStreaming ? ' <span class="typing-indicator"></span>' : '') +
@@ -308,11 +613,9 @@ function renderCurrentChat() {
   container.scrollTop = container.scrollHeight;
 
   setTimeout(function() {
-    // Appel à la fonction de rendu Mermaid (dans ai-assistant-zoom.js)
     if (typeof renderMermaidDiagrams === 'function') {
       renderMermaidDiagrams();
     }
-
     if (window.MathJax) {
       MathJax.typesetPromise().then(function() {
         console.log('MathJax rendered');
@@ -320,24 +623,21 @@ function renderCurrentChat() {
         console.warn('MathJax error:', err);
       });
     }
-
     if (typeof Prism !== 'undefined') {
       document.querySelectorAll('pre code').forEach(function(block) {
         Prism.highlightElement(block);
       });
     }
-
     document.querySelectorAll('.MathJax_Display').forEach(function(el) {
       if (el.scrollWidth > el.clientWidth) {
         el.style.overflowX = 'auto';
       }
     });
-
   }, 400);
 }
 
 // ============================================
-// METTRE À JOUR UN MESSAGE EN TEMPS RÉEL (STREAMING)
+// UPDATE MESSAGE EN TEMPS RÉEL (STREAMING)
 // ============================================
 
 function updateMessageContent(messageId, content) {
@@ -348,7 +648,6 @@ function updateMessageContent(messageId, content) {
   if (msgElement) {
     var bubble = msgElement.querySelector('.message-bubble');
     if (bubble) {
-      // Mettre à jour le contenu sans re-rendre tout
       var formatted = formatMessage(content);
       var timeStr = formatTime(new Date().toISOString());
       
@@ -362,13 +661,12 @@ function updateMessageContent(messageId, content) {
           '</span>' +
         '</div>';
       
-      // Re-rendre Mermaid et MathJax
       setTimeout(function() {
         if (typeof renderMermaidDiagrams === 'function') {
           renderMermaidDiagrams();
         }
         if (window.MathJax) {
-          MathJax.typesetPromise();
+          renderMathJaxOptimized();
         }
         if (typeof Prism !== 'undefined') {
           document.querySelectorAll('pre code').forEach(function(block) {
@@ -378,6 +676,37 @@ function updateMessageContent(messageId, content) {
       }, 100);
     }
   }
+}
+
+// ============================================
+// DISPLAY FULL TEXT (FALLBACK)
+// ============================================
+
+function displayFullText(messageId, fullText) {
+  var msgElement = document.getElementById('msg_' + messageId);
+  if (!msgElement) return;
+  
+  var bubble = msgElement.querySelector('.message-bubble');
+  if (!bubble) return;
+  
+  var formatted = formatMessage(fullText);
+  var timeHtml = bubble.querySelector('.message-time');
+  
+  if (timeHtml) {
+    var timeHtmlClone = timeHtml.cloneNode(true);
+    var indicator = timeHtmlClone.querySelector('.typing-indicator');
+    if (indicator) indicator.remove();
+    var cursor = timeHtmlClone.querySelector('.typewriter-cursor');
+    if (cursor) cursor.remove();
+    bubble.innerHTML = formatted;
+    bubble.appendChild(timeHtmlClone);
+  } else {
+    bubble.innerHTML = formatted;
+  }
+  
+  setTimeout(function() {
+    finalRenderComplete();
+  }, 200);
 }
 
 // ============================================
@@ -548,7 +877,7 @@ function showThinking() {
 }
 
 // ============================================
-// API CALL AVEC STREAMING (réponse mot par mot)
+// API CALL AVEC STREAMING
 // ============================================
 
 async function callAIAPIStream(messages, modelKey, onChunk) {
@@ -567,7 +896,7 @@ async function callAIAPIStream(messages, modelKey, onChunk) {
       messages: messages,
       temperature: 0.7,
       max_tokens: 4000,
-      stream: true  // ← ACTIVATION DU STREAMING
+      stream: true
     })
   });
 
@@ -578,7 +907,6 @@ async function callAIAPIStream(messages, modelKey, onChunk) {
     throw new Error('API error: ' + response.status);
   }
 
-  // Lire le flux en temps réel
   var reader = response.body.getReader();
   var decoder = new TextDecoder();
   var fullText = '';
@@ -591,7 +919,6 @@ async function callAIAPIStream(messages, modelKey, onChunk) {
     var chunk = decoder.decode(value);
     buffer += chunk;
     
-    // Traiter les lignes complètes
     var lines = buffer.split('\n');
     buffer = lines.pop() || '';
 
@@ -676,7 +1003,7 @@ async function sendMessageWithFallback(messages) {
 }
 
 // ============================================
-// SEND MESSAGE AVEC STREAMING
+// SEND MESSAGE AVEC TYPEWRITER INTELLIGENT
 // ============================================
 
 async function sendMessage() {
@@ -688,7 +1015,6 @@ async function sendMessage() {
   var conv = conversations.find(function(c) { return c.id === currentConvId; });
   if (!conv) return;
 
-  // Ajouter le message utilisateur
   var messageId = Date.now().toString() + '_' + Math.random().toString(36).substr(2, 6);
   conv.messages.push({ id: messageId, role: 'user', content: message, timestamp: new Date().toISOString() });
 
@@ -703,7 +1029,6 @@ async function sendMessage() {
   isLoading = true;
   streamingActive = true;
 
-  // Créer un message assistant vide
   var assistantId = Date.now().toString() + '_' + Math.random().toString(36).substr(2, 6);
   var assistantMessage = { 
     id: assistantId, 
@@ -713,10 +1038,8 @@ async function sendMessage() {
   };
   conv.messages.push(assistantMessage);
   
-  // Afficher immédiatement le message vide avec indicateur de saisie
   renderCurrentChat();
 
-  // Préparer l'historique
   var historyMessages = conv.messages.slice(-10).filter(function(msg) {
     return msg.role === 'user' || msg.role === 'assistant';
   }).map(function(msg) {
@@ -725,53 +1048,73 @@ async function sendMessage() {
   var apiMessages = [{ role: 'system', content: getSystemPrompt(currentUser ? currentUser.name : 'student') }].concat(historyMessages);
 
   try {
-    // Vérifier si le modèle supporte le streaming
     var modelSupportsStreaming = MODELS[currentModel] && MODELS[currentModel].supportsStreaming;
+    var fullResponse = '';
     
     if (modelSupportsStreaming) {
-      // Appeler l'API en streaming
       await callAIAPIStream(apiMessages, currentModel, function(chunk, fullText) {
-        // Mettre à jour le message en temps réel
+        fullResponse = fullText;
         var lastMsg = conv.messages[conv.messages.length - 1];
         if (lastMsg && lastMsg.id === assistantId) {
           lastMsg.content = fullText;
-          // Mettre à jour l'affichage
-          updateMessageContent(assistantId, fullText);
         }
       });
     } else {
-      // Fallback sans streaming
-      var response = await callAIAPI(apiMessages, currentModel);
+      fullResponse = await callAIAPI(apiMessages, currentModel);
       var lastMsg = conv.messages[conv.messages.length - 1];
       if (lastMsg && lastMsg.id === assistantId) {
-        lastMsg.content = response;
+        lastMsg.content = fullResponse;
       }
-      renderCurrentChat();
     }
 
-    // Nettoyer la réponse finale
+    var cleanedResponse = cleanAIResponse(fullResponse);
+    
     var lastMsg = conv.messages[conv.messages.length - 1];
     if (lastMsg && lastMsg.id === assistantId) {
-      lastMsg.content = cleanAIResponse(lastMsg.content);
+      lastMsg.content = cleanedResponse;
     }
     
     saveConversations();
-    renderCurrentChat();
+    
+    // TYPEWRITER INTELLIGENT AVEC DÉTECTION LATEX
+    typewriterSmart(assistantId, cleanedResponse, 18, function() {
+      console.log('Typewriter terminé');
+      streamingActive = false;
+      isLoading = false;
+      saveConversations();
+      renderConvListSettings();
+      
+      setTimeout(function() {
+        if (typeof renderMermaidDiagrams === 'function') {
+          renderMermaidDiagrams();
+        }
+        if (window.MathJax) {
+          MathJax.typesetPromise();
+        }
+        if (typeof Prism !== 'undefined') {
+          document.querySelectorAll('pre code').forEach(function(block) {
+            Prism.highlightElement(block);
+          });
+        }
+      }, 300);
+    });
+    
+    streamingActive = false;
     
   } catch(error) {
     var lastMsg = conv.messages[conv.messages.length - 1];
     if (lastMsg && lastMsg.id === assistantId) {
-      lastMsg.content = '[ERROR] ' + error.message + '\n\nPlease try again later.';
+      var errorMsg = '[ERROR] ' + error.message + '\n\nPlease try again later.';
+      lastMsg.content = errorMsg;
+      displayFullText(assistantId, errorMsg);
     }
     showToast(error.message);
+    streamingActive = false;
+    isLoading = false;
+    saveConversations();
     renderCurrentChat();
+    renderConvListSettings();
   }
-
-  streamingActive = false;
-  isLoading = false;
-  saveConversations();
-  renderCurrentChat();
-  renderConvListSettings();
 }
 
 // ============================================
@@ -1176,6 +1519,10 @@ window.editMessage = editMessage;
 window.deleteMessage = deleteMessage;
 window.exportConversation = exportConversation;
 window.updateMessageContent = updateMessageContent;
+window.typewriterSmart = typewriterSmart;
+window.displayFullText = displayFullText;
+window.renderMathJaxOptimized = renderMathJaxOptimized;
+window.finalRenderComplete = finalRenderComplete;
 
 // ============================================
 // DÉMARRER
@@ -1187,4 +1534,4 @@ if (document.readyState === 'loading') {
   initChatPage();
 }
 
-console.log('AI Assistant Core loaded with STREAMING support');
+console.log('AI Assistant Core loaded with SMART TYPEWRITER + LaTeX detection');

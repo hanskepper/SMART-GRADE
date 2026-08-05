@@ -344,7 +344,9 @@
         <div class="tab-btn" data-tab="import" onclick="switchTab('import')"><i class="fas fa-download"></i> Import</div>
       </div>
       
-      <!-- EXPORT TAB -->
+      <!-- ============================================
+           EXPORT TAB
+      ============================================ -->
       <div id="exportTab">
         <div class="glass-card">
           <div class="method-tab">
@@ -405,6 +407,10 @@
           
           <!-- METHODE QR CODE -->
           <div id="exportQRMethod" class="hidden">
+            <p style="font-size:0.65rem;color:var(--text-light);margin-bottom:16px;">
+              <i class="fas fa-qrcode"></i> <strong>QR Code Transfer</strong><br>
+              Generate a QR code to transfer your data. Valid for 10 minutes.
+            </p>
             <button id="generateQRBtn" class="btn-camera" onclick="generateRealQR()">
               <i class="fas fa-qrcode"></i> Generate QR Code
             </button>
@@ -417,7 +423,9 @@
         </div>
       </div>
       
-      <!-- IMPORT TAB -->
+      <!-- ============================================
+           IMPORT TAB
+      ============================================ -->
       <div id="importTab" class="hidden">
         <div class="glass-card">
           <div class="method-tab">
@@ -460,6 +468,10 @@
           
           <!-- IMPORT QR CODE -->
           <div id="importQRMethod" class="hidden">
+            <p style="font-size:0.65rem;color:var(--text-light);margin-bottom:16px;">
+              <i class="fas fa-camera"></i> <strong>Scan QR Code</strong><br>
+              Scan a QR code to import data from the cloud.
+            </p>
             <button id="startScannerBtn" class="btn-camera" onclick="startRealQRScanner()">
               <i class="fas fa-camera"></i> Scan QR Code
             </button>
@@ -1103,6 +1115,10 @@
     if (typeof initMobileMenu === 'function') initMobileMenu();
     if (typeof initThemeSelector === 'function') initThemeSelector();
   </script>
+  <!-- PWA Manager -->
+  <script src="js/pwa.js" defer></script>
+</body>
+</html>t>
   <!-- PWA Manager -->
   <script src="js/pwa.js" defer></script>
 </body>

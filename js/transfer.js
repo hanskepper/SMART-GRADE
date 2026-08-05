@@ -1,17 +1,18 @@
 // ============================================
 // SMART GRADE v5.0 - DATA TRANSFER SYSTEM
-// Transfert Local + En Ligne
+// Transfert Local + En Ligne + QR Code
 // ============================================
 
 // ============================================
-// GÉNÉRER UN CODE DE TRANSFERT
+// GÉNÉRER UN CODE DE TRANSFERT LOCAL
 // ============================================
+
 function generateTransferCode(studentId) {
   cleanExpiredCodes();
   
   var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   var code = '';
-  for (var i = 0; i < 8; i++) {
+  for (var i = 0; i < 6; i++) {
     code += chars.charAt(Math.floor(Math.random() * chars.length));
   }
   
@@ -20,7 +21,7 @@ function generateTransferCode(studentId) {
     studentId: studentId,
     data: exportAllData(studentId),
     created: Date.now(),
-    expires: Date.now() + (30 * 60 * 1000)
+    expires: Date.now() + (10 * 60 * 1000)
   };
   localStorage.setItem('smartgrade_transfer_codes', JSON.stringify(codes));
   
@@ -30,6 +31,7 @@ function generateTransferCode(studentId) {
 // ============================================
 // NETTOYER LES CODES EXPIRÉS
 // ============================================
+
 function cleanExpiredCodes() {
   var codes = JSON.parse(localStorage.getItem('smartgrade_transfer_codes') || '{}');
   var now = Date.now();
@@ -50,6 +52,7 @@ function cleanExpiredCodes() {
 // ============================================
 // RÉCUPÉRER LES DONNÉES D'UN CODE
 // ============================================
+
 function getTransferData(code) {
   var codes = JSON.parse(localStorage.getItem('smartgrade_transfer_codes') || '{}');
   var entry = codes[code];
@@ -68,6 +71,7 @@ function getTransferData(code) {
 // ============================================
 // EXPORTER TOUTES LES DONNÉES
 // ============================================
+
 function exportAllData(id) {
   var d = {
     version: '5.0',
@@ -93,14 +97,14 @@ function exportAllData(id) {
 }
 
 // ============================================
-// IMPORTER TOUTES LES DONNÉES (CORRIGÉ)
+// IMPORTER TOUTES LES DONNÉES
 // ============================================
+
 function importAllData(id, json) {
   try {
     var d = typeof json === 'string' ? JSON.parse(json) : json;
     if (!d.version) throw new Error('Invalid backup file');
     
-    // Restore all data
     if (d.grades) saveStudentGrades(id, d.grades);
     
     if (d.subjects) {
@@ -112,10 +116,7 @@ function importAllData(id, json) {
     if (d.coeffs) saveSubjectCoefficients(id, d.coeffs);
     if (d.achievements) localStorage.setItem('smartgrade_achievements_' + id, JSON.stringify(d.achievements));
     if (d.goal !== undefined) saveStudentGoal(id, d.goal);
-    
-    // RESTAURATION DU STREAK (AJOUTÉ)
     if (d.streak) saveStudentStreak(id, d.streak);
-    
     if (d.compensations) localStorage.setItem('smartgrade_compensations_' + id, JSON.stringify(d.compensations));
     if (d.profile) localStorage.setItem('smartgrade_profile_' + id, JSON.stringify(d.profile));
     if (d.flashcards) localStorage.setItem('smartgrade_flashcards_' + id, JSON.stringify(d.flashcards));
@@ -133,6 +134,7 @@ function importAllData(id, json) {
 // ============================================
 // COPIER DANS LE PRESSE-PAPIER
 // ============================================
+
 function copyToClipboard(text) {
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(function() {
@@ -164,6 +166,7 @@ function fallbackCopy(text) {
 // ============================================
 // TÉLÉCHARGER UN FICHIER JSON
 // ============================================
+
 function downloadJSON(data, filename) {
   var blob = new Blob([data], { type: 'application/json' });
   var url = URL.createObjectURL(blob);
@@ -179,6 +182,7 @@ function downloadJSON(data, filename) {
 // ============================================
 // EXPORTER (BACKUP)
 // ============================================
+
 function exportData(id) {
   var data = exportAllData(id);
   var filename = 'SMART_GRADE_Backup_' + new Date().toISOString().split('T')[0] + '.json';
@@ -189,6 +193,7 @@ function exportData(id) {
 // ============================================
 // SYNCHRONISATION
 // ============================================
+
 function simulateSync(id) {
   var key = 'smartgrade_sync_' + id;
   var lastSync = JSON.parse(localStorage.getItem(key) || 'null');
@@ -216,6 +221,7 @@ function simulateSync(id) {
 // ============================================
 // AFFICHER LE STATUT DE SYNCHRO
 // ============================================
+
 function showSyncStatus() {
   var student = JSON.parse(localStorage.getItem('smartgrade_current') || 'null');
   if (!student) return;
@@ -232,6 +238,7 @@ function showSyncStatus() {
 // ============================================
 // COMMAND SYSTEM
 // ============================================
+
 var COMMANDS = {
   export: function(id) {
     var data = exportAllData(id);

@@ -16,7 +16,6 @@
   <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
   <meta name="theme-color" content="#0f3b48">
   
-  <!-- CONFIGURATION -->
   <script src="congfig.js"></script>
   
   <style>
@@ -215,263 +214,84 @@
     }
     
     /* ============================================
-       QR CODE MODERNE
+       QR CODE - MÊME STYLE QUE LES AUTRES CODES
     ============================================ */
     
-    .qr-modern-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+    .qr-code-box {
+      background: linear-gradient(135deg, rgba(15,59,72,0.08), rgba(0,255,255,0.05));
+      border: 2px dashed var(--primary);
+      border-radius: 20px;
       padding: 24px;
-      background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
-      border-radius: 24px;
-      box-shadow: 0 8px 32px rgba(15,59,72,0.15);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(15,59,72,0.08);
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      max-width: 320px;
-      margin: 0 auto;
+      text-align: center;
+      margin-top: 16px;
     }
     
-    .qr-modern-container::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle at 30% 50%, rgba(15,59,72,0.03), transparent 60%);
-      pointer-events: none;
-    }
-    
-    .qr-modern-container .qr-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
+    .qr-code-box .qr-header {
       font-size: 0.8rem;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--primary);
-      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
     }
     
-    .qr-modern-container .qr-header i {
-      font-size: 1.2rem;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+    .qr-code-box .qr-header i {
+      color: var(--secondary);
+      margin-right: 6px;
     }
     
-    .qr-modern-container .qr-code-wrapper {
+    .qr-code-box .qr-wrapper {
       background: white;
       padding: 16px;
       border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-      border: 2px solid rgba(15,59,72,0.06);
-      transition: all 0.3s ease;
-      position: relative;
-      z-index: 1;
+      display: inline-block;
+      margin: 8px 0;
     }
     
-    .qr-modern-container .qr-code-wrapper:hover {
-      transform: scale(1.02);
-      border-color: var(--primary);
-      box-shadow: 0 8px 30px rgba(15,59,72,0.15);
-    }
-    
-    .qr-modern-container .qr-code-wrapper canvas {
+    .qr-code-box .qr-wrapper canvas {
       display: block;
       width: 200px;
       height: 200px;
       border-radius: 8px;
     }
     
-    .qr-modern-container .qr-code-wrapper .qr-overlay {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(15,59,72,0.9);
-      color: white;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.5rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-    }
-    
-    .qr-modern-container .qr-code-wrapper:hover .qr-overlay {
-      opacity: 1;
-    }
-    
-    .qr-modern-container .qr-actions {
-      display: flex;
-      gap: 12px;
-      margin-top: 16px;
-      width: 100%;
-      position: relative;
-      z-index: 1;
-    }
-    
-    .qr-modern-container .qr-actions button {
-      flex: 1;
-      padding: 10px 16px;
-      border-radius: 40px;
-      border: none;
-      font-weight: 600;
+    .qr-code-box .qr-timer {
       font-size: 0.7rem;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-family: inherit;
-    }
-    
-    .qr-modern-container .qr-actions .btn-download {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-      box-shadow: 0 4px 12px rgba(15,59,72,0.2);
-    }
-    
-    .qr-modern-container .qr-actions .btn-download:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(15,59,72,0.3);
-    }
-    
-    .qr-modern-container .qr-actions .btn-copy {
-      background: rgba(0,0,0,0.04);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    
-    .qr-modern-container .qr-actions .btn-copy:hover {
-      background: rgba(0,0,0,0.08);
-      transform: translateY(-2px);
-    }
-    
-    .qr-modern-container .qr-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid var(--border);
-      font-size: 0.55rem;
-      color: var(--text-light);
-    }
-    
-    .qr-modern-container .qr-footer .code-display {
-      font-family: 'Courier Prime', monospace;
-      font-weight: 700;
-      color: var(--primary);
-      font-size: 0.8rem;
-      letter-spacing: 2px;
-      background: rgba(15,59,72,0.04);
-      padding: 4px 12px;
-      border-radius: 20px;
-    }
-    
-    .qr-modern-container .qr-footer .expiry-display {
-      display: flex;
-      align-items: center;
-      gap: 4px;
       color: #e74c3c;
+      font-weight: 600;
+      margin-top: 8px;
     }
     
-    .qr-modern-container .qr-footer .expiry-display i {
-      font-size: 0.65rem;
+    body.night-mode .qr-code-box {
+      background: rgba(255,255,255,0.03);
+      border-color: rgba(255,255,255,0.1);
     }
     
-    /* Mode nuit */
-    body.night-mode .qr-modern-container {
-      background: linear-gradient(145deg, rgba(20,30,40,0.95), rgba(15,20,30,0.9));
-      border-color: rgba(255,255,255,0.06);
-    }
-    
-    body.night-mode .qr-modern-container .qr-code-wrapper {
+    body.night-mode .qr-code-box .qr-wrapper {
       background: #1a1a2e;
-      border-color: rgba(255,255,255,0.06);
     }
     
-    body.night-mode .qr-modern-container .qr-code-wrapper canvas {
+    body.night-mode .qr-code-box .qr-wrapper canvas {
       filter: brightness(0.95);
     }
     
-    body.night-mode .qr-modern-container .qr-actions .btn-copy {
-      background: rgba(255,255,255,0.06);
-      color: var(--text);
-      border-color: rgba(255,255,255,0.08);
+    body.night-mode .qr-code-box .qr-header {
+      color: var(--secondary);
     }
     
-    body.night-mode .qr-modern-container .qr-actions .btn-copy:hover {
-      background: rgba(255,255,255,0.12);
-    }
-    
-    body.night-mode .qr-modern-container .qr-footer .code-display {
-      background: rgba(255,255,255,0.06);
-    }
-    
-    /* Animation d'apparition */
-    .qr-modern-container {
-      animation: qrFadeIn 0.5s ease;
-    }
-    
-    @keyframes qrFadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px) scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-    
-    /* Responsive */
     @media (max-width: 550px) {
-      .qr-modern-container {
-        padding: 16px;
-        border-radius: 20px;
-      }
-      
-      .qr-modern-container .qr-code-wrapper canvas {
+      .qr-code-box .qr-wrapper canvas {
         width: 160px;
         height: 160px;
       }
-      
-      .qr-modern-container .qr-actions {
-        flex-direction: column;
+      .qr-code-box {
+        padding: 16px;
       }
-      
-      .qr-modern-container .qr-footer {
-        flex-direction: column;
-        gap: 6px;
-        text-align: center;
-      }
-      
-      .transfer-code {
-        font-size: 1rem;
-        letter-spacing: 1px;
-      }
-      
       .code-input-group {
         flex-direction: column;
       }
-      
       .method-tab {
         flex-direction: column;
       }
-      
       .code-input {
         width: 100%;
       }
@@ -545,7 +365,7 @@
               <i class="fas fa-server"></i> <strong>Local Transfer</strong><br>
               Generate a local transfer code. Valid for 10 minutes.
             </p>
-            <button id="generateLocalBtn" class="btn-local">
+            <button id="generateLocalBtn" class="btn-local" onclick="generateLocalTransfer()">
               <i class="fas fa-code"></i> Generate Local Code
             </button>
             <div id="localDisplayArea" style="display:none;">
@@ -554,7 +374,7 @@
                 <p>Your local transfer code is:</p>
                 <div class="transfer-code" id="localTransferCode">XXXXXXXX</div>
                 <div class="expiry-timer">Expires in <span id="localCountdown">10:00</span></div>
-                <button id="copyLocalCodeBtn" class="btn-secondary" style="margin-top:12px;width:auto;padding:8px 20px;">
+                <button id="copyLocalCodeBtn" class="btn-secondary" style="margin-top:12px;width:auto;padding:8px 20px;" onclick="copyLocalCode()">
                   <i class="fas fa-copy"></i> Copy Code
                 </button>
               </div>
@@ -567,7 +387,7 @@
               <i class="fas fa-cloud-upload-alt"></i> <strong>Cloud Transfer (GitHub Gist)</strong><br>
               Upload data to GitHub. Valid for 10 minutes.
             </p>
-            <button id="generateCloudBtn" class="btn-cloud">
+            <button id="generateCloudBtn" class="btn-cloud" onclick="generateCloudTransfer()">
               <i class="fas fa-cloud-upload-alt"></i> Generate Cloud Code
             </button>
             <div id="cloudDisplayArea" style="display:none;">
@@ -576,7 +396,7 @@
                 <p>Your cloud transfer code is:</p>
                 <div class="transfer-code" id="cloudTransferCode">XXXXXXXX</div>
                 <div class="expiry-timer">Expires in <span id="cloudCountdown">10:00</span></div>
-                <button id="copyCloudCodeBtn" class="btn-secondary" style="margin-top:12px;width:auto;padding:8px 20px;">
+                <button id="copyCloudCodeBtn" class="btn-secondary" style="margin-top:12px;width:auto;padding:8px 20px;" onclick="copyCloudCode()">
                   <i class="fas fa-copy"></i> Copy Code
                 </button>
               </div>
@@ -585,12 +405,10 @@
           
           <!-- METHODE QR CODE -->
           <div id="exportQRMethod" class="hidden">
-            <p style="font-size:0.65rem;color:var(--text-light);margin-bottom:16px;">
-              <i class="fas fa-qrcode"></i> <strong>QR Code Transfer</strong><br>
-              Generate a QR code linked to cloud data.
-            </p>
-            <button id="generateQRBtn" class="btn-camera"><i class="fas fa-qrcode"></i> Generate QR Code</button>
-            <div id="qrDisplayArea" style="display:none;">
+            <button id="generateQRBtn" class="btn-camera" onclick="generateRealQR()">
+              <i class="fas fa-qrcode"></i> Generate QR Code
+            </button>
+            <div id="qrDisplayArea" style="display:none;margin-top:16px;">
               <div id="qrCodeContainer"></div>
             </div>
           </div>
@@ -621,7 +439,7 @@
             </p>
             <div class="code-input-group">
               <input type="text" id="importLocalInput" class="code-input" maxlength="8" placeholder="XXXXXXXX" autocomplete="off">
-              <button id="importLocalBtn" class="btn-local" style="width:auto;padding:12px 24px;">
+              <button id="importLocalBtn" class="btn-local" style="width:auto;padding:12px 24px;" onclick="importLocalTransfer()">
                 <i class="fas fa-download"></i> Import
               </button>
             </div>
@@ -634,7 +452,7 @@
             </p>
             <div class="code-input-group">
               <input type="text" id="importCloudInput" class="code-input" maxlength="8" placeholder="XXXXXXXX" autocomplete="off">
-              <button id="importCloudBtn" class="btn-cloud" style="width:auto;padding:12px 24px;">
+              <button id="importCloudBtn" class="btn-cloud" style="width:auto;padding:12px 24px;" onclick="importCloudTransfer()">
                 <i class="fas fa-cloud-download-alt"></i> Import
               </button>
             </div>
@@ -642,16 +460,14 @@
           
           <!-- IMPORT QR CODE -->
           <div id="importQRMethod" class="hidden">
-            <p style="font-size:0.65rem;color:var(--text-light);margin-bottom:16px;">
-              <i class="fas fa-camera"></i> Scan QR code:
-            </p>
-            <button id="startScannerBtn" class="btn-camera">
-              <i class="fas fa-camera"></i> Start Camera
+            <button id="startScannerBtn" class="btn-camera" onclick="startRealQRScanner()">
+              <i class="fas fa-camera"></i> Scan QR Code
             </button>
             <div id="scannerContainer" class="scanner-area" style="display:none;"></div>
-            <button id="stopScannerBtn" class="btn-stop-camera" style="display:none;">
+            <button id="stopScannerBtn" class="btn-stop-camera" style="display:none;" onclick="stopRealQRScanner()">
               <i class="fas fa-stop"></i> Stop Camera
             </button>
+            <div id="qrImportStatus" class="transfer-status" style="display:none;"></div>
           </div>
           
           <div id="importStatus" class="transfer-status" style="display:none;"></div>
@@ -678,6 +494,7 @@
     var currentUser = null;
     var currentLocalCode = null;
     var currentCloudCode = null;
+    var currentQRCode = null;
     var localTimer = null;
     var cloudTimer = null;
     var qrTimer = null;
@@ -889,173 +706,116 @@
     }
     
     // ============================================
-    // QR CODE MODERNISÉ
+    // QR CODE RÉEL AVEC GITHUB GIST
     // ============================================
     
-    async function generateQRTransfer() {
+    async function generateRealQR() {
+      currentUser = getCurrentStudent();
+      if (!currentUser) {
+        showToast('Please login first');
+        return;
+      }
+      
       var exportData = exportCompleteUserData(currentUser.id);
       if (!exportData) {
         showToast('Failed to export data');
         return;
       }
-
+      
+      showToast('Generating...');
+      
       var code = await TransferManager.generateCode(currentUser.id, currentUser.name, exportData);
-
-      if (code) {
-        currentLocalCode = code;
-
-        var qrContainer = document.getElementById('qrCodeContainer');
-        qrContainer.innerHTML = '';
-
-        // ✅ Conteneur modernisé
-        var modernWrapper = document.createElement('div');
-        modernWrapper.className = 'qr-modern-container';
-        
-        // En-tête
-        var header = document.createElement('div');
-        header.className = 'qr-header';
-        header.innerHTML = '<i class="fas fa-qrcode"></i> Scan to transfer';
-        modernWrapper.appendChild(header);
-
-        // Wrapper QR + overlay
-        var codeWrapper = document.createElement('div');
-        codeWrapper.className = 'qr-code-wrapper';
-        codeWrapper.style.position = 'relative';
-        
-        // Conteneur du QR
-        var qrInner = document.createElement('div');
-        qrInner.id = 'qrInner';
-        codeWrapper.appendChild(qrInner);
-
-        // Overlay (apparaît au survol)
-        var overlay = document.createElement('div');
-        overlay.className = 'qr-overlay';
-        overlay.innerHTML = '🔍 SCAN ME';
-        codeWrapper.appendChild(overlay);
-        
-        modernWrapper.appendChild(codeWrapper);
-
-        // Actions (boutons)
-        var actions = document.createElement('div');
-        actions.className = 'qr-actions';
-        actions.innerHTML = `
-          <button class="btn-download" onclick="downloadQRCode()">
-            <i class="fas fa-download"></i> Save
-          </button>
-          <button class="btn-copy" onclick="copyQRCode()">
-            <i class="fas fa-copy"></i> Copy Code
-          </button>
-        `;
-        modernWrapper.appendChild(actions);
-
-        // Footer avec code et expiration
-        var footer = document.createElement('div');
-        footer.className = 'qr-footer';
-        footer.innerHTML = `
-          <span class="code-display">${code}</span>
-          <span class="expiry-display">
-            <i class="fas fa-clock"></i>
-            <span id="qrCountdownModern">10:00</span>
-          </span>
-        `;
-        modernWrapper.appendChild(footer);
-
-        qrContainer.appendChild(modernWrapper);
-
-        // Générer le QR code dans qrInner
-        var qrData = window.location.origin + window.location.pathname + '?code=' + code;
-
-        new QRCode(document.getElementById('qrInner'), {
-          text: qrData,
-          width: 220,
-          height: 220,
-          colorDark: '#0f3b48',
-          colorLight: '#ffffff',
-          correctLevel: QRCode.CorrectLevel.H
-        });
-
-        document.getElementById('qrDisplayArea').style.display = 'block';
-
-        if (qrTimer) clearInterval(qrTimer);
-
-        // Timer avec mise à jour du footer
-        var remaining = 600;
-        qrTimer = setInterval(function() {
-          remaining--;
-          var mins = Math.floor(remaining / 60);
-          var secs = remaining % 60;
-          var countdownEl = document.querySelector('.expiry-display span');
-          if (countdownEl) {
-            countdownEl.innerHTML = mins.toString().padStart(2, '0') + ':' + secs.toString().padStart(2, '0');
-          }
-          
-          if (remaining <= 0) {
-            clearInterval(qrTimer);
-            document.getElementById('qrDisplayArea').style.display = 'none';
-            showToast('QR code expired');
-          }
-        }, 1000);
-
-        showToast('QR Code generated');
-
-      } else {
+      
+      if (!code) {
         showToast('Failed to generate QR code');
+        return;
       }
+      
+      currentQRCode = code;
+      
+      var container = document.getElementById('qrCodeContainer');
+      container.innerHTML = '';
+      
+      // QR Code Box - MÊME STYLE QUE LES AUTRES
+      var box = document.createElement('div');
+      box.className = 'qr-code-box';
+      
+      // En-tête
+      var header = document.createElement('div');
+      header.className = 'qr-header';
+      header.innerHTML = '<i class="fas fa-qrcode"></i> Scan to transfer';
+      box.appendChild(header);
+      
+      // QR Code
+      var wrapper = document.createElement('div');
+      wrapper.className = 'qr-wrapper';
+      
+      var qrInner = document.createElement('div');
+      qrInner.id = 'qrInner';
+      wrapper.appendChild(qrInner);
+      
+      box.appendChild(wrapper);
+      
+      // Timer
+      var timer = document.createElement('div');
+      timer.className = 'qr-timer';
+      timer.innerHTML = 'Expires in <span id="qrCountdownReal">10:00</span>';
+      box.appendChild(timer);
+      
+      container.appendChild(box);
+      
+      // Générer le QR Code
+      new QRCode(document.getElementById('qrInner'), {
+        text: code,
+        width: 200,
+        height: 200,
+        colorDark: '#0f3b48',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      });
+      
+      document.getElementById('qrDisplayArea').style.display = 'block';
+      
+      // Timer 10 minutes
+      if (qrTimer) clearInterval(qrTimer);
+      
+      var remaining = 600;
+      qrTimer = setInterval(function() {
+        remaining--;
+        var mins = Math.floor(remaining / 60);
+        var secs = remaining % 60;
+        var el = document.getElementById('qrCountdownReal');
+        if (el) {
+          el.innerHTML = mins.toString().padStart(2, '0') + ':' + secs.toString().padStart(2, '0');
+        }
+        
+        if (remaining <= 0) {
+          clearInterval(qrTimer);
+          document.getElementById('qrDisplayArea').style.display = 'none';
+          showToast('QR code expired');
+        }
+      }, 1000);
+      
+      showToast('QR Code ready!');
     }
     
     // ============================================
-    // QR CODE ACTIONS
+    // SCANNER QR CODE
     // ============================================
     
-    function copyQRCode() {
-      if (currentLocalCode) {
-        navigator.clipboard.writeText(currentLocalCode).then(function() {
-          showToast('Code copied!');
-        }).catch(function() {
-          prompt('Copy this code:', currentLocalCode);
-        });
-      }
-    }
-    
-    function downloadQRCode() {
-      var canvas = document.querySelector('#qrInner canvas');
-      if (canvas) {
-        var tempCanvas = document.createElement('canvas');
-        var size = 600;
-        tempCanvas.width = size;
-        tempCanvas.height = size;
-        var ctx = tempCanvas.getContext('2d');
-        
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, size, size);
-        
-        var padding = 40;
-        ctx.drawImage(canvas, padding, padding, size - padding * 2, size - padding * 2);
-        
-        ctx.fillStyle = '#0f3b48';
-        ctx.font = '16px Inter, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('SMART GRADE', size / 2, size - 15);
-        
-        var link = document.createElement('a');
-        link.download = 'qrcode_smartgrade.png';
-        link.href = tempCanvas.toDataURL('image/png');
-        link.click();
-        showToast('QR Code saved');
-      } else {
-        showToast('No QR code to save');
-      }
-    }
-    
-    // ============================================
-    // QR SCANNER
-    // ============================================
-    
-    function startQRScanner() {
+    function startRealQRScanner() {
       var container = document.getElementById('scannerContainer');
       var startBtn = document.getElementById('startScannerBtn');
       var stopBtn = document.getElementById('stopScannerBtn');
-      var statusDiv = document.getElementById('importStatus');
+      var statusDiv = document.getElementById('qrImportStatus');
+      
+      currentUser = getCurrentStudent();
+      if (!currentUser) {
+        statusDiv.style.display = 'block';
+        statusDiv.className = 'transfer-status status-error';
+        statusDiv.innerHTML = 'Please login first';
+        return;
+      }
       
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         statusDiv.style.display = 'block';
@@ -1066,35 +826,54 @@
       
       statusDiv.style.display = 'block';
       statusDiv.className = 'transfer-status status-info';
-      statusDiv.innerHTML = 'Requesting camera...';
+      statusDiv.innerHTML = 'Starting camera...';
       
-      navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
-        .then(function(stream) {
-          stream.getTracks().forEach(function(track) { track.stop(); });
-          container.style.display = 'block';
-          startBtn.style.display = 'none';
-          stopBtn.style.display = 'block';
-          statusDiv.style.display = 'none';
-          
-          qrScanner = new Html5Qrcode("scannerContainer");
-          qrScanner.start(
-            { facingMode: "environment" },
-            { fps: 10, qrbox: { width: 250, height: 250 } },
-            async function(decodedText) {
-              stopQRScanner();
-              
-              var scannedCode = '';
-              if (decodedText.includes('?code=')) {
-                scannedCode = decodedText.split('?code=')[1].substring(0, 6).toUpperCase();
-              } else if (decodedText.length === 6) {
-                scannedCode = decodedText.trim().toUpperCase();
+      navigator.mediaDevices.getUserMedia({ 
+        video: { 
+          facingMode: "environment",
+          width: { ideal: 640 },
+          height: { ideal: 480 }
+        } 
+      })
+      .then(function(stream) {
+        stream.getTracks().forEach(function(track) { track.stop(); });
+        
+        container.style.display = 'block';
+        startBtn.style.display = 'none';
+        stopBtn.style.display = 'block';
+        statusDiv.style.display = 'none';
+        
+        qrScanner = new Html5Qrcode("scannerContainer");
+        
+        qrScanner.start(
+          { facingMode: "environment" },
+          { 
+            fps: 15, 
+            qrbox: { width: 250, height: 250 }
+          },
+          function(decodedText) {
+            stopRealQRScanner();
+            
+            statusDiv.style.display = 'block';
+            statusDiv.className = 'transfer-status status-info';
+            statusDiv.innerHTML = 'Processing...';
+            
+            var scannedCode = decodedText.trim().toUpperCase();
+            
+            if (scannedCode.includes('?code=')) {
+              var parts = scannedCode.split('?code=');
+              if (parts.length > 1) {
+                scannedCode = parts[1].substring(0, 6).toUpperCase();
               }
+            }
+            
+            scannedCode = scannedCode.replace(/[^A-Z0-9]/g, '');
+            
+            if (scannedCode.length >= 6) {
+              scannedCode = scannedCode.substring(0, 6);
               
-              if (scannedCode && scannedCode.length === 6) {
-                var transfer = await TransferManager.getTransfer(scannedCode);
-                
+              TransferManager.getTransfer(scannedCode).then(function(transfer) {
                 if (!transfer) {
-                  statusDiv.style.display = 'block';
                   statusDiv.className = 'transfer-status status-error';
                   statusDiv.innerHTML = 'Invalid or expired QR code';
                   return;
@@ -1108,39 +887,42 @@
                   onConfirm: function() {
                     var result = importCompleteUserData(currentUser.id, transfer.data);
                     if (result.success) {
-                      statusDiv.style.display = 'block';
                       statusDiv.className = 'transfer-status status-success';
-                      statusDiv.innerHTML = 'Import successful! Reloading...';
+                      statusDiv.innerHTML = '✅ Import successful! Reloading...';
                       setTimeout(function() { location.reload(); }, 1500);
                     } else {
-                      statusDiv.style.display = 'block';
                       statusDiv.className = 'transfer-status status-error';
                       statusDiv.innerHTML = result.message;
                     }
                   }
                 });
-              } else {
-                statusDiv.style.display = 'block';
-                statusDiv.className = 'transfer-status status-error';
-                statusDiv.innerHTML = 'Invalid QR code';
-              }
-            },
-            function() {}
-          );
-        })
-        .catch(function() {
+              });
+            } else {
+              statusDiv.className = 'transfer-status status-error';
+              statusDiv.innerHTML = 'Invalid QR code';
+            }
+          },
+          function(errorMessage) {}
+        ).catch(function(err) {
           statusDiv.style.display = 'block';
           statusDiv.className = 'transfer-status status-error';
-          statusDiv.innerHTML = 'Camera permission denied';
+          statusDiv.innerHTML = 'Camera error: ' + err.message;
         });
+      })
+      .catch(function() {
+        statusDiv.style.display = 'block';
+        statusDiv.className = 'transfer-status status-error';
+        statusDiv.innerHTML = 'Camera permission denied';
+      });
     }
     
-    function stopQRScanner() {
+    function stopRealQRScanner() {
       if (qrScanner && qrScanner.isScanning) {
         qrScanner.stop().then(function() {
           document.getElementById('scannerContainer').style.display = 'none';
           document.getElementById('startScannerBtn').style.display = 'block';
           document.getElementById('stopScannerBtn').style.display = 'none';
+          document.getElementById('qrImportStatus').style.display = 'none';
           qrScanner = null;
         });
       } else {
@@ -1208,7 +990,7 @@
         document.getElementById('importLocalInput').value = '';
         document.getElementById('importCloudInput').value = '';
         document.getElementById('importStatus').style.display = 'none';
-        stopQRScanner();
+        stopRealQRScanner();
       }
     }
     
@@ -1249,13 +1031,13 @@
         cloud.classList.add('hidden');
         qr.classList.add('hidden');
         document.querySelector('#importTab .method-btn[data-method="local"]').classList.add('active');
-        stopQRScanner();
+        stopRealQRScanner();
       } else if (method === 'cloud') {
         local.classList.add('hidden');
         cloud.classList.remove('hidden');
         qr.classList.add('hidden');
         document.querySelector('#importTab .method-btn[data-method="cloud"]').classList.add('active');
-        stopQRScanner();
+        stopRealQRScanner();
       } else if (method === 'qr') {
         local.classList.add('hidden');
         cloud.classList.add('hidden');
@@ -1278,10 +1060,8 @@
       initHeaderProfile();
       cleanExpired();
       
-      // Nettoyer les codes expirés au démarrage
       TransferManager.cleanExpired();
       
-      // Nettoyer automatiquement toutes les 30 secondes
       setInterval(function() {
         TransferManager.cleanExpired();
       }, 30 * 1000);
@@ -1299,21 +1079,7 @@
     }
     
     // ============================================
-    // EVENTS
-    // ============================================
-    
-    document.getElementById('generateLocalBtn').onclick = generateLocalTransfer;
-    document.getElementById('importLocalBtn').onclick = importLocalTransfer;
-    document.getElementById('generateCloudBtn').onclick = generateCloudTransfer;
-    document.getElementById('importCloudBtn').onclick = importCloudTransfer;
-    document.getElementById('generateQRBtn').onclick = generateQRTransfer;
-    document.getElementById('copyLocalCodeBtn').onclick = copyLocalCode;
-    document.getElementById('copyCloudCodeBtn').onclick = copyCloudCode;
-    document.getElementById('startScannerBtn').onclick = startQRScanner;
-    document.getElementById('stopScannerBtn').onclick = stopQRScanner;
-    
-    // ============================================
-    // EXPORTER LES FONCTIONS GLOBALES
+    // EXPOSER LES FONCTIONS GLOBALES
     // ============================================
     
     window.switchTab = switchTab;
@@ -1323,13 +1089,11 @@
     window.importLocalTransfer = importLocalTransfer;
     window.generateCloudTransfer = generateCloudTransfer;
     window.importCloudTransfer = importCloudTransfer;
-    window.generateQRTransfer = generateQRTransfer;
-    window.startQRScanner = startQRScanner;
-    window.stopQRScanner = stopQRScanner;
+    window.generateRealQR = generateRealQR;
+    window.startRealQRScanner = startRealQRScanner;
+    window.stopRealQRScanner = stopRealQRScanner;
     window.copyLocalCode = copyLocalCode;
     window.copyCloudCode = copyCloudCode;
-    window.copyQRCode = copyQRCode;
-    window.downloadQRCode = downloadQRCode;
     
     // ============================================
     // DÉMARRER

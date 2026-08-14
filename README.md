@@ -7,6 +7,14 @@
   <img src="./images/header_bg.png" alt="SMART GRADE Header" width="100%" style="max-width:100%;">
 </p>
 
+<!-- BADGE AWESOME STYLISÉ SMART GRADE - PLEINE LARGEUR -->
+<p align="center">
+  <a href="https://awesome.re" target="_blank">
+    <img src="https://img.shields.io/badge/⭐%20AWESOME%20LIST-SMART%20GRADE%20V5.0-0f3b48?style=for-the-badge&logo=github&logoColor=white&labelColor=1a5276&color=0f3b48&width=100%" alt="Awesome SMART GRADE" width="100%">
+  </a>
+</p>
+
+
 <div align="center">
   <img src="https://capsule-render.vercel.app/api?type=waving&color=0f3b48&height=150&section=header&text=SMART%20GRADE&fontSize=50&fontColor=ffffff&animation=twinkling" width="100%">
 </div>
@@ -16,11 +24,7 @@
   <span style="font-size:0.9rem;color:#4a627a;">Academic Year 2026-2027</span>
 </p>
 
-<!-- BADGES 2 PAR LIGNE -->
-<!-- ============================================ -->
 <!-- BADGES SMART GRADE -->
-<!-- ============================================ -->
-
 <p align="center">
   <a href="https://hanskepper.github.io/SMART-GRADE/">
     <img src="https://img.shields.io/badge/PWA_Enabled-5A0FC8?style=flat-square&logo=pwa&logoColor=white">
@@ -31,10 +35,11 @@
   <a href="https://github.com/hanskepper/SMART-GRADE/stargazers">
     <img src="https://img.shields.io/badge/Stars-2-0f3b48?style=flat-square&logo=github&logoColor=white">
   </a>
+</p>
+
 <p align="center">
   <img src="./images/banner.png" alt="SMART GRADE Banner" width="100%">
 </p>
-
 
 <!-- ============================================ -->
 <!-- STATISTIQUES SMART GRADE -->

@@ -90,6 +90,7 @@
 | 10 | [Developer](#10-developer) |
 | 11 | [License](#11-license) |
 | 12 | [GitHub Repository](#12-github-repository) |
+| 13 | [ Awesome Resources](AWESOME.md) |
 
 ---
 <!-- ============================================ -->
@@ -820,7 +821,33 @@ open index.html
 ```
 
 ---
+---
+## 13. 📚 Awesome Resources
 
+> A curated list of the best resources, tools, libraries, and projects around **intelligent grading**, **automated assessment**, and **educational grade management**.
+
+Check out our complete awesome list here :
+
+👉 **[Awesome Smart Grade](AWESOME.md)**
+
+This list includes :
+- 🛠️ Automated Grading Tools
+- 🤖 AI & Machine Learning in Education
+- 📊 Grade Calculation Libraries
+- 🏫 Learning Management Systems (LMS)
+- 🏆 Badges & Gamification
+- 📈 Data Visualization
+- 🖥️ Frameworks & Tools
+- 📱 Mobile Apps for Education
+- 🌍 Open Source Projects
+- 📚 Articles & Research
+- 👥 Communities
+
+---
+
+*Contributions are welcome ! Read the [CONTRIBUTING.md](CONTRIBUTING.md) to get started.*
+
+---
 <!-- ============================================ -->
 <!-- FOOTER -->
 <!-- ============================================ -->

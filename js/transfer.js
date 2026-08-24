@@ -88,7 +88,6 @@ function exportAllData(id) {
     goal: getStudentGoal(id),
     streak: getStudentStreak(id),
     compensations: JSON.parse(localStorage.getItem('smartgrade_compensations_' + id) || '{}'),
-    history: JSON.parse(localStorage.getItem('smartgrade_history_' + id) || '[]'),
     profile: JSON.parse(localStorage.getItem('smartgrade_profile_' + id) || '{}'),
     flashcards: JSON.parse(localStorage.getItem('smartgrade_flashcards_' + id) || '[]'),
     goals: JSON.parse(localStorage.getItem('smartgrade_goals_detail_' + id) || '{}')
@@ -121,9 +120,7 @@ function importAllData(id, json) {
     if (d.profile) localStorage.setItem('smartgrade_profile_' + id, JSON.stringify(d.profile));
     if (d.flashcards) localStorage.setItem('smartgrade_flashcards_' + id, JSON.stringify(d.flashcards));
     if (d.goals) localStorage.setItem('smartgrade_goals_detail_' + id, JSON.stringify(d.goals));
-    if (d.history) localStorage.setItem('smartgrade_history_' + id, JSON.stringify(d.history));
     
-    addHistory(id, 'Data imported from transfer');
     return { success: true, message: 'Data imported successfully!' };
     
   } catch (e) {
@@ -205,7 +202,6 @@ function simulateSync(id) {
   
   if (!lastSync) {
     localStorage.setItem(key, JSON.stringify(currentData));
-    addHistory(id, 'First sync completed');
     return { synced: true, message: 'First sync completed' };
   }
   
@@ -214,7 +210,6 @@ function simulateSync(id) {
   }
   
   localStorage.setItem(key, JSON.stringify(currentData));
-  addHistory(id, 'Sync completed');
   return { synced: true, message: 'Sync completed' };
 }
 

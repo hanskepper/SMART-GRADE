@@ -9,7 +9,7 @@ function authenticateWithPin(studentId, pin) {
   setCurrentStudent(s);
   updateStreakOnVisit(s.id);
   
-  // ⭐ NOTIFICATION DE CONNEXION RÉUSSIE
+  // ⭐ FEEDBACK DE CONNEXION
   if (typeof notifyLoginSuccess === 'function') {
     notifyLoginSuccess(s.name);
   }
@@ -49,7 +49,7 @@ function updateUserPin(studentId, oldPin, newPin) {
     setCurrentStudent(current);
   }
   
-  // ⭐ NOTIFICATION
+  // ⭐ FEEDBACK
   if (typeof notifyPinChanged === 'function') {
     notifyPinChanged();
   }
@@ -113,7 +113,7 @@ function registerFingerprint(studentId, studentName, callback) {
         saveAllStudents(students);
       }
       
-      // ⭐ NOTIFICATION
+      // ⭐ FEEDBACK
       if (typeof notifyFingerprintEnabled === 'function') {
         notifyFingerprintEnabled();
       }
@@ -158,7 +158,7 @@ function loginWithFingerprint(callback) {
       setCurrentStudent(student);
       updateStreakOnVisit(student.id);
       
-      // ⭐ NOTIFICATION
+      // ⭐ FEEDBACK
       if (typeof notifyLoginSuccess === 'function') {
         notifyLoginSuccess(student.name);
       }
@@ -178,7 +178,7 @@ function removeFingerprint(studentId) {
     students[index].fingerprintHash = null;
     saveAllStudents(students);
     
-    // ⭐ NOTIFICATION
+    // ⭐ FEEDBACK
     if (typeof notifyFingerprintRemoved === 'function') {
       notifyFingerprintRemoved();
     }
@@ -189,53 +189,31 @@ function removeFingerprint(studentId) {
 }
 
 // ============================================
-// NOTIFICATIONS SPÉCIFIQUES À L'AUTHENTIFICATION
+// TOAST FEEDBACK SPÉCIFIQUE À L'AUTHENTIFICATION
 // ============================================
 
 function notifyLoginSuccess(userName) {
-  if (typeof addNotification === 'function') {
-    addNotification('account', 'Login Successful', 'Welcome back, ' + userName + '!');
-  } else {
-    showToast('Welcome back, ' + userName + '!');
-  }
+  showToast('Welcome back, ' + userName + '!');
 }
 
 function notifyPinChanged() {
-  if (typeof addNotification === 'function') {
-    addNotification('account', 'PIN Changed', 'Your security PIN has been updated successfully');
-  } else {
-    showToast('PIN changed successfully');
-  }
+  showToast('PIN changed successfully');
 }
 
 function notifyFingerprintEnabled() {
-  if (typeof addNotification === 'function') {
-    addNotification('account', 'Fingerprint Enabled', 'You can now login using your fingerprint');
-  } else {
-    showToast('Fingerprint enabled');
-  }
+  showToast('Fingerprint enabled');
 }
 
 function notifyFingerprintRemoved() {
-  if (typeof addNotification === 'function') {
-    addNotification('account', 'Fingerprint Removed', 'Fingerprint login has been disabled');
-  } else {
-    showToast('Fingerprint removed');
-  }
+  showToast('Fingerprint removed');
 }
 
 function notifyAccountCreated(userId, userName) {
-  if (typeof addNotification === 'function') {
-    addNotification('account', 'Account Created', 'Welcome ' + userName + '! Your account has been created');
-  } else {
-    showToast('Account created successfully!');
-  }
+  showToast('Account created successfully!');
 }
 
 function notifyLoginFailed(reason) {
-  if (typeof addNotification === 'function') {
-    addNotification('account', 'Login Failed', reason || 'Invalid credentials');
-  }
+  showToast(reason || 'Invalid credentials');
 }
 
 // ============================================
@@ -256,4 +234,4 @@ window.notifyFingerprintRemoved = notifyFingerprintRemoved;
 window.notifyAccountCreated = notifyAccountCreated;
 window.notifyLoginFailed = notifyLoginFailed;
 
-console.log('Auth.js loaded with notifications');
+console.log('Auth.js loaded');

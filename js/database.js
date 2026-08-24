@@ -54,28 +54,8 @@ function getDefaultAvatarPNG(gender) {
 }
 
 // ============================================
-// NOTIFICATION SYSTEM
+// TOAST SYSTEM
 // ============================================
-
-function addNotification(type, title, body) {
-  try {
-    var stored = localStorage.getItem('smartgrade_current');
-    var user = stored ? JSON.parse(stored) : null;
-    if (!user || !user.id) return;
-    
-    var notifs = JSON.parse(localStorage.getItem('smartgrade_notifications_' + user.id) || '[]');
-    notifs.unshift({
-      id: Date.now(),
-      type: type,
-      title: title,
-      body: body,
-      date: new Date().toISOString(),
-      read: false
-    });
-    if (notifs.length > 200) notifs = notifs.slice(0, 200);
-    localStorage.setItem('smartgrade_notifications_' + user.id, JSON.stringify(notifs));
-  } catch(e) {}
-}
 
 function showToast(message) {
   var container = document.getElementById('toastContainer');
@@ -226,8 +206,6 @@ function createStudentAccount(name, number, className, pin, gender) {
     gender: gender
   });
   
-  addNotification('account', 'Account Created', 'Welcome ' + name + '! Your account has been created');
-  
   return { success: true, student: st };
 }
 
@@ -302,7 +280,6 @@ function getStudentGrades(id) {
 
 function saveStudentGrades(id, g) {
   localStorage.setItem('smartgrade_grades_' + id, JSON.stringify(g));
-  addHistory(id, 'Grades updated (' + g.length + ' total)');
 }
 
 // ============================================
@@ -317,7 +294,6 @@ function getStudentSelectedSubjects(id, term) {
 
 function saveStudentSelectedSubjects(id, term, subjs) {
   localStorage.setItem('smartgrade_selected_' + id + '_term' + term, JSON.stringify(subjs));
-  addHistory(id, 'Term ' + term + ' subjects updated');
 }
 
 function getActiveSubjectsWithCoefficients(id, term) {
@@ -349,7 +325,6 @@ function getSubjectCoefficient(id, sid) {
 
 function saveSubjectCoefficients(id, c) {
   localStorage.setItem('smartgrade_coeffs_' + id, JSON.stringify(c));
-  addHistory(id, 'Coefficients updated');
 }
 
 // ============================================
@@ -443,7 +418,6 @@ function updateStreakOnVisit(id) {
   if (!s.lastLogin) {
     s = { days: 1, lastLogin: today };
     saveStudentStreak(id, s);
-    addNotification('streak', 'Streak Started!', 'Day 1 - Keep logging in daily!');
     return s;
   }
   
@@ -460,9 +434,6 @@ function updateStreakOnVisit(id) {
     return s;
   }
   
-  if (s.days > 0) {
-    addNotification('streak', 'Streak Broken', 'Your ' + s.days + ' day streak has ended. Start a new one!');
-  }
   s = { days: 1, lastLogin: today };
   saveStudentStreak(id, s);
   return s;
@@ -533,8 +504,6 @@ function applyCompensation(studentId, termNum, removedSubjectId) {
   var comps = getAllComps(studentId);
   comps[termNum] = compData;
   saveAllComps(studentId, comps);
-  
-  addNotification('academic', 'Compensation Applied', 'Term ' + termNum + ' average preserved after removing subject');
   
   return { success: true, data: compData };
 }
@@ -627,17 +596,6 @@ function getGoalsDetail(studentId) {
 
 function saveGoalsDetail(studentId, goals) {
   localStorage.setItem('smartgrade_goals_detail_' + studentId, JSON.stringify(goals));
-}
-
-// ============================================
-// HISTORY
-// ============================================
-
-function addHistory(id, action) {
-  var h = JSON.parse(localStorage.getItem('smartgrade_history_' + id) || '[]');
-  h.unshift({ action: action, date: new Date().toISOString(), timestamp: Date.now() });
-  if (h.length > 50) h = h.slice(0, 50);
-  localStorage.setItem('smartgrade_history_' + id, JSON.stringify(h));
 }
 
 // ============================================
@@ -976,7 +934,6 @@ function unlockBadgeById(studentId, badgeId) {
   var msg = 'Badge unlocked: ' + badge.name;
   console.log(msg);
   showToast(msg);
-  addNotification('badge', msg, badge.desc);
   
   if (badgeId !== 13) {
     checkFullAchievementBadge(studentId);
@@ -1097,8 +1054,6 @@ window.getFlashcards = getFlashcards;
 window.saveFlashcards = saveFlashcards;
 window.getGoalsDetail = getGoalsDetail;
 window.saveGoalsDetail = saveGoalsDetail;
-window.addHistory = addHistory;
-window.addNotification = addNotification;
 window.applyCompensation = applyCompensation;
 window.getAllComps = getAllComps;
 window.saveAllComps = saveAllComps;

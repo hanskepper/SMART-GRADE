@@ -130,30 +130,8 @@ function initParticles() {
 }
 
 // ============================================
-// 4. NOTIFICATIONS MÉTIER
+// 4. TOAST HELPERS
 // ============================================
-
-function addNotification(type, title, body) {
-  try {
-    var stored = localStorage.getItem('smartgrade_current');
-    var user = stored ? JSON.parse(stored) : null;
-    if (!user || !user.id) return;
-    
-    var notifs = JSON.parse(localStorage.getItem('smartgrade_notifications_' + user.id) || '[]');
-    notifs.unshift({
-      id: Date.now(),
-      type: type,
-      title: title,
-      body: body,
-      date: new Date().toISOString(),
-      read: false
-    });
-    if (notifs.length > 200) notifs = notifs.slice(0, 200);
-    localStorage.setItem('smartgrade_notifications_' + user.id, JSON.stringify(notifs));
-  } catch(e) {}
-  
-  showToast(title + ': ' + body);
-}
 
 // ============================================
 // 5. CONFIRMATION DIALOG
@@ -693,9 +671,7 @@ function exportCompleteUserData(studentId) {
       achievements: getStudentAchievements(studentId),
       goal: parseFloat(localStorage.getItem('smartgrade_goal_' + studentId) || 12),
       streak: getStudentStreak(studentId),
-      profile: getProfile(studentId),
-      history: JSON.parse(localStorage.getItem('smartgrade_history_' + studentId) || '[]'),
-      notifications: JSON.parse(localStorage.getItem('smartgrade_notifications_' + studentId) || '[]')
+      profile: getProfile(studentId)
     };
     
     return JSON.stringify(completeData, null, 2);
@@ -731,8 +707,6 @@ function importCompleteUserData(studentId, jsonData) {
     if (data.goal !== undefined) localStorage.setItem('smartgrade_goal_' + studentId, data.goal);
     if (data.streak) localStorage.setItem('smartgrade_streak_' + studentId, JSON.stringify(data.streak));
     if (data.profile) localStorage.setItem('smartgrade_profile_' + studentId, JSON.stringify(data.profile));
-    if (data.history) localStorage.setItem('smartgrade_history_' + studentId, JSON.stringify(data.history));
-    if (data.notifications) localStorage.setItem('smartgrade_notifications_' + studentId, JSON.stringify(data.notifications));
     
     return { success: true, message: 'Data imported successfully' };
   } catch(e) {
@@ -828,22 +802,6 @@ function getStudentFlashcards(studentId) {
   } catch(e) { return []; }
 }
 
-// Fonction pour obtenir l'historique (alias)
-function getStudentHistory(studentId) {
-  try {
-    var d = localStorage.getItem('smartgrade_history_' + studentId);
-    return d ? JSON.parse(d) : [];
-  } catch(e) { return []; }
-}
-
-// Fonction pour obtenir les notifications (alias)
-function getStudentNotifications(studentId) {
-  try {
-    var d = localStorage.getItem('smartgrade_notifications_' + studentId);
-    return d ? JSON.parse(d) : [];
-  } catch(e) { return []; }
-}
-
 // Fonction pour obtenir les backups (alias)
 function getStudentBackups(studentId) {
   try {
@@ -872,8 +830,6 @@ function getStudentCompensations(studentId) {
 window.getStudentSelectedSubjectsForTerm = getStudentSelectedSubjectsForTerm;
 window.getSubjectCoefficientsForStudent = getSubjectCoefficientsForStudent;
 window.getStudentFlashcards = getStudentFlashcards;
-window.getStudentHistory = getStudentHistory;
-window.getStudentNotifications = getStudentNotifications;
 window.getStudentBackups = getStudentBackups;
 window.getStudentGoalsDetail = getStudentGoalsDetail;
 window.getStudentCompensations = getStudentCompensations;

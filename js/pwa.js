@@ -16,7 +16,6 @@ var PWA_CONFIG = {
   storagePrefix: 'smartgrade_',
   cacheName: 'smartgrade-v5-0-0',
   transferCodeExpiry: 5, // minutes
-  maxHistoryItems: 50,
   maxFavorites: 6,
   defaultGoal: 12,
   maxSubjects: 14,

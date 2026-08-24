@@ -180,7 +180,6 @@
           streak: JSON.parse(localStorage.getItem('smartgrade_streak_' + currentUser.id) || '{"days":0,"lastLogin":null}'),
           profile: JSON.parse(localStorage.getItem('smartgrade_profile_' + currentUser.id) || '{}'),
           flashcards: JSON.parse(localStorage.getItem('smartgrade_flashcards_' + currentUser.id) || '[]'),
-          history: JSON.parse(localStorage.getItem('smartgrade_history_' + currentUser.id) || '[]'),
           compensations: JSON.parse(localStorage.getItem('smartgrade_compensations_' + currentUser.id) || '{}'),
           goalsDetail: JSON.parse(localStorage.getItem('smartgrade_goals_detail_' + currentUser.id) || '{}')
         };
@@ -216,15 +215,8 @@
         if (data.streak) localStorage.setItem('smartgrade_streak_' + currentUser.id, JSON.stringify(data.streak));
         if (data.profile) localStorage.setItem('smartgrade_profile_' + currentUser.id, JSON.stringify(data.profile));
         if (data.flashcards) localStorage.setItem('smartgrade_flashcards_' + currentUser.id, JSON.stringify(data.flashcards));
-        if (data.history) localStorage.setItem('smartgrade_history_' + currentUser.id, JSON.stringify(data.history));
         if (data.compensations) localStorage.setItem('smartgrade_compensations_' + currentUser.id, JSON.stringify(data.compensations));
         if (data.goalsDetail) localStorage.setItem('smartgrade_goals_detail_' + currentUser.id, JSON.stringify(data.goalsDetail));
-        
-        // Ajouter un historique d'import
-        var history = JSON.parse(localStorage.getItem('smartgrade_history_' + currentUser.id) || '[]');
-        history.unshift({ action: 'Complete data imported via backup', date: new Date().toISOString() });
-        if (history.length > 50) history = history.slice(0, 50);
-        localStorage.setItem('smartgrade_history_' + currentUser.id, JSON.stringify(history));
         
         return { success: true, message: 'Data imported successfully' };
       } catch(e) {

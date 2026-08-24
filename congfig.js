@@ -10,8 +10,6 @@ var APP_CONFIG = {
   // 📦 GISTS - TOUS LES IDs SONT MAINTENANT À JOUR
   gists: {
     transfer: '1bfd71bdd3000bc36897dce828c4059d',
-    homeworks: '235b10d5857c3c2ba651763084037d0d',  // ← NOUVEAU GIST
-    chat: 'c5aecf9b63facc6fa6af50eee3dd4b1b',
     universal: '63e5bc65589c1ce622459ab48c167a1b'
   },
   
@@ -61,7 +59,6 @@ var APP_CONFIG = {
     maxSubjectsPerTerm: 14,
     minSubjectsPerTerm: 10,
     maxFavorites: 6,
-    maxHistoryItems: 50,
     maxFlashcardsPerSubject: 100,
     defaultCoefficient: 5,
     pinLength: 4,
@@ -134,7 +131,6 @@ var APP_CONFIG = {
     biometric: true,
     qrCode: true,
     camera: true,
-    notifications: true,
     export: true,
     backup: true,
     flashcards: true,
@@ -142,9 +138,7 @@ var APP_CONFIG = {
     timetable: true,
     achievements: true,
     streaks: true,
-    chat: true,
     transfer: true,
-    homework: true,
     cloudSync: true,
     aiAssistant: true,
     multiSearch: true,
@@ -204,5 +198,3 @@ if (typeof module !== 'undefined' && module.exports) {
 
 console.log('[Config] SMART GRADE v' + APP_CONFIG.version);
 console.log('[Config] Gist Transfer:', APP_CONFIG.gists.transfer);
-console.log('[Config] Gist Homeworks:', APP_CONFIG.gists.homeworks);
-console.log('[Config] Gist Chat:', APP_CONFIG.gists.chat);

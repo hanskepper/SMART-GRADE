@@ -999,7 +999,6 @@
             <a href="#badges"><i class="fas fa-chevron-right"></i> Badges List</a>
             <a href="#ai-assistant"><i class="fas fa-chevron-right"></i> AI Assistant</a>
             <a href="#transfer-system"><i class="fas fa-chevron-right"></i> Transfer System</a>
-            <a href="#homework-manager"><i class="fas fa-chevron-right"></i> Homework Manager</a>
             <a href="#contact"><i class="fas fa-chevron-right"></i> Contact</a>
           </div>
         </div>
@@ -1026,7 +1025,7 @@
           <div class="api-grid">
             <div class="api-card">
               <h4><i class="fab fa-html5"></i> HTML5</h4>
-              <p>Semantic markup, localStorage API, Canvas API, MediaDevices API, Notification API, Vibration API, Clipboard API</p>
+              <p>Semantic markup, localStorage API, Canvas API, MediaDevices API, Vibration API, Clipboard API</p>
             </div>
             <div class="api-card">
               <h4><i class="fab fa-css3-alt"></i> CSS3</h4>
@@ -1053,11 +1052,10 @@
             <li><strong>utils.js</strong> - Core utility functions (formatting, calculations, export/import)</li>
             <li><strong>database.js</strong> - All localStorage operations (CRUD for students, grades, subjects)</li>
             <li><strong>auth.js</strong> - PIN and fingerprint authentication</li>
-            <li><strong>app.js</strong> - UI initialization (themes, menu, particles, notifications)</li>
+            <li><strong>app.js</strong> - UI initialization (themes, menu, particles)</li>
             <li><strong>transfer.js</strong> - Cloud and QR code data transfer</li>
             <li><strong>confirm-dialog.js</strong> - Custom confirmation dialogs</li>
             <li><strong>install-handler.js</strong> - PWA installation across browsers</li>
-            <li><strong>cloud-sync.js</strong> - Automatic cloud backup</li>
             <li><strong>ai-assistant-core.js</strong> - AI chat and model management</li>
             <li><strong>ai-assistant-ui.js</strong> - Mermaid diagrams and zoom</li>
           </ul>
@@ -1191,16 +1189,6 @@ var data = exportCompleteUserData(user.id);</code></pre>
               <h4>Flashcards</h4>
               <p><code class="api-path">smartgrade_flashcards_{userId}</code></p>
               <p>User-created flashcards</p>
-            </div>
-            <div class="api-card">
-              <h4>History</h4>
-              <p><code class="api-path">smartgrade_history_{userId}</code></p>
-              <p>Activity log</p>
-            </div>
-            <div class="api-card">
-              <h4>Notifications</h4>
-              <p><code class="api-path">smartgrade_notifications_{userId}</code></p>
-              <p>User notifications</p>
             </div>
             <div class="api-card">
               <h4>Goals</h4>
@@ -1574,7 +1562,7 @@ if (result.success) {
           </div>
           
           <div class="info">
-            <i class="fas fa-info-circle"></i> The JSON backup includes all user data: grades, subjects, coefficients, achievements, streak, profile, flashcards, and history.
+            <i class="fas fa-info-circle"></i> The JSON backup includes all user data: grades, subjects, coefficients, achievements, streak, profile, and flashcards.
           </div>
         </div>
         
@@ -1694,41 +1682,6 @@ console.log(badge.name);  // "First Grade"</code></pre>
           
           <div class="warning">
             <i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> Transfer codes are valid for 10 minutes only. QR codes also expire after 10 minutes.
-          </div>
-        </div>
-        
-        <!-- ============================================
-             SECTION 17: HOMEWORK MANAGER
-        ============================================ -->
-        <div id="homework-manager" class="doc-section">
-          <h3><i class="fas fa-tasks"></i> 17. Homework Manager</h3>
-          <p>The Homework Manager allows teachers to create and manage assignments, and students to view them.</p>
-          
-          <h4>Features</h4>
-          <ul>
-            <li><i class="fas fa-plus-circle"></i> <strong>Add Homework:</strong> Teachers can create assignments with title, subject, due date, and description</li>
-            <li><i class="fas fa-paperclip"></i> <strong>File Attachments:</strong> Support for images, videos, audio, PDFs, Word documents, and text files</li>
-            <li><i class="fas fa-cloud-upload-alt"></i> <strong>Cloud Sync:</strong> All homework data is stored and synced via GitHub Gist</li>
-            <li><i class="fas fa-filter"></i> <strong>Filter by Subject:</strong> Students can filter homework by subject</li>
-            <li><i class="fas fa-edit"></i> <strong>Edit/Delete:</strong> Teachers can edit or delete assignments</li>
-          </ul>
-          
-          <h4>Admin Access</h4>
-          <ul>
-            <li>Teachers access the admin panel via <code>admin-homework.html</code></li>
-            <li>Admin password is required for security</li>
-            <li>Homework is stored in <code>homeworks.json</code> on GitHub Gist</li>
-          </ul>
-          
-          <h4>Student View</h4>
-          <ul>
-            <li>Students view homework on the <code>homeworks.html</code> page</li>
-            <li>Click on any homework card to see full details</li>
-            <li>Attachments can be downloaded directly</li>
-          </ul>
-          
-          <div class="info">
-            <i class="fas fa-info-circle"></i> <strong>Note:</strong> The Homework Manager uses GitHub Gist for cloud storage. All data is synced automatically.
           </div>
         </div>
         

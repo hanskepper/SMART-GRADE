@@ -239,23 +239,6 @@
 | **Subject Tagging** | Tag notes by subject |
 | **Full-Text Search** | Search through all notes |
 
-### Homework Manager
-
-| Feature | Description |
-|---------|-------------|
-| **Admin Panel** | Teachers can manage assignments |
-| **File Attachments** | Images, videos, PDFs |
-| **Cloud Sync** | Via GitHub Gist |
-| **Student View** | View and track assignments |
-
-### Chat System
-
-| Feature | Description |
-|---------|-------------|
-| **P2P Chat** | Via JSONBin.io |
-| **Real-Time Sync** | Automatic updates |
-| **Unique Codes** | Each user has a unique code |
-
 ### Developer Tools
 
 | Feature | Description |
@@ -263,7 +246,6 @@
 | **Grade Calculator** | Advanced calculation tools |
 | **Database Manager** | View and manage user data |
 | **Advanced Statistics** | Detailed performance analysis |
-| **System Logs** | Real activity history |
 | **Cloud Backup** | Real backup and restore |
 | **System Config** | View and modify settings |
 
@@ -279,7 +261,7 @@
 
 | Technology | Details |
 |------------|---------|
-| **HTML5** | Semantic Markup, LocalStorage API, Canvas API, MediaDevices API, Notification API |
+| **HTML5** | Semantic Markup, LocalStorage API, Canvas API, MediaDevices API |
 | **CSS3** | Flexbox, Grid Layout, CSS Variables, Glassmorphism, Media Queries |
 | **JavaScript ES6+** | Promises, Async/Await, LocalStorage Database Management |
 
@@ -361,7 +343,6 @@ SMART-GRADE/
 │   ├── ⚡ auto-update.js
 │   ├── ⚡ auto-updater.js
 │   ├── ⚡ avatars-data.js
-│   ├── ⚡ cloud-sync.js
 │   ├── ⚡ confirm-dialog.js
 │   ├── ⚡ database.js
 │   ├── ⚡ export.js
@@ -384,10 +365,8 @@ SMART-GRADE/
 ├── 🌐 about.html
 ├── 🌐 achievements.html
 ├── 🌐 add-grade.html
-├── 🌐 admin-homework.html
 ├── 🌐 ai-assistant.html
 ├── 🌐 backup.html
-├── 🌐 chat.html
 ├── 📝 CODE_OF_CONDUCT.md
 ├── ⚡ congfig.js
 ├── 📝 CONTRIBUTING.md
@@ -397,7 +376,6 @@ SMART-GRADE/
 ├── 🌐 dev-calculator.html
 ├── 🌐 dev-config.html
 ├── 🌐 dev-database.html
-├── 🌐 dev-logs.html
 ├── 🌐 dev-stats.html
 ├── 🌐 doc.html
 ├── 🌐 eula.html
@@ -407,9 +385,6 @@ SMART-GRADE/
 ├── 🌐 google6523d76523928963.html
 ├── 🌐 guide-user.html
 ├── 🌐 guide.html
-├── 🌐 history.html
-├── 🌐 homeworks.html
-├── 📦 homeworks.json
 ├── 🌐 index.html
 ├── 🌐 license.html
 ├── 📝 LICENSE.md
@@ -418,7 +393,6 @@ SMART-GRADE/
 ├── 🌐 maintenance.html
 ├── 📦 manifest.json
 ├── 🌐 notebook.html
-├── 🌐 notifications.html
 ├── 🌐 privacy.html
 ├── 🌐 profile.html
 ├── 📝 README.md

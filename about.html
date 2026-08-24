@@ -157,20 +157,13 @@
       flex-shrink: 0;
     }
     .feature-icon.transfer { background: rgba(26,188,156,0.15); color: #1abc9c; }
-    .feature-icon.backup { background: rgba(52,152,219,0.15); color: #3498db; }
-    .feature-icon.notifications { background: rgba(241,196,15,0.15); color: #f39c12; }
-    .feature-icon.security { background: rgba(46,204,113,0.15); color: #2ecc71; }
+    .feature-icon.backup { background: rgba(52,152,219,0.15); color: #3498db; }    .feature-icon.security { background: rgba(46,204,113,0.15); color: #2ecc71; }
     .feature-icon.flashcard { background: rgba(155,89,182,0.15); color: #9b59b6; }
     .feature-icon.goal { background: rgba(230,126,34,0.15); color: #e67e22; }
     .feature-icon.export { background: rgba(231,76,60,0.15); color: #e74c3c; }
-    .feature-icon.theme { background: rgba(0,188,212,0.15); color: #00bcd4; }
-    .feature-icon.history { background: rgba(52,152,219,0.15); color: #3498db; }
-    .feature-icon.compensation { background: rgba(155,89,182,0.15); color: #9b59b6; }
+    .feature-icon.theme { background: rgba(0,188,212,0.15); color: #00bcd4; }    .feature-icon.compensation { background: rgba(155,89,182,0.15); color: #9b59b6; }
     .feature-icon.ai { background: rgba(46,204,113,0.15); color: #27ae60; }
-    .feature-icon.search { background: rgba(52,152,219,0.15); color: #2980b9; }
-    .feature-icon.chat { background: rgba(241,196,15,0.15); color: #f39c12; }
-    .feature-icon.homework { background: rgba(155,89,182,0.15); color: #9b59b6; }
-    .feature-icon.notebook { background: rgba(26,188,156,0.15); color: #1abc9c; }
+    .feature-icon.search { background: rgba(52,152,219,0.15); color: #2980b9; }    .feature-icon.notebook { background: rgba(26,188,156,0.15); color: #1abc9c; }
     .feature-icon.dev { background: rgba(231,76,60,0.15); color: #e74c3c; }
     .feature-icon.cloud { background: rgba(52,152,219,0.15); color: #3498db; }
     .feature-icon.auto { background: rgba(46,204,113,0.15); color: #27ae60; }
@@ -450,7 +443,6 @@
           <div class="tech-item" onclick="openTechModal()"><i class="fas fa-qrcode tech-qr"></i><div class="tech-name">QR Code API</div><div class="tech-desc">Data Transfer</div></div>
           <div class="tech-item" onclick="openTechModal()"><i class="fas fa-chart-line tech-chart"></i><div class="tech-name">Chart.js</div><div class="tech-desc">Interactive Graphs</div></div>
           <div class="tech-item" onclick="openTechModal()"><i class="fas fa-cloud-upload-alt tech-sw"></i><div class="tech-name">Service Worker</div><div class="tech-desc">Offline Caching</div></div>
-          <div class="tech-item" onclick="openTechModal()"><i class="fas fa-bell tech-api"></i><div class="tech-name">Notification API</div><div class="tech-desc">Push Alerts</div></div>
           <div class="tech-item" onclick="openTechModal()"><i class="fas fa-camera tech-api"></i><div class="tech-name">MediaDevices</div><div class="tech-desc">Camera QR Scanning</div></div>
         </div>
         <button class="btn btn-secondary" onclick="openTechModal()" style="margin-top:8px;width:auto;padding:8px 20px;">
@@ -479,19 +471,15 @@
     <div class="complete-feature-item"><i class="fas fa-qrcode" style="color:var(--primary);"></i> Data transfer between devices (QR Code)</div>
     <div class="complete-feature-item"><i class="fas fa-camera" style="color:var(--primary);"></i> Profile photos from gallery</div>
     <div class="complete-feature-item"><i class="fas fa-file-export" style="color:var(--primary);"></i> Export/Import JSON backup</div>
-    <div class="complete-feature-item"><i class="fas fa-history" style="color:var(--primary);"></i> Activity history log</div>
     <div class="complete-feature-item"><i class="fas fa-sliders-h" style="color:var(--primary);"></i> Customizable subjects per term</div>
     <div class="complete-feature-item"><i class="fas fa-file-alt" style="color:var(--primary);"></i> Yearly report with letter grades</div>
     <div class="complete-feature-item"><i class="fas fa-chart-line" style="color:var(--primary);"></i> Interactive charts (line, bar, radar)</div>
     <div class="complete-feature-item"><i class="fas fa-search-plus" style="color:var(--primary);"></i> Zoomable progress chart</div>
     <div class="complete-feature-item"><i class="fas fa-database" style="color:var(--primary);"></i> Auto-backup every hour</div>
-    <div class="complete-feature-item"><i class="fas fa-bell" style="color:var(--primary);"></i> Smart notifications system</div>
     
     <!-- V5.0 New Features -->
     <div class="complete-feature-item"><i class="fas fa-robot" style="color:var(--secondary);"></i> AI Assistant with Groq and Mistral</div>
     <div class="complete-feature-item"><i class="fas fa-search" style="color:var(--secondary);"></i> Multi-Search (15 sources: DuckDuckGo, Wikipedia, YouTube, GitHub, etc.)</div>
-    <div class="complete-feature-item"><i class="fas fa-comment-dots" style="color:var(--secondary);"></i> P2P Chat with unique codes</div>
-    <div class="complete-feature-item"><i class="fas fa-tasks" style="color:var(--secondary);"></i> Homework Manager with file attachments</div>
     <div class="complete-feature-item"><i class="fas fa-book" style="color:var(--secondary);"></i> Personal Notebook with colors and pins</div>
     <div class="complete-feature-item"><i class="fas fa-bolt" style="color:var(--secondary);"></i> Quick Shortcuts for main features</div>
     <div class="complete-feature-item"><i class="fas fa-code" style="color:var(--secondary);"></i> 6 Developer Tools (Calculator, Database, Stats, Logs, Backup, Config)</div>
@@ -510,7 +498,6 @@
         <div class="features-grid">
           <div class="feature-card"><div class="feature-icon transfer"><i class="fas fa-exchange-alt"></i></div><div class="feature-info"><div class="feature-title">Data Transfer</div><div class="feature-desc">QR Code + 6-digit code between devices</div></div></div>
           <div class="feature-card"><div class="feature-icon backup"><i class="fas fa-database"></i></div><div class="feature-info"><div class="feature-title">Auto Backup</div><div class="feature-desc">Hourly backups</div></div></div>
-          <div class="feature-card"><div class="feature-icon notifications"><i class="fas fa-bell"></i></div><div class="feature-info"><div class="feature-title">Smart Notifications</div><div class="feature-desc">Real-time alerts for all activities</div></div></div>
           <div class="feature-card"><div class="feature-icon security"><i class="fas fa-fingerprint"></i></div><div class="feature-info"><div class="feature-title">Biometric Security</div><div class="feature-desc">Fingerprint login + 4-digit PIN</div></div></div>
           <div class="feature-card"><div class="feature-icon flashcard"><i class="fas fa-clone"></i></div><div class="feature-info"><div class="feature-title">Flashcards</div><div class="feature-desc">Study with custom cards per subject</div></div></div>
           <div class="feature-card"><div class="feature-icon goal"><i class="fas fa-bullseye"></i></div><div class="feature-info"><div class="feature-title">Goals and Streaks</div><div class="feature-desc">Track progress with achievements</div></div></div>
@@ -518,8 +505,6 @@
           <div class="feature-card"><div class="feature-icon theme"><i class="fas fa-palette"></i></div><div class="feature-info"><div class="feature-title">Customization</div><div class="feature-desc">20 themes + 12 fonts + Night mode</div></div></div>
           <div class="feature-card"><div class="feature-icon ai"><i class="fas fa-robot"></i></div><div class="feature-info"><div class="feature-title">AI Assistant</div><div class="feature-desc">Groq + Mistral models for homework help</div></div></div>
           <div class="feature-card"><div class="feature-icon search"><i class="fas fa-search"></i></div><div class="feature-info"><div class="feature-title">Multi-Search</div><div class="feature-desc">15 sources in parallel</div></div></div>
-          <div class="feature-card"><div class="feature-icon chat"><i class="fas fa-comment-dots"></i></div><div class="feature-info"><div class="feature-title">P2P Chat</div><div class="feature-desc">Chat with classmates using unique codes</div></div></div>
-          <div class="feature-card"><div class="feature-icon homework"><i class="fas fa-tasks"></i></div><div class="feature-info"><div class="feature-title">Homework Manager</div><div class="feature-desc">Assignments with file attachments</div></div></div>
           <div class="feature-card"><div class="feature-icon notebook"><i class="fas fa-book"></i></div><div class="feature-info"><div class="feature-title">Notebook</div><div class="feature-desc">Personal notes with colors and pins</div></div></div>
           <div class="feature-card"><div class="feature-icon dev"><i class="fas fa-code"></i></div><div class="feature-info"><div class="feature-title">Developer Tools</div><div class="feature-desc">6 tools for advanced users</div></div></div>
           <div class="feature-card"><div class="feature-icon cloud"><i class="fas fa-cloud-upload-alt"></i></div><div class="feature-info"><div class="feature-title">Cloud Sync</div><div class="feature-desc">Automatic backup to JSONBin.io</div></div></div>
@@ -538,8 +523,6 @@
   </div>
   <div class="info-row-about"><i class="fas fa-plus-circle" style="color:var(--secondary);"></i> AI Assistant with Groq and Mistral</div>
   <div class="info-row-about"><i class="fas fa-plus-circle" style="color:var(--secondary);"></i> Multi-Search (15 sources)</div>
-  <div class="info-row-about"><i class="fas fa-plus-circle" style="color:var(--secondary);"></i> P2P Chat with unique codes</div>
-  <div class="info-row-about"><i class="fas fa-plus-circle" style="color:var(--secondary);"></i> Homework Manager with file attachments</div>
   <div class="info-row-about"><i class="fas fa-plus-circle" style="color:var(--secondary);"></i> Personal Notebook with colors and pins</div>
   <div class="info-row-about"><i class="fas fa-plus-circle" style="color:var(--secondary);"></i> 6 Developer Tools</div>
   <div class="info-row-about"><i class="fas fa-plus-circle" style="color:var(--secondary);"></i> Cloud Sync (JSONBin.io)</div>
@@ -561,7 +544,6 @@
   <div class="info-row-about"><i class="fas fa-plus-circle" style="color:var(--text-light);"></i> Cross-tab data sync</div>
   <div class="info-row-about"><i class="fas fa-plus-circle" style="color:var(--text-light);"></i> Auto-backup every hour</div>
   <div class="info-row-about"><i class="fas fa-plus-circle" style="color:var(--text-light);"></i> 7 error pages (400-503)</div>
-  <div class="info-row-about"><i class="fas fa-plus-circle" style="color:var(--text-light);"></i> Smart notifications system</div>
   
   <div class="info-row-about">
     <i class="fas fa-tag" style="color:var(--text-light);opacity:0.5;"></i>
@@ -771,7 +753,6 @@
             <li><i class="fas fa-check-circle"></i> Canvas API</li>
             <li><i class="fas fa-check-circle"></i> FileReader API</li>
             <li><i class="fas fa-check-circle"></i> MediaDevices API</li>
-            <li><i class="fas fa-check-circle"></i> Notification API</li>
             <li><i class="fas fa-check-circle"></i> Vibration API</li>
             <li><i class="fas fa-check-circle"></i> Clipboard API</li>
             <li><i class="fas fa-check-circle"></i> Web Storage API</li>
@@ -834,7 +815,6 @@
             <li><i class="fas fa-qrcode"></i> html5-qrcode Library</li>
             <li><i class="fas fa-chart-line"></i> Chart.js (Bar, Radar, Doughnut)</li>
             <li><i class="fas fa-search-plus"></i> chartjs-plugin-zoom</li>
-            <li><i class="fas fa-bell"></i> Notification API</li>
             <li><i class="fas fa-mobile"></i> Vibration API (Haptic Feedback)</li>
             <li><i class="fas fa-copy"></i> Clipboard API (Copy/Paste)</li>
             <li><i class="fas fa-file"></i> FileReader API (Import/Export)</li>
@@ -860,13 +840,9 @@
             <li><i class="fas fa-file-pdf"></i> PDF Export</li>
             <li><i class="fas fa-chart-pie"></i> Interactive Charts</li>
             <li><i class="fas fa-calendar-alt"></i> Class Timetable</li>
-            <li><i class="fas fa-history"></i> Activity History</li>
-            <li><i class="fas fa-bell"></i> Smart Notifications</li>
             <li><i class="fas fa-balance-scale"></i> Compensation System</li>
             <li><i class="fas fa-robot"></i> AI Assistant (Groq + Mistral)</li>
             <li><i class="fas fa-search"></i> Multi-Search (15 sources)</li>
-            <li><i class="fas fa-comment-dots"></i> P2P Chat</li>
-            <li><i class="fas fa-tasks"></i> Homework Manager</li>
             <li><i class="fas fa-book"></i> Personal Notebook</li>
             <li><i class="fas fa-code"></i> 6 Developer Tools</li>
             <li><i class="fas fa-cloud-upload-alt"></i> Cloud Sync</li>

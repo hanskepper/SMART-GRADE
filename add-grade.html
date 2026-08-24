@@ -633,7 +633,6 @@
       
       if (changed) {
         saveStudentGrades(currentUser.id, grades);
-        addHistory(currentUser.id, 'Grades updated for Term ' + currentTerm);
         playActionFeedback();
         showToast('Grades saved successfully! (' + savedCount + ' grade(s) updated)');
         

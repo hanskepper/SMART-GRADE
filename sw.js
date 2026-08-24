@@ -1,6 +1,6 @@
 // ============================================================
 //  SMART GRADE - SERVICE WORKER
-//  Fichiers: 115
+//  Fichiers: 108
 //  Date: 25/07/2026
 // ============================================================
 
@@ -21,10 +21,8 @@ var STATIC_ASSETS = [
   './about.html',
   './achievements.html',
   './add-grade.html',
-  './admin-homework.html',
   './ai-assistant.html',
   './backup.html',
-  './chat.html',
   './CODE_OF_CONDUCT.md',
   './congfig.js',
   './CONTRIBUTING.md',
@@ -40,7 +38,6 @@ var STATIC_ASSETS = [
   './dev-calculator.html',
   './dev-config.html',
   './dev-database.html',
-  './dev-logs.html',
   './dev-stats.html',
   './doc.html',
   './eula.html',
@@ -50,9 +47,6 @@ var STATIC_ASSETS = [
   './google6523d76523928963.html',
   './guide-user.html',
   './guide.html',
-  './history.html',
-  './homeworks.html',
-  './homeworks.json',
   './icons/avatar-boy.png',
   './icons/avatar-girl.png',
   './icons/favicon.ico',
@@ -79,7 +73,6 @@ var STATIC_ASSETS = [
   './js/auto-update.js',
   './js/auto-updater.js',
   './js/avatars-data.js',
-  './js/cloud-sync.js',
   './js/confirm-dialog.js',
   './js/database.js',
   './js/export.js',
@@ -97,7 +90,6 @@ var STATIC_ASSETS = [
   './maintenance-config.js',
   './manifest.json',
   './notebook.html',
-  './notifications.html',
   './privacy.html',
   './profile.html',
   './README.md',

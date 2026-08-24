@@ -264,7 +264,6 @@
             <a href="dev-calculator.html" class="dev-nav-link" id="devCalculatorLink"><i class="fas fa-calculator"></i> Calculator</a>
             <a href="dev-database.html" class="dev-nav-link" id="devDatabaseLink"><i class="fas fa-database"></i> Database</a>
             <a href="dev-stats.html" class="dev-nav-link" id="devStatsLink"><i class="fas fa-chart-pie"></i> Advanced Stats</a>
-            <a href="dev-logs.html" class="dev-nav-link" id="devLogsLink"><i class="fas fa-history"></i> System Logs</a>
             <a href="dev-backup.html" class="dev-nav-link active" id="devBackupLink"><i class="fas fa-cloud-upload-alt"></i> Cloud Backup</a>
             <a href="dev-config.html" class="nav-item" id="devConfigLink"><i class="fas fa-cog"></i> System Config</a>
           </div>
@@ -424,8 +423,7 @@
           goal: parseFloat(localStorage.getItem('smartgrade_goal_' + studentId) || 12),
           streak: getStudentStreak(studentId),
           profile: getProfile(studentId),
-          flashcards: getFlashcards(studentId),
-          history: JSON.parse(localStorage.getItem('smartgrade_history_' + studentId) || '[]')
+          flashcards: getFlashcards(studentId)
         };
         
         debugLog('Export successful, data size: ' + JSON.stringify(data).length + ' bytes');
@@ -455,7 +453,6 @@
       if (data.streak) localStorage.setItem('smartgrade_streak_' + studentId, JSON.stringify(data.streak));
       if (data.profile) localStorage.setItem('smartgrade_profile_' + studentId, JSON.stringify(data.profile));
       if (data.flashcards) localStorage.setItem('smartgrade_flashcards_' + studentId, JSON.stringify(data.flashcards));
-      if (data.history) localStorage.setItem('smartgrade_history_' + studentId, JSON.stringify(data.history));
       
       debugLog('Import completed successfully');
     }

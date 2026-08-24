@@ -544,9 +544,6 @@ SOFTWARE.
       var banner = document.getElementById('licenseConsentBanner');
       if (banner) banner.remove();
       showToast('License accepted!');
-      if (typeof addNotification === 'function') {
-        addNotification('account', 'License Accepted', 'You have accepted the MIT License for SMART GRADE.');
-      }
     }
 
     function declineLicense() {

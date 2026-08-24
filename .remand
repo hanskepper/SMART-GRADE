@@ -41,14 +41,12 @@ achievements = true
 streaks = true
 themes = true
 fonts = true
-notifications = true
 commands = true
 
 [LIMITS]
 max_backups = 50
 max_grades_per_subject = 100
 max_flashcards_per_subject = 100
-max_history_items = 200
 max_favorites = 6
 transfer_code_expiry_minutes = 10
 auto_save_interval_seconds = 30
@@ -234,17 +232,11 @@ lock_duration_minutes = 15
 session_timeout_minutes = 30
 require_pin_for_backup_restore = true
 
-[NOTIFICATIONS]
-default_duration_seconds = 5
-max_notifications_stored = 200
-sound_enabled = true
-vibration_enabled = true
-
 [DEVELOPER_MODE]
 enabled_for = "HANS KEPPER"
 allowed_class = "B2"
 allowed_number = 9
-pages = ["dev-calculator.html", "dev-database.html", "dev-stats.html", "dev-logs.html", "dev-backup.html"]
+pages = ["dev-calculator.html", "dev-database.html", "dev-stats.html", "dev-backup.html"]
 
 [LOGGING]
 log_level = "info"

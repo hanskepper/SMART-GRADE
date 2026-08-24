@@ -532,8 +532,6 @@
                 streak: localStorage.getItem('smartgrade_streak_' + userData.id),
                 profile: localStorage.getItem('smartgrade_profile_' + userData.id),
                 flashcards: localStorage.getItem('smartgrade_flashcards_' + userData.id),
-                history: localStorage.getItem('smartgrade_history_' + userData.id),
-                notifications: localStorage.getItem('smartgrade_notifications_' + userData.id),
                 timestamp: Date.now()
               };
               localStorage.setItem('smartgrade_update_backup', JSON.stringify(backupData));

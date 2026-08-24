@@ -330,7 +330,6 @@
       
       <div class="welcome-buttons">
         <a href="dashboard.html" class="btn btn-primary"><i class="fas fa-chalkboard-user"></i> Go to Dashboard</a>
-        <a href="notifications.html" class="btn btn-secondary"><i class="fas fa-bell"></i> Notifications</a>
       </div>
       
     </main>
@@ -540,10 +539,6 @@
         };
         document.body.style.fontFamily = fontMap[savedFont] || 'Inter, sans-serif';
       }, 50);
-      
-      requestNotificationPermission();
-      if (typeof checkStreakMilestone === 'function') checkStreakMilestone(cu.id);
-      if (typeof checkAndNotifyAchievements === 'function') checkAndNotifyAchievements(cu.id);
       
       localStorage.setItem('smartgrade_last_page', 'welcome.html');
     }

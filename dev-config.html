@@ -288,7 +288,6 @@
             <a href="dev-calculator.html" class="dev-nav-link"><i class="fas fa-calculator"></i> Calculator</a>
             <a href="dev-database.html" class="dev-nav-link"><i class="fas fa-database"></i> Database</a>
             <a href="dev-stats.html" class="dev-nav-link"><i class="fas fa-chart-pie"></i> Advanced Stats</a>
-            <a href="dev-logs.html" class="dev-nav-link"><i class="fas fa-history"></i> System Logs</a>
             <a href="dev-backup.html" class="dev-nav-link"><i class="fas fa-cloud-upload-alt"></i> Cloud Backup</a>
             <a href="dev-config.html" class="dev-nav-link active"><i class="fas fa-cog"></i> System Config</a>
           </div>
@@ -363,7 +362,6 @@
       maxBackups: 50,
       maxGradesPerSubject: 100,
       maxFlashcardsPerSubject: 100,
-      maxHistoryItems: 200,
       maxFavorites: 6,
       transferCodeExpiryMinutes: 10,
       autoSaveIntervalSeconds: 30,
@@ -415,7 +413,6 @@
       html += '<div class="config-item"><span class="config-label">Max Backups:</span><input type="number" id="cfg_maxBackups" class="config-input" value="' + systemConfig.maxBackups + '" min="10" max="200"></div>';
       html += '<div class="config-item"><span class="config-label">Max Grades/Subject:</span><input type="number" id="cfg_maxGradesPerSubject" class="config-input" value="' + systemConfig.maxGradesPerSubject + '" min="10" max="500"></div>';
       html += '<div class="config-item"><span class="config-label">Max Flashcards/Subject:</span><input type="number" id="cfg_maxFlashcardsPerSubject" class="config-input" value="' + systemConfig.maxFlashcardsPerSubject + '" min="10" max="500"></div>';
-      html += '<div class="config-item"><span class="config-label">Max History Items:</span><input type="number" id="cfg_maxHistoryItems" class="config-input" value="' + systemConfig.maxHistoryItems + '" min="50" max="500"></div>';
       html += '<div class="config-item"><span class="config-label">Max Favorites:</span><input type="number" id="cfg_maxFavorites" class="config-input" value="' + systemConfig.maxFavorites + '" min="3" max="20"></div>';
       html += '<div class="config-item"><span class="config-label">Transfer Code Expiry (min):</span><input type="number" id="cfg_transferCodeExpiryMinutes" class="config-input" value="' + systemConfig.transferCodeExpiryMinutes + '" min="5" max="60"></div>';
       html += '<div class="config-item"><span class="config-label">Auto Save Interval (sec):</span><input type="number" id="cfg_autoSaveIntervalSeconds" class="config-input" value="' + systemConfig.autoSaveIntervalSeconds + '" min="10" max="120"></div>';
@@ -436,7 +433,6 @@
       systemConfig.maxBackups = parseInt(document.getElementById('cfg_maxBackups').value);
       systemConfig.maxGradesPerSubject = parseInt(document.getElementById('cfg_maxGradesPerSubject').value);
       systemConfig.maxFlashcardsPerSubject = parseInt(document.getElementById('cfg_maxFlashcardsPerSubject').value);
-      systemConfig.maxHistoryItems = parseInt(document.getElementById('cfg_maxHistoryItems').value);
       systemConfig.maxFavorites = parseInt(document.getElementById('cfg_maxFavorites').value);
       systemConfig.transferCodeExpiryMinutes = parseInt(document.getElementById('cfg_transferCodeExpiryMinutes').value);
       systemConfig.autoSaveIntervalSeconds = parseInt(document.getElementById('cfg_autoSaveIntervalSeconds').value);
@@ -496,8 +492,7 @@
         maxBackups: 50,
         maxGradesPerSubject: 100,
         maxFlashcardsPerSubject: 100,
-        maxHistoryItems: 200,
-        maxFavorites: 6,
+          maxFavorites: 6,
         transferCodeExpiryMinutes: 10,
         autoSaveIntervalSeconds: 30,
         maxStorageMB: 5,
@@ -580,7 +575,6 @@ pacifico, bangers, lobster, permanent-marker, comfortaa, righteous
 - dev-calculator.html (Calculator)
 - dev-database.html (Database)
 - dev-stats.html (Advanced Stats)
-- dev-logs.html (System Logs)
 - dev-backup.html (Cloud Backup)
 - dev-config.html (System Config)
 

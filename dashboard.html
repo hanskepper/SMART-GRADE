@@ -307,24 +307,6 @@
 }
 
 /* ============================================
-   HISTORY
-   ============================================ */
-.history-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--border);
-  font-size: 0.7rem;
-}
-
-.history-time {
-  color: var(--text-light);
-  font-size: 0.65rem;
-  margin-left: auto;
-}
-
-/* ============================================
    BUTTONS
    ============================================ */
 .btn-group {
@@ -598,16 +580,12 @@
         <a href="yearly.html" class="nav-item"><i class="fas fa-chart-line"></i> Yearly</a>
         <a href="statistics.html" class="nav-item"><i class="fas fa-chart-pie"></i> Statistics</a>
         <a href="achievements.html" class="nav-item"><i class="fas fa-medal"></i> Achievements</a>
-        <a href="history.html" class="nav-item"><i class="fas fa-history"></i> History</a>
         <a href="shortcuts.html" class="nav-item"><i class="fas fa-bolt"></i> Shortcuts</a>
         <a href="export.html" class="nav-item"><i class="fas fa-file-export"></i> Export</a>
         <a href="backup.html" class="nav-item"><i class="fas fa-database"></i> Backup</a>
         <a href="transfer.html" class="nav-item"><i class="fas fa-exchange-alt"></i> Transfer</a>
-        <a href="notifications.html" class="nav-item"><i class="fas fa-bell"></i> Notifications</a>
-        <a href="homeworks.html" class="nav-item"><i class="fas fa-tasks"></i> Homework</a>
         <a href="notebook.html" class="nav-item"><i class="fas fa-book"></i> Notebook</a>
         <a href="ai-assistant.html" class="nav-item"><i class="fas fa-robot"></i> AI Assistant</a>
-        <a href="chat.html" class="nav-item"><i class="fas fa-comment-dots"></i> Chat</a>
         <a href="search.html" class="nav-item"><i class="fas fa-search"></i> Search</a>
         <a href="profile.html" class="nav-item"><i class="fas fa-user"></i> Profile</a>
         <a href="settings.html" class="nav-item"><i class="fas fa-sliders-h"></i> Settings</a>
@@ -627,9 +605,7 @@
           <a href="dev-calculator.html" class="nav-item"><i class="fas fa-calculator"></i> Calculator</a>
           <a href="dev-database.html" class="nav-item"><i class="fas fa-database"></i> Database</a>
           <a href="dev-stats.html" class="nav-item"><i class="fas fa-chart-pie"></i> Advanced Stats</a>
-          <a href="dev-logs.html" class="nav-item"><i class="fas fa-history"></i> System Logs</a>
           <a href="dev-backup.html" class="nav-item"><i class="fas fa-cloud-upload-alt"></i> Cloud Backup</a>
-          <a href="admin-homework.html" class="nav-item"><i class="fas fa-layer-group"></i>Add Homeworks</a>
           <a href="dev-config.html" class="nav-item"><i class="fas fa-cog"></i> System Config</a>
         </div>
         <a href="#" class="nav-item" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -696,11 +672,6 @@
           <a href="subjects.html" style="color:var(--primary);">VIEW ALL</a>
         </div>
         <div id="subjectsPreview"></div>
-      </div>
-      
-      <div class="glass-card">
-        <h3><i class="fas fa-history"></i> Recent Activity</h3>
-        <div id="historyList"></div>
       </div>
       
       <div class="btn-group">
@@ -1233,7 +1204,6 @@
           '</div>';
         }).join('');
         
-        loadHistory(sid);
         showDeveloperLinks();
         applyDashboardFont();
         updateLegendColors();
@@ -1262,23 +1232,6 @@
       }
       
       updateChart(t1, t2, t3, g);
-    }
-    
-    function loadHistory(sid) { 
-      try {
-        var h = JSON.parse(localStorage.getItem('smartgrade_history_' + sid) || '[]'); 
-        h = h.slice(0, 5); 
-        var el = document.getElementById('historyList'); 
-        if (h.length === 0) {
-          el.innerHTML = '<p class="text-center" style="color:var(--text-light);">No activity yet</p>';
-        } else {
-          el.innerHTML = h.map(function(x) { 
-            return '<div class="history-item"><i class="fas fa-circle" style="font-size:0.4rem;color:var(--primary);"></i> ' + (x.action || 'Activity') + '<span class="history-time">' + formatDate(x.date) + '</span></div>'; 
-          }).join('');
-        }
-      } catch(e) {
-        document.getElementById('historyList').innerHTML = '<p class="text-center">No activity yet</p>';
-      }
     }
     
     // ============================================

@@ -331,14 +331,6 @@
         checkAndUnlockAllNewBadges(st.id);
       }
       
-      if (typeof addNotification === 'function') {
-        addNotification('login', 'Login Successful', 'Welcome back, ' + st.name + '!');
-      }
-      
-      if (typeof addHistory === 'function') {
-        addHistory(st.id, 'Login successful');
-      }
-      
       showSuccess('Welcome ' + st.name + '!');
       document.getElementById('fpBtn').disabled = true;
       document.querySelector('.login-btn-primary').disabled = true;

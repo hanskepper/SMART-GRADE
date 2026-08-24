@@ -39,16 +39,13 @@ body.night-mode .stat-label,
 body.night-mode .term-title,
 body.night-mode .subject-meta,
 body.night-mode .student-class,
-body.night-mode .info-label,
-body.night-mode .history-time {
+body.night-mode .info-label {
   color: var(--text-light) !important;
 }
 
 body.night-mode .student-name,
-body.night-mode .notif-title,
 body.night-mode .achievement-name,
-body.night-mode .info-value,
-body.night-mode .history-item {
+body.night-mode .info-value {
   color: var(--text) !important;
 }
 

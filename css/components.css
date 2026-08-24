@@ -545,38 +545,6 @@
   cursor: pointer; 
 }
 
-/* ========== HISTORIQUE ========== */
-.history-item { 
-  display: flex; 
-  align-items: center; 
-  gap: 10px; 
-  padding: 8px 0; 
-  border-bottom: 1px solid var(--border); 
-  font-size: 0.7rem; 
-}
-
-.history-time { 
-  color: var(--text-light); 
-  font-size: 0.65rem; 
-  margin-left: auto; 
-}
-
-/* ========== NOTIFICATION ========== */
-.notification-toast { 
-  position: fixed; 
-  top: 20px; 
-  right: 16px; 
-  left: 16px; 
-  background: var(--card-bg); 
-  border-radius: 16px; 
-  padding: 14px; 
-  z-index: 600; 
-  border: 1px solid var(--border); 
-  display: flex; 
-  align-items: center; 
-  gap: 12px; 
-}
-
 /* ========== RADAR ========== */
 .radar-container { 
   background: var(--card-bg); 

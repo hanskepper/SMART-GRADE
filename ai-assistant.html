@@ -92,7 +92,7 @@
       <div class="glass-card text-center" style="background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;padding:12px 16px;border-radius:20px;flex-shrink:0;margin-bottom:10px;">
         <i class="fas fa-robot" style="font-size:30px;opacity:0.5;"></i>
         <h2 style="color:white;margin:4px 0;font-size:1.2rem;">AI Assistant</h2>
-        <p style="opacity:0.8;font-size:0.65rem;">Powered by Groq | Mistral</p>
+        <p style="opacity:0.8;font-size:0.65rem;">Powered by Groq | Mistral | Gemini</p>
       </div>
 
       <!-- DATE ET HEURE -->
@@ -151,11 +151,11 @@
                 <button class="model-btn active" data-model="groq" onclick="selectModel('groq')">
                   <i class="fas fa-bolt"></i> Groq
                 </button>
-                <button class="model-btn" data-model="mistral-devstral" onclick="selectModel('mistral-devstral')">
-                  <i class="fas fa-rocket"></i> Devstral
-                </button>
                 <button class="model-btn" data-model="mistral-codestral" onclick="selectModel('mistral-codestral')">
                   <i class="fas fa-code"></i> Codestral
+                </button>
+                <button class="model-btn" data-model="gemini" onclick="selectModel('gemini')">
+                  <i class="fas fa-brain"></i> Gemini
                 </button>
               </div>
               <div class="model-info">
@@ -180,11 +180,12 @@
             <div class="settings-card" style="flex:1;">
               <h4><i class="fas fa-info-circle"></i> About</h4>
               <p style="font-size:0.7rem;color:var(--text-light);line-height:1.6;margin:0;">
-                SMART GRADE AI uses Groq and Mistral models to help you with homework, explanations, and problem-solving.
+                SMART GRADE AI uses Groq, Mistral and Google Gemini models to help you with homework, explanations, and problem-solving.
                 <br><br>
                 <i class="fas fa-check-circle" style="color:#2ecc71;"></i> LaTeX support<br>
                 <i class="fas fa-check-circle" style="color:#2ecc71;"></i> Code highlighting<br>
-                <i class="fas fa-check-circle" style="color:#2ecc71;"></i> Mermaid diagrams
+                <i class="fas fa-check-circle" style="color:#2ecc71;"></i> Mermaid diagrams<br>
+                <i class="fas fa-lock" style="color:#2ecc71;"></i> API keys secured with Supabase
               </p>
             </div>
 
@@ -242,7 +243,7 @@
   <script src="js/auth.js"></script>
   <script src="js/app.js"></script>
   <script src="js/confirm-dialog.js"></script>
-  <script src="js/ai-assistant-core.js"></script>   <!-- CORE : Chat + Modèles -->
+  <script src="js/ai-assistant-core.js"></script>   <!-- CORE : Chat + Modèles sécurisés -->
   <script src="js/ai-assistant-ui.js"></script>     <!-- UI : Mermaid + Zoom -->
 
   <!-- PWA Manager -->

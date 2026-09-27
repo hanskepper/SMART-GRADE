@@ -2,52 +2,33 @@
 // SMART GRADE - AI ASSISTANT (CORE)
 // STREAMING + TYPEWRITER INTELLIGENT
 // Détection LaTeX - Rendu complet des équations
+// Version sécurisée : Clés API protégées via Supabase Edge Function
 // ============================================
 
 // ============================================
-// CONFIGURATION
+// CONFIGURATION SÉCURISÉE (via Supabase Edge Function)
+// Aucune clé API n'est exposée dans ce fichier
 // ============================================
 
-const GROQ_TOKEN_PART1 = 'gsk_IHPePgnuqvsG';
-const GROQ_TOKEN_PART2 = 'DtlktY3KWGdyb3FY';
-const GROQ_TOKEN_PART3 = 'C0w55WOKIDEb5XpEH1IdpSSD';
-
-const MISTRAL_TOKEN_PART1 = 'TQatuY13B8';
-const MISTRAL_TOKEN_PART2 = 'TdBEz09H2BP';
-const MISTRAL_TOKEN_PART3 = 'U22lfbSsbae';
-
-function getGroqToken() {
-  return GROQ_TOKEN_PART1 + GROQ_TOKEN_PART2 + GROQ_TOKEN_PART3;
-}
-
-function getMistralToken() {
-  return MISTRAL_TOKEN_PART1 + MISTRAL_TOKEN_PART2 + MISTRAL_TOKEN_PART3;
-}
+var SUPABASE_URL = 'https://emurkofswlnrygckaqdm.supabase.co';
+var SUPABASE_KEY = 'sb_publishable_g_dUiyFlQbVhI2APntK52g_1YJpsfV1';
+var EDGE_FUNCTION_URL = SUPABASE_URL + '/functions/v1/ai-proxy';
 
 const MODELS = {
   'groq': { 
     name: 'Groq', 
-    url: 'https://api.groq.com/openai/v1/chat/completions', 
-    model: 'qwen/qwen3.6-27b', 
-    auth: 'Bearer ' + getGroqToken(),
     available: true,
-    supportsStreaming: true
-  },
-  'mistral-devstral': { 
-    name: 'Devstral', 
-    url: 'https://api.mistral.ai/v1/chat/completions', 
-    model: 'devstral-medium-latest', 
-    auth: 'Bearer ' + getMistralToken(),
-    available: true,
-    supportsStreaming: true
+    supportsStreaming: false
   },
   'mistral-codestral': { 
     name: 'Codestral', 
-    url: 'https://api.mistral.ai/v1/chat/completions', 
-    model: 'codestral-latest', 
-    auth: 'Bearer ' + getMistralToken(),
     available: true,
-    supportsStreaming: true
+    supportsStreaming: false
+  },
+  'gemini': { 
+    name: 'Gemini', 
+    available: true,
+    supportsStreaming: false
   }
 };
 
@@ -877,71 +858,64 @@ function showThinking() {
 }
 
 // ============================================
-// API CALL AVEC STREAMING
+// API CALL AVEC STREAMING (via Supabase Edge Function)
 // ============================================
 
 async function callAIAPIStream(messages, modelKey, onChunk) {
   var config = MODELS[modelKey];
   if (!config || !config.available) throw new Error(modelKey + ' not available');
-  if (!config.supportsStreaming) throw new Error(modelKey + ' does not support streaming');
 
-  var response = await fetch(config.url, {
+  // ============================================
+  // APPEL À LA FONCTION EDGE SUPABASE (sécurisée)
+  // Le streaming est simulé par morceaux côté client
+  // ============================================
+  var response = await fetch(EDGE_FUNCTION_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': config.auth
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY
     },
     body: JSON.stringify({
-      model: config.model,
-      messages: messages,
-      temperature: 0.7,
-      max_tokens: 4000,
-      stream: true
+      model: modelKey,
+      messages: messages
     })
   });
 
   if (!response.ok) {
-    var errorText = await response.text();
-    if (response.status === 401) throw new Error('Invalid API key');
-    if (response.status === 429) throw new Error('Rate limit exceeded');
-    throw new Error('API error: ' + response.status);
+    var errorData;
+    try {
+      errorData = await response.json();
+    } catch(e) {
+      throw new Error('API error: ' + response.status);
+    }
+    throw new Error(errorData.error || 'API error: ' + response.status);
   }
 
-  var reader = response.body.getReader();
-  var decoder = new TextDecoder();
+  var data = await response.json();
+
+  if (data.error) {
+    throw new Error(data.error);
+  }
+
+  // Extraire la réponse complète
   var fullText = '';
-  var buffer = '';
+  if (data.choices && data.choices[0] && data.choices[0].message) {
+    fullText = data.choices[0].message.content;
+  } else if (data.message) {
+    fullText = data.message;
+  } else {
+    fullText = JSON.stringify(data);
+  }
 
-  while (true) {
-    var { done, value } = await reader.read();
-    if (done) break;
-
-    var chunk = decoder.decode(value);
-    buffer += chunk;
-    
-    var lines = buffer.split('\n');
-    buffer = lines.pop() || '';
-
-    for (var i = 0; i < lines.length; i++) {
-      var line = lines[i].trim();
-      if (line === '') continue;
-      
-      if (line.startsWith('data: ')) {
-        var jsonStr = line.substring(6);
-        if (jsonStr === '[DONE]') continue;
-
-        try {
-          var data = JSON.parse(jsonStr);
-          var content = data.choices[0].delta.content || '';
-          if (content) {
-            fullText += content;
-            if (onChunk) onChunk(content, fullText);
-          }
-        } catch(e) {
-          // Ignorer les erreurs de parsing
-        }
-      }
+  // Simuler le streaming en envoyant par morceaux
+  var chunkSize = 20;
+  for (var i = 0; i < fullText.length; i += chunkSize) {
+    var chunk = fullText.substring(i, i + chunkSize);
+    if (onChunk) {
+      onChunk(chunk, fullText.substring(0, i + chunkSize));
     }
+    await new Promise(function(resolve) { setTimeout(resolve, 10); });
   }
 
   return fullText;
@@ -951,29 +925,47 @@ async function callAIAPI(messages, modelKey) {
   var config = MODELS[modelKey];
   if (!config || !config.available) throw new Error(modelKey + ' not available');
 
-  var response = await fetch(config.url, {
+  // ============================================
+  // APPEL À LA FONCTION EDGE SUPABASE (sécurisée)
+  // ============================================
+  var response = await fetch(EDGE_FUNCTION_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': config.auth
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY
     },
     body: JSON.stringify({
-      model: config.model,
-      messages: messages,
-      temperature: 0.7,
-      max_tokens: 4000
+      model: modelKey,
+      messages: messages
     })
   });
 
   if (!response.ok) {
-    var errorText = await response.text();
-    if (response.status === 401) throw new Error('Invalid API key');
-    if (response.status === 429) throw new Error('Rate limit exceeded');
-    throw new Error('API error: ' + response.status);
+    var errorData;
+    try {
+      errorData = await response.json();
+    } catch(e) {
+      throw new Error('API error: ' + response.status);
+    }
+    throw new Error(errorData.error || 'API error: ' + response.status);
   }
 
   var data = await response.json();
-  return data.choices[0].message.content;
+
+  if (data.error) {
+    throw new Error(data.error);
+  }
+
+  if (data.choices && data.choices[0] && data.choices[0].message) {
+    return data.choices[0].message.content;
+  }
+
+  if (data.message) {
+    return data.message;
+  }
+
+  return JSON.stringify(data);
 }
 
 async function sendMessageWithFallback(messages) {
@@ -986,7 +978,8 @@ async function sendMessageWithFallback(messages) {
     }
   }
 
-  var fallbackOrder = ['groq', 'mistral-devstral', 'mistral-codestral'];
+  // Ordre de fallback (Devstral supprimé, Gemini ajouté)
+  var fallbackOrder = ['groq', 'mistral-codestral', 'gemini'];
   for (var i = 0; i < fallbackOrder.length; i++) {
     var model = fallbackOrder[i];
     if (model === currentModel) continue;
@@ -1048,24 +1041,16 @@ async function sendMessage() {
   var apiMessages = [{ role: 'system', content: getSystemPrompt(currentUser ? currentUser.name : 'student') }].concat(historyMessages);
 
   try {
-    var modelSupportsStreaming = MODELS[currentModel] && MODELS[currentModel].supportsStreaming;
     var fullResponse = '';
-    
-    if (modelSupportsStreaming) {
-      await callAIAPIStream(apiMessages, currentModel, function(chunk, fullText) {
-        fullResponse = fullText;
-        var lastMsg = conv.messages[conv.messages.length - 1];
-        if (lastMsg && lastMsg.id === assistantId) {
-          lastMsg.content = fullText;
-        }
-      });
-    } else {
-      fullResponse = await callAIAPI(apiMessages, currentModel);
+
+    // Utiliser callAIAPIStream (qui gère maintenant le streaming simulé)
+    await callAIAPIStream(apiMessages, currentModel, function(chunk, fullText) {
+      fullResponse = fullText;
       var lastMsg = conv.messages[conv.messages.length - 1];
       if (lastMsg && lastMsg.id === assistantId) {
-        lastMsg.content = fullResponse;
+        lastMsg.content = fullText;
       }
-    }
+    });
 
     var cleanedResponse = cleanAIResponse(fullResponse);
     
@@ -1534,4 +1519,4 @@ if (document.readyState === 'loading') {
   initChatPage();
 }
 
-console.log('AI Assistant Core loaded with SMART TYPEWRITER + LaTeX detection');
+console.log('AI Assistant Core loaded - Version sécurisée via Supabase Edge Function');

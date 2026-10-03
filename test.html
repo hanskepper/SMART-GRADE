@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔒 Test Ultimate - SMART GRADE</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #0a192f 0%, #112240 100%);
+            color: #e6f1ff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header {
+            text-align: center;
+            padding: 25px;
+            background: rgba(20, 184, 166, 0.1);
+            border: 2px solid #14b8a6;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        header h1 { color: #14b8a6; font-size: 24px; margin-bottom: 8px; }
+        header p { color: #8892b0; font-size: 14px; }
+        button {
+            width: 100%;
+            padding: 18px;
+            font-size: 18px;
+            font-weight: bold;
+            background: linear-gradient(90deg, #14b8a6, #0d9488);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+        button:active { transform: scale(0.97); }
+        button:disabled { opacity: 0.6; cursor: wait; }
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: #1e293b;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #334155;
+        }
+        .stat-card .number { font-size: 28px; font-weight: bold; }
+        .stat-card .label { font-size: 11px; color: #8892b0; margin-top: 5px; }
+        .green { color: #4ade80; }
+        .red { color: #f87171; }
+        .orange { color: #fbbf24; }
+        .table-result {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-left: 5px solid #334155;
+        }
+        .table-result.secure { border-left-color: #4ade80; }
+        .table-result.danger { border-left-color: #f87171; }
+        .table-result.error { border-left-color: #fbbf24; }
+        .table-result h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .table-result .status {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .status.secure { background: #064e3b; color: #4ade80; }
+        .status.danger { background: #7f1d1d; color: #f87171; }
+        .status.error { background: #78350f; color: #fbbf24; }
+        .table-result .details {
+            font-size: 12px;
+            color: #8892b0;
+            font-family: monospace;
+            background: #0f172a;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 8px;
+            word-break: break-all;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .final-verdict {
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            display: none;
+        }
+        .final-verdict.show { display: block; }
+        .final-verdict.secure { background: linear-gradient(135deg, #064e3b, #065f46); border: 2px solid #4ade80; }
+        .final-verdict.danger { background: linear-gradient(135deg, #7f1d1d, #991b1b); border: 2px solid #f87171; }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #334155;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .progress-bar.show { display: block; }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #14b8a6, #4ade80);
+            width: 0%;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔒 TEST ULTIMATE DE SÉCURITÉ</h1>
+            <p>SMART GRADE v5.0 — Analyse complète de la base de données</p>
+        </header>
+
+        <button id="btnTest" onclick="lancerTest()">
+            🚀 LANCER LE TEST COMPLET
+        </button>
+
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="stats" id="stats" style="display:none;">
+            <div class="stat-card">
+                <div class="number green" id="nbSecure">0</div>
+                <div class="label">SÉCURISÉES</div>
+            </div>
+            <div class="stat-card">
+                <div class="number red" id="nbDanger">0</div>
+                <div class="label">VULNÉRABLES</div>
+            </div>
+            <div class="stat-card">
+                <div class="number orange" id="nbErreur">0</div>
+                <div class="label">ERREURS</div>
+            </div>
+        </div>
+
+        <div id="resultats"></div>
+
+        <div class="final-verdict" id="verdict"></div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://emurkofswlnkrygckaqdm.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_g_dUiyFlQbVhI2APntK52g_1YJpsfV1';
+
+        // Liste complète des tables de votre base SMART GRADE
+        const TABLES = [
+            'profiles',
+            'students',
+            'subjects',
+            'student_subjects',
+            'grades',
+            'achievements',
+            'flashcards',
+            'notes',
+            'homeworks'
+        ];
+
+        async function testerTable(nomTable) {
+            try {
+                const reponse = await fetch(
+                    `${SUPABASE_URL}/rest/v1/${nomTable}?select=*&limit=5`,
+                    {
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': `Bearer ${SUPABASE_KEY}`
+                        }
+                    }
+                );
+
+                const data = await reponse.json();
+
+                // Cas 1 : Tableau vide = sécurisé
+                if (Array.isArray(data) && data.length === 0) {
+                    return { table: nomTable, statut: 'secure', message: 'Accès bloqué (RLS actif). Aucune donnée exposée.' };
+                }
+
+                // Cas 2 : Erreur renvoyée par Supabase
+                if (data && (data.code || data.message || data.error || data.hint)) {
+                    return { table: nomTable, statut: 'secure', message: 'Accès refusé : ' + (data.message || data.error || data.code) };
+                }
+
+                // Cas 3 : Données exposées = DANGER
+                if (Array.isArray(data) && data.length > 0) {
+                    return {
+                        table: nomTable,
+                        statut: 'danger',
+                        message: `⚠️ ${data.length} ligne(s) exposée(s) !`,
+                        apercu: JSON.stringify(data.slice(0, 2), null, 2)
+                    };
+                }
+
+                // Cas 4 : Autre
+                return { table: nomTable, statut: 'error', message: 'Réponse inattendue : ' + JSON.stringify(data).substring(0, 200) };
+
+            } catch (err) {
+                return { table: nomTable, statut: 'error', message: 'Erreur réseau : ' + err.message };
+            }
+        }
+
+        async function lancerTest() {
+            const btn = document.getElementById('btnTest');
+            const progressBar = document.getElementById('progressBar');
+            const progressFill = document.getElementById('progressFill');
+            const resultatsDiv = document.getElementById('resultats');
+            const statsDiv = document.getElementById('stats');
+            const verdictDiv = document.getElementById('verdict');
+
+            btn.disabled = true;
+            btn.textContent = '⏳ Test en cours...';
+            resultatsDiv.innerHTML = '';
+            verdictDiv.classList.remove('show');
+            statsDiv.style.display = 'none';
+            progressBar.classList.add('show');
+            progressFill.style.width = '0%';
+
+            let nbSecure = 0, nbDanger = 0, nbErreur = 0;
+
+            for (let i = 0; i < TABLES.length; i++) {
+                const nomTable = TABLES[i];
+                const resultat = await testerTable(nomTable);
+
+                // Mise à jour de la progression
+                progressFill.style.width = ((i + 1) / TABLES.length * 100) + '%';
+
+                if (resultat.statut === 'secure') nbSecure++;
+                else if (resultat.statut === 'danger') nbDanger++;
+                else nbErreur++;
+
+                // Création de la carte de résultat
+                const carte = document.createElement('div');
+                carte.className = 'table-result ' + resultat.statut;
+
+                let labelStatut = '';
+                if (resultat.statut === 'secure') labelStatut = '✅ SÉCURISÉE';
+                else if (resultat.statut === 'danger') labelStatut = '❌ VULNÉRABLE';
+                else labelStatut = '⚠️ ERREUR';
+
+                carte.innerHTML = `
+                    <h3>
+                        <span>📋 ${nomTable}</span>
+                        <span class="status ${resultat.statut}">${labelStatut}</span>
+                    </h3>
+                    <div style="font-size:13px;color:#cbd5e1;margin-bottom:5px;">${resultat.message}</div>
+                    ${resultat.apercu ? `<div class="details">${resultat.apercu}</div>` : ''}
+                `;
+
+                resultatsDiv.appendChild(carte);
+            }
+
+            // Affichage des statistiques
+            document.getElementById('nbSecure').textContent = nbSecure;
+            document.getElementById('nbDanger').textContent = nbDanger;
+            document.getElementById('nbErreur').textContent = nbErreur;
+            statsDiv.style.display = 'grid';
+
+            // Verdict final
+            verdictDiv.classList.add('show');
+            if (nbDanger === 0 && nbErreur === 0) {
+                verdictDiv.className = 'final-verdict show secure';
+                verdictDiv.innerHTML = `🎉 <b>BASE DE DONNÉES 100% SÉCURISÉE</b><br><br>Toutes vos ${TABLES.length} tables sont protégées par le RLS.<br>Aucune donnée n'est exposée publiquement.`;
+            } else if (nbDanger > 0) {
+                verdictDiv.className = 'final-verdict show danger';
+                verdictDiv.innerHTML = `🚨 <b>ALERTE SÉCURITÉ : ${nbDanger} TABLE(S) VULNÉRABLE(S)</b><br><br>Vos données sont accessibles à n'importe qui.<br>Ajoutez des politiques RLS immédiatement dans Supabase.`;
+            } else {
+                verdictDiv.className = 'final-verdict show danger';
+                verdictDiv.innerHTML = `⚠️ <b>${nbErreur} TABLE(S) EN ERREUR</b><br><br>Vérifiez la connexion ou les noms des tables.`;
+            }
+
+            btn.disabled = false;
+            btn.textContent = '🔄 RELANCER LE TEST';
+        }
+    </script>
+</body>
+</html>

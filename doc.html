@@ -1818,33 +1818,35 @@ console.log(badge.name);  // "First Grade"</code></pre>
     // ============================================================
 
     function getIconForFile(filename) {
-      var ext = filename.split('.').pop().toLowerCase();
-      var icons = {
-        'html': 'fa-html5',
-        'css': 'fa-css3-alt',
-        'js': 'fa-js',
-        'json': 'fa-file-code',
-        'png': 'fa-image',
-        'jpg': 'fa-image',
-        'jpeg': 'fa-image',
-        'svg': 'fa-image',
-        'ico': 'fa-image',
-        'webp': 'fa-image',
-        'md': 'fa-file-alt',
-        'txt': 'fa-file-alt',
-        'xml': 'fa-sitemap',
-        'pdf': 'fa-file-pdf',
-        'zip': 'fa-file-archive',
-        'gz': 'fa-file-archive',
-        'map': 'fa-sitemap',
-        'webmanifest': 'fa-file-code',
-        'gitignore': 'fa-code',
-        'yml': 'fa-code',
-        'yaml': 'fa-code'
-      };
-      return icons[ext] || 'fa-file';
-    }
-
+  var ext = filename.split('.').pop().toLowerCase();
+  var icons = {
+    'html': 'fa-html5',
+    'css': 'fa-css3-alt',
+    'js': 'fa-js',
+    'json': 'fa-file-code',
+    'png': 'fa-image',
+    'jpg': 'fa-image',
+    'jpeg': 'fa-image',
+    'svg': 'fa-image',
+    'ico': 'fa-image',
+    'webp': 'fa-image',
+    'md': 'fa-file-alt',
+    'txt': 'fa-file-alt',
+    'xml': 'fa-sitemap',
+    'pdf': 'fa-file-pdf',
+    'zip': 'fa-file-archive',
+    'gz': 'fa-file-archive',
+    'map': 'fa-sitemap',
+    'webmanifest': 'fa-file-code',
+    'gitignore': 'fa-code',
+    'yml': 'fa-code',
+    'yaml': 'fa-code',
+    'sql': 'fa-database',
+    'db': 'fa-database',
+    'mmd': 'fa-project-diagram'
+  };
+  return icons[ext] || 'fa-file';
+}
     // ============================================================
     //  RENDER FOLDER IN MODAL
     // ============================================================

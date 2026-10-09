@@ -7,7 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=Cinzel:wght@400;700&family=Quicksand:wght@400;600;700&family=Courier+Prime:wght@400;700&family=Fredoka:wght@400;600;700&family=Pacifico&family=Bangers&family=Lobster&family=Permanent+Marker&family=Comfortaa:wght@300;400;700&family=Righteous&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
-  <!-- PRISM.JS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
@@ -280,9 +279,7 @@
     .file-structure-wrapper::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: 4px;
       background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
       background-size: 200% 100%;
@@ -341,11 +338,9 @@
     .file-structure-stats .stat-item::after {
       content: '';
       position: absolute;
-      bottom: 0;
-      left: 50%;
+      bottom: 0; left: 50%;
       transform: translateX(-50%);
-      width: 0;
-      height: 3px;
+      width: 0; height: 3px;
       background: linear-gradient(90deg, var(--primary), var(--secondary));
       border-radius: 3px;
       transition: width 0.3s ease;
@@ -380,9 +375,7 @@
     .file-structure-preview .folder-item::before {
       content: '';
       position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
+      left: 0; top: 0; bottom: 0;
       width: 0;
       background: linear-gradient(90deg, var(--primary), transparent);
       opacity: 0.1;
@@ -392,12 +385,10 @@
     .file-structure-preview .folder-item:hover::before { width: 100%; }
     .file-structure-preview .folder-item i {
       font-size: 1.3rem;
-      width: 36px;
-      height: 36px;
+      width: 36px; height: 36px;
       display: flex;
       align-items: center;
       justify-content: center;
-      text-align: center;
       color: #f39c12;
       background: rgba(243, 156, 18, 0.1);
       border-radius: 10px;
@@ -439,10 +430,8 @@
     .file-structure-actions .btn::before {
       content: '';
       position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
+      top: 50%; left: 50%;
+      width: 0; height: 0;
       background: rgba(255,255,255,0.2);
       border-radius: 50%;
       transform: translate(-50%, -50%);
@@ -608,7 +597,6 @@
     .file-tree-modal-body .tree-file i { width: 24px; font-size: 1rem; color: var(--primary); }
     .file-tree-modal-body .tree-file span { flex: 1; font-family: monospace; font-size: 0.7rem; font-weight: 500; color: var(--text); }
 
-    /* Icônes spéciales : utiliser la couleur du thème */
     .tree-file .fa-database,
     .tree-file .fa-project-diagram,
     .tree-file .fa-file-alt {
@@ -646,8 +634,7 @@
     .download-modal-header h3 { font-size: 1rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; justify-content: center; gap: 10px; }
     .download-modal-body { text-align: center; }
     .download-icon {
-      width: 70px;
-      height: 70px;
+      width: 70px; height: 70px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       display: flex;
@@ -665,8 +652,26 @@
     .download-filename { font-size: 0.85rem; font-weight: 700; color: var(--text); font-family: monospace; margin-bottom: 20px; }
     .download-progress-bar { width: 100%; height: 8px; background: var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
     .download-progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 10px; transition: width 0.3s ease; }
-    .download-info { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-light); font-family: monospace; }
+    .download-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: var(--text-light);
+      font-family: monospace;
+      margin-bottom: 6px;
+    }
     #downloadPercent { font-weight: 700; color: var(--primary); }
+    #downloadSpeed { font-weight: 700; color: var(--secondary); }
+    .download-status-line {
+      text-align: center;
+      font-size: 0.65rem;
+      color: var(--text-light);
+      font-family: monospace;
+      margin-top: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
     /* ============================================
        PDF DOWNLOAD BUTTONS
@@ -1448,8 +1453,9 @@ console.log(badge.name);  // "First Grade"</code></pre>
         </div>
         <div class="download-info">
           <span id="downloadPercent">0%</span>
-          <span id="downloadStatus">Starting download...</span>
+          <span id="downloadSpeed">0 MB/s</span>
         </div>
+        <div class="download-status-line" id="downloadStatus">Starting download...</div>
       </div>
     </div>
   </div>
@@ -1470,7 +1476,6 @@ console.log(badge.name);  // "First Grade"</code></pre>
     var REPO_NAME = 'SMART-GRADE';
     var BASE_URL = 'https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + '/contents/';
 
-    // URL du proxy CORS public pour contourner les restrictions GitHub
     var PROXY_URL = 'https://corsproxy.io/?url=https%3A%2F%2Fgithub.com%2Fhanskepper%2FSMART-GRADE%2Farchive%2Frefs%2Fheads%2Fmain.zip';
 
     // ============================================================
@@ -1514,13 +1519,7 @@ console.log(badge.name);  // "First Grade"</code></pre>
       subFolders.sort(function(a, b) { return a.name.localeCompare(b.name); });
       children.sort();
 
-      return {
-        name: name,
-        path: path,
-        type: 'dir',
-        children: children,
-        subFolders: subFolders
-      };
+      return { name: name, path: path, type: 'dir', children: children, subFolders: subFolders };
     }
 
     // ============================================================
@@ -1618,9 +1617,7 @@ console.log(badge.name);  // "First Grade"</code></pre>
     function toggleFolderInModal(header) {
       header.classList.toggle('open');
       var content = header.nextElementSibling;
-      if (content) {
-        content.classList.toggle('show');
-      }
+      if (content) content.classList.toggle('show');
     }
 
     // ============================================================
@@ -1652,7 +1649,6 @@ console.log(badge.name);  // "First Grade"</code></pre>
     // ============================================================
     async function buildFileTreeInModal() {
       var body = document.getElementById('fileTreeModalBody');
-      
       body.innerHTML = '<div class="loading-state"><i class="fas fa-spinner fa-spin"></i><p>Loading file structure from GitHub...</p></div>';
 
       try {
@@ -1714,26 +1710,13 @@ console.log(badge.name);  // "First Grade"</code></pre>
     var autoRefreshInterval = null;
 
     function startAutoRefresh() {
-      if (autoRefreshInterval) {
-        clearInterval(autoRefreshInterval);
-      }
-      
+      if (autoRefreshInterval) clearInterval(autoRefreshInterval);
       autoRefreshInterval = setInterval(function() {
         console.log('[File Structure] Auto-refresh...');
         loadFileStructureStats();
-        
         var modal = document.getElementById('fileTreeModal');
-        if (modal.classList.contains('active')) {
-          buildFileTreeInModal();
-        }
+        if (modal.classList.contains('active')) buildFileTreeInModal();
       }, 30000);
-    }
-
-    function stopAutoRefresh() {
-      if (autoRefreshInterval) {
-        clearInterval(autoRefreshInterval);
-        autoRefreshInterval = null;
-      }
     }
 
     // ============================================================
@@ -1818,7 +1801,7 @@ console.log(badge.name);  // "First Grade"</code></pre>
     }
 
     // ============================================================
-    //  DOWNLOAD SOURCE CODE AS ZIP (avec proxy CORS)
+    //  DOWNLOAD SOURCE CODE AS ZIP
     // ============================================================
     function downloadSourceCode() {
       showToast('Downloading source code...');
@@ -1829,11 +1812,13 @@ console.log(badge.name);  // "First Grade"</code></pre>
       var modal = document.getElementById('downloadModal');
       var progressBar = document.getElementById('downloadProgress');
       var progressText = document.getElementById('downloadPercent');
+      var speedText = document.getElementById('downloadSpeed');
       var statusText = document.getElementById('downloadStatus');
 
       modal.classList.add('active');
       progressBar.style.width = '0%';
       progressText.textContent = '0%';
+      speedText.textContent = '0 MB/s';
       statusText.textContent = 'Starting download...';
 
       try {
@@ -1860,9 +1845,11 @@ console.log(badge.name);  // "First Grade"</code></pre>
             var percent = Math.round((loaded / total) * 100);
             progressBar.style.width = percent + '%';
             progressText.textContent = percent + '%';
-            statusText.textContent = (loaded / 1024 / 1024).toFixed(2) + ' MB / ' + (total / 1024 / 1024).toFixed(2) + ' MB · ' + speed.toFixed(2) + ' MB/s';
+            speedText.textContent = speed.toFixed(2) + ' MB/s';
+            statusText.textContent = (loaded / 1024 / 1024).toFixed(2) + ' MB / ' + (total / 1024 / 1024).toFixed(2) + ' MB';
           } else {
-            statusText.textContent = (loaded / 1024 / 1024).toFixed(2) + ' MB · ' + speed.toFixed(2) + ' MB/s';
+            speedText.textContent = speed.toFixed(2) + ' MB/s';
+            statusText.textContent = (loaded / 1024 / 1024).toFixed(2) + ' MB';
           }
         }
 
@@ -1880,6 +1867,7 @@ console.log(badge.name);  // "First Grade"</code></pre>
 
         progressBar.style.width = '100%';
         progressText.textContent = '100%';
+        speedText.textContent = '✓';
         statusText.textContent = 'Download complete!';
 
         setTimeout(function() {
@@ -1914,9 +1902,7 @@ console.log(badge.name);  // "First Grade"</code></pre>
             btn.classList.remove('copied');
           }, 2000);
           showToast('Code copied to clipboard');
-        }).catch(function() {
-          fallbackCopyCode(text, btn);
-        });
+        }).catch(function() { fallbackCopyCode(text, btn); });
       } else {
         fallbackCopyCode(text, btn);
       }
@@ -2015,9 +2001,7 @@ console.log(badge.name);  // "First Grade"</code></pre>
       if (!document.hidden) {
         loadFileStructureStats();
         var modal = document.getElementById('fileTreeModal');
-        if (modal.classList.contains('active')) {
-          buildFileTreeInModal();
-        }
+        if (modal.classList.contains('active')) buildFileTreeInModal();
       }
     });
 
@@ -2029,7 +2013,6 @@ console.log(badge.name);  // "First Grade"</code></pre>
       window.location.href = 'index.html';
     }
 
-    // Exposer les fonctions globales
     window.logout = logout;
     window.copyCode = copyCode;
     window.toggleFolderInModal = toggleFolderInModal;

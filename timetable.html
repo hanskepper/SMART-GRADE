@@ -14,8 +14,11 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0f3b48">
   <style>
+    /* ============================================
+       TIMETABLE — ORIGINAL STYLES (kept)
+       ============================================ */
     .tt-wrapper{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -16px;padding:0 16px;}
-    .tt-table{width:100%;min-width:800px;border-collapse:collapse;font-size:0.62rem;background:var(--card-bg);border-radius:16px;overflow:hidden;table-layout:fixed;}
+    .tt-table{width:100%;min-width:820px;border-collapse:separate;border-spacing:0;font-size:0.62rem;background:var(--card-bg);border-radius:16px;overflow:hidden;table-layout:fixed;}
     .tt-table th,.tt-table td{border:1px solid var(--border);text-align:center;vertical-align:middle;padding:10px 4px;}
     .tt-table thead th{background:var(--primary);color:white;padding:12px 4px;font-weight:700;font-size:0.55rem;text-transform:uppercase;letter-spacing:1px;}
     .tt-table thead th.break-col{background:#c0392b;font-size:0.5rem;width:4%;}
@@ -43,6 +46,127 @@
     .legend-item{display:flex;align-items:center;gap:6px;font-size:0.55rem;padding:6px 8px;border-radius:8px;background:rgba(0,0,0,0.02);}
     .legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
     @media(max-width:400px){.legend-grid{grid-template-columns:repeat(3,1fr);}}
+
+    /* ============================================
+       FIX — Rounded corners on table
+       ============================================ */
+    .tt-table thead th:first-child{border-top-left-radius:16px;}
+    .tt-table thead th:last-child{border-top-right-radius:16px;}
+    .tt-table tbody tr:last-child td:first-child{border-bottom-left-radius:16px;}
+    .tt-table tbody tr:last-child td:last-child{border-bottom-right-radius:16px;}
+    /* The second-to-last cell of last row (before last) must not be rounded */
+    .tt-table tbody tr:last-child td:last-child{overflow:hidden;}
+
+    /* ============================================
+       NEW — View toggle (Table / Cards)
+       ============================================ */
+    .tt-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;flex-wrap:wrap;}
+    .tt-view-toggle{display:flex;gap:4px;background:rgba(0,0,0,0.04);border-radius:14px;padding:4px;flex:1;min-width:0;}
+    .tt-toggle-btn{flex:1;padding:8px 12px;border-radius:10px;border:none;background:transparent;color:var(--text-light);font-weight:600;font-size:0.7rem;cursor:pointer;transition:all 0.25s ease;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;}
+    .tt-toggle-btn i{font-size:0.75rem;}
+    .tt-toggle-btn.active{background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;box-shadow:0 2px 8px rgba(15,59,72,0.2);}
+    .tt-toggle-btn:active{transform:scale(0.96);}
+    .tt-today-btn{padding:8px 14px;border-radius:14px;border:1px solid var(--border);background:var(--card-bg);color:var(--text);font-weight:600;font-size:0.7rem;cursor:pointer;transition:all 0.25s ease;font-family:inherit;display:flex;align-items:center;gap:6px;white-space:nowrap;}
+    .tt-today-btn:hover{border-color:var(--primary);color:var(--primary);}
+    .tt-today-btn:active{transform:scale(0.96);}
+    body.night-mode .tt-view-toggle{background:rgba(255,255,255,0.06);}
+
+    /* ============================================
+       NEW — Highlight current day (table)
+       ============================================ */
+    .tt-table td.today-cell{box-shadow:inset 0 0 0 2px var(--primary);font-weight:700;}
+    .tt-table td.day-cell.today-day{background:var(--primary);color:white;}
+    .tt-table thead th.today-head{background:#0a2a34;}
+    .tt-table td.today-cell::before{content:'★';position:absolute;top:2px;right:3px;font-size:0.5rem;color:var(--primary);}
+    .tt-table td.today-cell{position:relative;}
+
+    /* ============================================
+       NEW — Cards view: one day at a time + horizontal scroll
+       ============================================ */
+    .tt-cards-view{
+      display:flex;
+      flex-direction:row;
+      gap:12px;
+      overflow-x:auto;
+      overflow-y:hidden;
+      scroll-snap-type:x mandatory;
+      -webkit-overflow-scrolling:touch;
+      padding:4px 4px 14px 4px;
+      margin:0 -16px;
+      padding-left:16px;
+      padding-right:16px;
+      scrollbar-width:none;
+    }
+    .tt-cards-view::-webkit-scrollbar{display:none;}
+
+    .tt-day-card{
+      flex:0 0 100%;
+      min-width:100%;
+      scroll-snap-align:center;
+      scroll-snap-stop:always;
+      background:var(--card-bg);
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:14px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.04);
+      transition:all 0.3s ease;
+    }
+    .tt-day-card.today{border:2px solid var(--primary);box-shadow:0 4px 16px rgba(15,59,72,0.15);}
+    .tt-day-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+    .tt-day-name{font-size:0.95rem;font-weight:800;color:var(--text);text-transform:capitalize;}
+    .tt-day-card.today .tt-day-name{color:var(--primary);}
+    .tt-day-badge{font-size:0.55rem;font-weight:700;letter-spacing:1px;padding:4px 10px;border-radius:20px;background:rgba(0,0,0,0.05);color:var(--text-light);}
+    .tt-day-card.today .tt-day-badge{background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;}
+    .tt-lessons{display:flex;flex-direction:column;gap:6px;}
+    .tt-lesson{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;border:1px solid var(--border);}
+    .tt-lesson-time{font-size:0.6rem;font-weight:700;color:var(--text-light);min-width:80px;font-variant-numeric:tabular-nums;}
+    .tt-lesson-info{display:flex;align-items:center;gap:8px;font-size:0.75rem;font-weight:600;flex:1;min-width:0;}
+    .tt-lesson-info i{font-size:0.8rem;opacity:0.8;flex-shrink:0;}
+    .tt-lesson-info span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .tt-break{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;background:rgba(231,76,60,0.08);color:#c0392b;font-size:0.6rem;font-weight:700;letter-spacing:0.5px;}
+    .tt-break i{font-size:0.7rem;}
+    .tt-lesson.tt-empty{background:rgba(0,0,0,0.02);color:var(--text-light);font-style:italic;}
+    body.night-mode .tt-lesson.tt-empty{background:rgba(255,255,255,0.03);}
+
+    /* Pagination dots */
+    .tt-pagination{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:8px;
+      padding:8px 0 4px;
+    }
+    .tt-dot{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:rgba(0,0,0,0.15);
+      border:none;
+      padding:0;
+      cursor:pointer;
+      transition:all 0.25s ease;
+    }
+    .tt-dot.active{
+      width:24px;
+      border-radius:4px;
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+    }
+    .tt-dot:active{transform:scale(0.85);}
+    body.night-mode .tt-dot{background:rgba(255,255,255,0.15);}
+    body.night-mode .tt-dot.active{background:linear-gradient(135deg,var(--primary),var(--secondary));}
+
+    /* ============================================
+       NEW — Scroll hint (table on mobile)
+       ============================================ */
+    .tt-scroll-hint{display:none;align-items:center;gap:6px;font-size:0.6rem;color:var(--text-light);padding:0 0 8px 4px;}
+    @media(max-width:900px){.tt-scroll-hint{display:flex;}}
+
+    /* ============================================
+       FIX — Space between timetable card and Subjects card
+       ============================================ */
+    #tableView{margin-bottom:18px;}
+    #cardsView{margin-bottom:18px;}
+    .main-content > .glass-card + .glass-card{margin-top:0;}
   </style>
 </head>
 <body>
@@ -80,18 +204,180 @@
         <h2 style="color:white;margin:8px 0;">Form 5B Science</h2>
         <p style="opacity:0.8;font-size:0.7rem;">GBHS Foumban • Academic Year 2026-2027</p>
       </div>
-      <div class="glass-card tt-wrapper">
+
+      <!-- Toolbar: Table / Cards toggle + Today -->
+      <div class="glass-card tt-toolbar">
+        <div class="tt-view-toggle">
+          <button class="tt-toggle-btn active" id="viewTableBtn"><i class="fas fa-table"></i> Table</button>
+          <button class="tt-toggle-btn" id="viewCardsBtn"><i class="fas fa-layer-group"></i> Cards</button>
+        </div>
+        <button class="tt-today-btn" id="todayBtn"><i class="fas fa-calendar-day"></i> Today</button>
+      </div>
+
+      <!-- TABLE VIEW -->
+      <div class="glass-card tt-wrapper" id="tableView">
+        <div class="tt-scroll-hint"><i class="fas fa-arrows-left-right"></i> Swipe to see more</div>
         <table class="tt-table">
-          <thead><tr><th>DAY</th><th>7:30-8:25</th><th>8:25-9:20</th><th>9:20-10:15</th><th class="break-col">1st BREAK</th><th>10:35-11:30</th><th>11:30-12:20</th><th class="break-col">2nd BREAK</th><th>12:50-1:45</th><th>1:45-2:35</th><th>2:35-3:30</th></tr></thead>
+          <thead>
+            <tr>
+              <th>DAY</th>
+              <th data-slot="0">7:30-8:25</th>
+              <th data-slot="1">8:25-9:20</th>
+              <th data-slot="2">9:20-10:15</th>
+              <th class="break-col">1st BREAK</th>
+              <th data-slot="3">10:35-11:30</th>
+              <th data-slot="4">11:30-12:20</th>
+              <th class="break-col">2nd BREAK</th>
+              <th data-slot="5">12:50-1:45</th>
+              <th data-slot="6">1:45-2:35</th>
+              <th data-slot="7">2:35-3:30</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td class="day-cell">MON</td><td class="tt-bio"><i class="fas fa-leaf"></i>Biology</td><td class="tt-eng"><i class="fas fa-language"></i>English Language</td><td class="tt-eng"><i class="fas fa-language"></i>English Language</td><td class="break-cell" rowspan="5">FIRST BREAK</td><td class="tt-phy"><i class="fas fa-atom"></i>Physics / Geology</td><td class="tt-math"><i class="fas fa-square-root-variable"></i>Mathematics</td><td class="break-cell" rowspan="5">SECOND BREAK</td><td class="tt-math"><i class="fas fa-square-root-variable"></i>Mathematics</td><td class="tt-hbio"><i class="fas fa-dna"></i>Human Biology</td><td class="tt-hbio"><i class="fas fa-dna"></i>Human Biology</td></tr>
-            <tr><td class="day-cell">TUE</td><td class="tt-math"><i class="fas fa-square-root-variable"></i>Mathematics</td><td class="tt-chm"><i class="fas fa-flask"></i>Chemistry</td><td class="tt-cs"><i class="fas fa-laptop-code"></i>Computer Science</td><td class="tt-cs"><i class="fas fa-laptop-code"></i>Computer Science</td><td class="tt-geo"><i class="fas fa-earth-africa"></i>Geography</td><td class="tt-geo"><i class="fas fa-earth-africa"></i>Geography</td><td class="tt-amath"><i class="fas fa-calculator"></i>Additional Mathematics / Human Biology</td><td class="tt-amath"><i class="fas fa-calculator"></i>Additional Mathematics / Human Biology</td></tr>
-            <tr><td class="day-cell">WED</td><td class="tt-bio"><i class="fas fa-leaf"></i>Biology</td><td class="tt-bio"><i class="fas fa-leaf"></i>Biology</td><td class="tt-eco"><i class="fas fa-chart-line"></i>Economics</td><td class="tt-chm"><i class="fas fa-flask"></i>Chemistry</td><td class="tt-food"><i class="fas fa-apple-whole"></i>Food and Nutrition</td><td class="tt-food"><i class="fas fa-apple-whole"></i>Food and Nutrition</td><td class="tt-eco"><i class="fas fa-chart-line"></i>Economics</td><td class="tt-eco"><i class="fas fa-chart-line"></i>Economics</td></tr>
-            <tr><td class="day-cell">THU</td><td class="tt-eco"><i class="fas fa-chart-line"></i>Economics</td><td class="tt-eco"><i class="fas fa-chart-line"></i>Economics</td><td class="tt-geo"><i class="fas fa-earth-africa"></i>Geography</td><td class="tt-civ"><i class="fas fa-landmark"></i>Citizenship</td><td class="tt-phy"><i class="fas fa-atom"></i>Physics / Geology</td><td class="tt-phy"><i class="fas fa-atom"></i>Physics / Geology</td><td class="tt-fr"><i class="fas fa-flag"></i>French</td><td class="tt-food"><i class="fas fa-apple-whole"></i>Food and Nutrition</td></tr>
-            <tr><td class="day-cell">FRI</td><td class="tt-fr"><i class="fas fa-flag"></i>French</td><td class="tt-fr"><i class="fas fa-flag"></i>French</td><td class="tt-eng"><i class="fas fa-language"></i>English Language</td><td class="empty-cell">—</td><td class="tt-chm"><i class="fas fa-flask"></i>Chemistry</td><td class="tt-civ"><i class="fas fa-landmark"></i>Citizenship</td><td class="tt-civ"><i class="fas fa-landmark"></i>Citizenship</td><td class="tt-chm"><i class="fas fa-flask"></i>Chemistry</td></tr>
+            <tr data-day="1">
+              <td class="day-cell">MON</td>
+              <td class="tt-bio" data-slot="0"><i class="fas fa-leaf"></i>Biology</td>
+              <td class="tt-eng" data-slot="1"><i class="fas fa-language"></i>English Language</td>
+              <td class="tt-eng" data-slot="2"><i class="fas fa-language"></i>English Language</td>
+              <td class="break-cell" rowspan="5">FIRST BREAK</td>
+              <td class="tt-phy" data-slot="3"><i class="fas fa-atom"></i>Physics / Geology</td>
+              <td class="tt-math" data-slot="4"><i class="fas fa-square-root-variable"></i>Mathematics</td>
+              <td class="break-cell" rowspan="5">SECOND BREAK</td>
+              <td class="tt-math" data-slot="5"><i class="fas fa-square-root-variable"></i>Mathematics</td>
+              <td class="tt-hbio" data-slot="6"><i class="fas fa-dna"></i>Human Biology</td>
+              <td class="tt-hbio" data-slot="7"><i class="fas fa-dna"></i>Human Biology</td>
+            </tr>
+            <tr data-day="2">
+              <td class="day-cell">TUE</td>
+              <td class="tt-math" data-slot="0"><i class="fas fa-square-root-variable"></i>Mathematics</td>
+              <td class="tt-chm" data-slot="1"><i class="fas fa-flask"></i>Chemistry</td>
+              <td class="tt-cs" data-slot="2"><i class="fas fa-laptop-code"></i>Computer Science</td>
+              <td class="tt-cs" data-slot="3"><i class="fas fa-laptop-code"></i>Computer Science</td>
+              <td class="tt-geo" data-slot="4"><i class="fas fa-earth-africa"></i>Geography</td>
+              <td class="tt-geo" data-slot="5"><i class="fas fa-earth-africa"></i>Geography</td>
+              <td class="tt-amath" data-slot="6"><i class="fas fa-calculator"></i>Add. Maths / Human Biology</td>
+              <td class="tt-amath" data-slot="7"><i class="fas fa-calculator"></i>Add. Maths / Human Biology</td>
+            </tr>
+            <tr data-day="3">
+              <td class="day-cell">WED</td>
+              <td class="tt-bio" data-slot="0"><i class="fas fa-leaf"></i>Biology</td>
+              <td class="tt-bio" data-slot="1"><i class="fas fa-leaf"></i>Biology</td>
+              <td class="tt-eco" data-slot="2"><i class="fas fa-chart-line"></i>Economics</td>
+              <td class="tt-chm" data-slot="3"><i class="fas fa-flask"></i>Chemistry</td>
+              <td class="tt-food" data-slot="4"><i class="fas fa-apple-whole"></i>Food and Nutrition</td>
+              <td class="tt-food" data-slot="5"><i class="fas fa-apple-whole"></i>Food and Nutrition</td>
+              <td class="tt-eco" data-slot="6"><i class="fas fa-chart-line"></i>Economics</td>
+              <td class="tt-eco" data-slot="7"><i class="fas fa-chart-line"></i>Economics</td>
+            </tr>
+            <tr data-day="4">
+              <td class="day-cell">THU</td>
+              <td class="tt-eco" data-slot="0"><i class="fas fa-chart-line"></i>Economics</td>
+              <td class="tt-eco" data-slot="1"><i class="fas fa-chart-line"></i>Economics</td>
+              <td class="tt-geo" data-slot="2"><i class="fas fa-earth-africa"></i>Geography</td>
+              <td class="tt-civ" data-slot="3"><i class="fas fa-landmark"></i>Citizenship</td>
+              <td class="tt-phy" data-slot="4"><i class="fas fa-atom"></i>Physics / Geology</td>
+              <td class="tt-phy" data-slot="5"><i class="fas fa-atom"></i>Physics / Geology</td>
+              <td class="tt-fr" data-slot="6"><i class="fas fa-flag"></i>French</td>
+              <td class="tt-food" data-slot="7"><i class="fas fa-apple-whole"></i>Food and Nutrition</td>
+            </tr>
+            <tr data-day="5">
+              <td class="day-cell">FRI</td>
+              <td class="tt-fr" data-slot="0"><i class="fas fa-flag"></i>French</td>
+              <td class="tt-fr" data-slot="1"><i class="fas fa-flag"></i>French</td>
+              <td class="tt-eng" data-slot="2"><i class="fas fa-language"></i>English Language</td>
+              <td class="empty-cell" data-slot="3">—</td>
+              <td class="tt-chm" data-slot="4"><i class="fas fa-flask"></i>Chemistry</td>
+              <td class="tt-civ" data-slot="5"><i class="fas fa-landmark"></i>Citizenship</td>
+              <td class="tt-civ" data-slot="6"><i class="fas fa-landmark"></i>Citizenship</td>
+              <td class="tt-chm" data-slot="7"><i class="fas fa-flask"></i>Chemistry</td>
+            </tr>
           </tbody>
         </table>
       </div>
+
+      <!-- CARDS VIEW (hidden by default) -->
+      <div id="cardsView" class="tt-cards-view" style="display:none;">
+        <div class="tt-day-card" data-day="1">
+          <div class="tt-day-header"><span class="tt-day-name">Monday</span><span class="tt-day-badge">MON</span></div>
+          <div class="tt-lessons">
+            <div class="tt-lesson tt-bio"><div class="tt-lesson-time">7:30 – 8:25</div><div class="tt-lesson-info"><i class="fas fa-leaf"></i><span>Biology</span></div></div>
+            <div class="tt-lesson tt-eng"><div class="tt-lesson-time">8:25 – 9:20</div><div class="tt-lesson-info"><i class="fas fa-language"></i><span>English Language</span></div></div>
+            <div class="tt-lesson tt-eng"><div class="tt-lesson-time">9:20 – 10:15</div><div class="tt-lesson-info"><i class="fas fa-language"></i><span>English Language</span></div></div>
+            <div class="tt-break"><i class="fas fa-mug-hot"></i> FIRST BREAK — 10:15 to 10:35</div>
+            <div class="tt-lesson tt-phy"><div class="tt-lesson-time">10:35 – 11:30</div><div class="tt-lesson-info"><i class="fas fa-atom"></i><span>Physics / Geology</span></div></div>
+            <div class="tt-lesson tt-math"><div class="tt-lesson-time">11:30 – 12:20</div><div class="tt-lesson-info"><i class="fas fa-square-root-variable"></i><span>Mathematics</span></div></div>
+            <div class="tt-break"><i class="fas fa-mug-hot"></i> SECOND BREAK — 12:20 to 12:50</div>
+            <div class="tt-lesson tt-math"><div class="tt-lesson-time">12:50 – 1:45</div><div class="tt-lesson-info"><i class="fas fa-square-root-variable"></i><span>Mathematics</span></div></div>
+            <div class="tt-lesson tt-hbio"><div class="tt-lesson-time">1:45 – 2:35</div><div class="tt-lesson-info"><i class="fas fa-dna"></i><span>Human Biology</span></div></div>
+            <div class="tt-lesson tt-hbio"><div class="tt-lesson-time">2:35 – 3:30</div><div class="tt-lesson-info"><i class="fas fa-dna"></i><span>Human Biology</span></div></div>
+          </div>
+        </div>
+
+        <div class="tt-day-card" data-day="2">
+          <div class="tt-day-header"><span class="tt-day-name">Tuesday</span><span class="tt-day-badge">TUE</span></div>
+          <div class="tt-lessons">
+            <div class="tt-lesson tt-math"><div class="tt-lesson-time">7:30 – 8:25</div><div class="tt-lesson-info"><i class="fas fa-square-root-variable"></i><span>Mathematics</span></div></div>
+            <div class="tt-lesson tt-chm"><div class="tt-lesson-time">8:25 – 9:20</div><div class="tt-lesson-info"><i class="fas fa-flask"></i><span>Chemistry</span></div></div>
+            <div class="tt-lesson tt-cs"><div class="tt-lesson-time">9:20 – 10:15</div><div class="tt-lesson-info"><i class="fas fa-laptop-code"></i><span>Computer Science</span></div></div>
+            <div class="tt-break"><i class="fas fa-mug-hot"></i> FIRST BREAK — 10:15 to 10:35</div>
+            <div class="tt-lesson tt-cs"><div class="tt-lesson-time">10:35 – 11:30</div><div class="tt-lesson-info"><i class="fas fa-laptop-code"></i><span>Computer Science</span></div></div>
+            <div class="tt-lesson tt-geo"><div class="tt-lesson-time">11:30 – 12:20</div><div class="tt-lesson-info"><i class="fas fa-earth-africa"></i><span>Geography</span></div></div>
+            <div class="tt-break"><i class="fas fa-mug-hot"></i> SECOND BREAK — 12:20 to 12:50</div>
+            <div class="tt-lesson tt-geo"><div class="tt-lesson-time">12:50 – 1:45</div><div class="tt-lesson-info"><i class="fas fa-earth-africa"></i><span>Geography</span></div></div>
+            <div class="tt-lesson tt-amath"><div class="tt-lesson-time">1:45 – 2:35</div><div class="tt-lesson-info"><i class="fas fa-calculator"></i><span>Add. Maths / Human Biology</span></div></div>
+            <div class="tt-lesson tt-amath"><div class="tt-lesson-time">2:35 – 3:30</div><div class="tt-lesson-info"><i class="fas fa-calculator"></i><span>Add. Maths / Human Biology</span></div></div>
+          </div>
+        </div>
+
+        <div class="tt-day-card" data-day="3">
+          <div class="tt-day-header"><span class="tt-day-name">Wednesday</span><span class="tt-day-badge">WED</span></div>
+          <div class="tt-lessons">
+            <div class="tt-lesson tt-bio"><div class="tt-lesson-time">7:30 – 8:25</div><div class="tt-lesson-info"><i class="fas fa-leaf"></i><span>Biology</span></div></div>
+            <div class="tt-lesson tt-bio"><div class="tt-lesson-time">8:25 – 9:20</div><div class="tt-lesson-info"><i class="fas fa-leaf"></i><span>Biology</span></div></div>
+            <div class="tt-lesson tt-eco"><div class="tt-lesson-time">9:20 – 10:15</div><div class="tt-lesson-info"><i class="fas fa-chart-line"></i><span>Economics</span></div></div>
+            <div class="tt-break"><i class="fas fa-mug-hot"></i> FIRST BREAK — 10:15 to 10:35</div>
+            <div class="tt-lesson tt-chm"><div class="tt-lesson-time">10:35 – 11:30</div><div class="tt-lesson-info"><i class="fas fa-flask"></i><span>Chemistry</span></div></div>
+            <div class="tt-lesson tt-food"><div class="tt-lesson-time">11:30 – 12:20</div><div class="tt-lesson-info"><i class="fas fa-apple-whole"></i><span>Food and Nutrition</span></div></div>
+            <div class="tt-break"><i class="fas fa-mug-hot"></i> SECOND BREAK — 12:20 to 12:50</div>
+            <div class="tt-lesson tt-food"><div class="tt-lesson-time">12:50 – 1:45</div><div class="tt-lesson-info"><i class="fas fa-apple-whole"></i><span>Food and Nutrition</span></div></div>
+            <div class="tt-lesson tt-eco"><div class="tt-lesson-time">1:45 – 2:35</div><div class="tt-lesson-info"><i class="fas fa-chart-line"></i><span>Economics</span></div></div>
+            <div class="tt-lesson tt-eco"><div class="tt-lesson-time">2:35 – 3:30</div><div class="tt-lesson-info"><i class="fas fa-chart-line"></i><span>Economics</span></div></div>
+          </div>
+        </div>
+
+        <div class="tt-day-card" data-day="4">
+          <div class="tt-day-header"><span class="tt-day-name">Thursday</span><span class="tt-day-badge">THU</span></div>
+          <div class="tt-lessons">
+            <div class="tt-lesson tt-eco"><div class="tt-lesson-time">7:30 – 8:25</div><div class="tt-lesson-info"><i class="fas fa-chart-line"></i><span>Economics</span></div></div>
+            <div class="tt-lesson tt-eco"><div class="tt-lesson-time">8:25 – 9:20</div><div class="tt-lesson-info"><i class="fas fa-chart-line"></i><span>Economics</span></div></div>
+            <div class="tt-lesson tt-geo"><div class="tt-lesson-time">9:20 – 10:15</div><div class="tt-lesson-info"><i class="fas fa-earth-africa"></i><span>Geography</span></div></div>
+            <div class="tt-break"><i class="fas fa-mug-hot"></i> FIRST BREAK — 10:15 to 10:35</div>
+            <div class="tt-lesson tt-civ"><div class="tt-lesson-time">10:35 – 11:30</div><div class="tt-lesson-info"><i class="fas fa-landmark"></i><span>Citizenship</span></div></div>
+            <div class="tt-lesson tt-phy"><div class="tt-lesson-time">11:30 – 12:20</div><div class="tt-lesson-info"><i class="fas fa-atom"></i><span>Physics / Geology</span></div></div>
+            <div class="tt-break"><i class="fas fa-mug-hot"></i> SECOND BREAK — 12:20 to 12:50</div>
+            <div class="tt-lesson tt-phy"><div class="tt-lesson-time">12:50 – 1:45</div><div class="tt-lesson-info"><i class="fas fa-atom"></i><span>Physics / Geology</span></div></div>
+            <div class="tt-lesson tt-fr"><div class="tt-lesson-time">1:45 – 2:35</div><div class="tt-lesson-info"><i class="fas fa-flag"></i><span>French</span></div></div>
+            <div class="tt-lesson tt-food"><div class="tt-lesson-time">2:35 – 3:30</div><div class="tt-lesson-info"><i class="fas fa-apple-whole"></i><span>Food and Nutrition</span></div></div>
+          </div>
+        </div>
+
+        <div class="tt-day-card" data-day="5">
+          <div class="tt-day-header"><span class="tt-day-name">Friday</span><span class="tt-day-badge">FRI</span></div>
+          <div class="tt-lessons">
+            <div class="tt-lesson tt-fr"><div class="tt-lesson-time">7:30 – 8:25</div><div class="tt-lesson-info"><i class="fas fa-flag"></i><span>French</span></div></div>
+            <div class="tt-lesson tt-fr"><div class="tt-lesson-time">8:25 – 9:20</div><div class="tt-lesson-info"><i class="fas fa-flag"></i><span>French</span></div></div>
+            <div class="tt-lesson tt-eng"><div class="tt-lesson-time">9:20 – 10:15</div><div class="tt-lesson-info"><i class="fas fa-language"></i><span>English Language</span></div></div>
+            <div class="tt-break"><i class="fas fa-mug-hot"></i> FIRST BREAK — 10:15 to 10:35</div>
+            <div class="tt-lesson tt-empty"><div class="tt-lesson-time">10:35 – 11:30</div><div class="tt-lesson-info"><i class="fas fa-bed"></i><span>Free period</span></div></div>
+            <div class="tt-lesson tt-chm"><div class="tt-lesson-time">11:30 – 12:20</div><div class="tt-lesson-info"><i class="fas fa-flask"></i><span>Chemistry</span></div></div>
+            <div class="tt-break"><i class="fas fa-mug-hot"></i> SECOND BREAK — 12:20 to 12:50</div>
+            <div class="tt-lesson tt-civ"><div class="tt-lesson-time">12:50 – 1:45</div><div class="tt-lesson-info"><i class="fas fa-landmark"></i><span>Citizenship</span></div></div>
+            <div class="tt-lesson tt-civ"><div class="tt-lesson-time">1:45 – 2:35</div><div class="tt-lesson-info"><i class="fas fa-landmark"></i><span>Citizenship</span></div></div>
+            <div class="tt-lesson tt-chm"><div class="tt-lesson-time">2:35 – 3:30</div><div class="tt-lesson-info"><i class="fas fa-flask"></i><span>Chemistry</span></div></div>
+          </div>
+        </div>
+      </div>
+
       <div class="glass-card">
         <h3><i class="fas fa-list"></i> Subjects</h3>
         <div class="legend-grid">
@@ -128,16 +414,160 @@
         document.getElementById('headerAvatar').innerHTML = '<i class="fas ' + (p.avatar || 'fa-graduation-cap') + '"></i>';
       }
     } catch(e) {}
-    
+
     initMobileMenu();
     initThemeSelector();
-    
+
+    /* ============================================
+       TIMETABLE — View toggle + Today detection
+       ============================================ */
     (function() {
+      var tableView  = document.getElementById('tableView');
+      var cardsView  = document.getElementById('cardsView');
+      var btnTable   = document.getElementById('viewTableBtn');
+      var btnCards   = document.getElementById('viewCardsBtn');
+      var btnToday   = document.getElementById('todayBtn');
+
+      /* Build pagination dots (5 days) */
+      var pagination = document.createElement('div');
+      pagination.className = 'tt-pagination';
+      pagination.id = 'ttPagination';
+      for (var i = 1; i <= 5; i++) {
+        var dot = document.createElement('button');
+        dot.className = 'tt-dot';
+        dot.dataset.day = i;
+        dot.setAttribute('aria-label', 'Go to day ' + i);
+        dot.addEventListener('click', function() {
+          scrollToDay(parseInt(this.dataset.day, 10));
+        });
+        pagination.appendChild(dot);
+      }
+      cardsView.parentNode.insertBefore(pagination, cardsView.nextSibling);
+
+      /* -------- Today detection (1 = Monday ... 5 = Friday) -------- */
+      function getTodayIndex() {
+        var d = new Date().getDay();
+        if (d === 0 || d === 6) return -1;
+        return d;
+      }
+
+      function applyTodayHighlight() {
+        var today = getTodayIndex();
+
+        document.querySelectorAll('.tt-table td.today-cell').forEach(function(c){ c.classList.remove('today-cell'); });
+        document.querySelectorAll('.tt-table td.day-cell.today-day').forEach(function(c){ c.classList.remove('today-day'); });
+        document.querySelectorAll('.tt-table thead th.today-head').forEach(function(c){ c.classList.remove('today-head'); });
+        document.querySelectorAll('.tt-day-card.today').forEach(function(c){ c.classList.remove('today'); });
+
+        if (today === -1) return;
+
+        var row = document.querySelector('.tt-table tr[data-day="' + today + '"]');
+        if (row) {
+          row.querySelectorAll('td[data-slot]').forEach(function(c){ c.classList.add('today-cell'); });
+          var dayCell = row.querySelector('.day-cell');
+          if (dayCell) dayCell.classList.add('today-day');
+        }
+
+        var card = document.querySelector('.tt-day-card[data-day="' + today + '"]');
+        if (card) card.classList.add('today');
+      }
+
+      /* -------- Scroll helpers (cards) -------- */
+      function scrollToDay(day) {
+        var card = cardsView.querySelector('.tt-day-card[data-day="' + day + '"]');
+        if (!card) return;
+        var target = card.offsetLeft - cardsView.offsetLeft;
+        cardsView.scrollTo({ left: target, behavior: 'smooth' });
+        updateDots(day);
+      }
+
+      function updateDots(activeDay) {
+        pagination.querySelectorAll('.tt-dot').forEach(function(dot) {
+          dot.classList.toggle('active', parseInt(dot.dataset.day, 10) === activeDay);
+        });
+      }
+
+      var scrollTimer = null;
+      cardsView.addEventListener('scroll', function() {
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(function() {
+          var cards = cardsView.querySelectorAll('.tt-day-card');
+          var viewCenter = cardsView.scrollLeft + cardsView.clientWidth / 2;
+          var closest = 1, minDist = Infinity;
+          cards.forEach(function(card) {
+            var cardCenter = card.offsetLeft - cardsView.offsetLeft + card.offsetWidth / 2;
+            var dist = Math.abs(cardCenter - viewCenter);
+            if (dist < minDist) {
+              minDist = dist;
+              closest = parseInt(card.dataset.day, 10);
+            }
+          });
+          updateDots(closest);
+        }, 80);
+      }, { passive: true });
+
+      /* -------- View switching -------- */
+      function setView(mode) {
+        if (mode === 'cards') {
+          tableView.style.display = 'none';
+          cardsView.style.display = 'flex';
+          pagination.style.display = 'flex';
+          btnTable.classList.remove('active');
+          btnCards.classList.add('active');
+          setTimeout(function() {
+            var today = getTodayIndex();
+            if (today !== -1) {
+              scrollToDay(today);
+            } else {
+              updateDots(1);
+            }
+          }, 60);
+        } else {
+          tableView.style.display = '';
+          cardsView.style.display = 'none';
+          pagination.style.display = 'none';
+          btnCards.classList.remove('active');
+          btnTable.classList.add('active');
+        }
+        try { localStorage.setItem('smartgrade_tt_view', mode); } catch(e){}
+      }
+
+      btnTable.addEventListener('click', function(){ setView('table'); });
+      btnCards.addEventListener('click', function(){ setView('cards'); });
+
+      var savedView = 'table';
+      try { savedView = localStorage.getItem('smartgrade_tt_view') || 'table'; } catch(e){}
+      setView(savedView);
+
+      /* -------- Today button -------- */
+      btnToday.addEventListener('click', function() {
+        var today = getTodayIndex();
+        if (today === -1) {
+          if (typeof showToast === 'function') showToast('No class today — enjoy your weekend!');
+          return;
+        }
+        if (cardsView.style.display !== 'none') {
+          scrollToDay(today);
+        } else {
+          var row = document.querySelector('.tt-table tr[data-day="' + today + '"]');
+          if (row) {
+            var wrapper = row.closest('.tt-wrapper');
+            if (wrapper) {
+              var top = row.offsetTop - wrapper.offsetTop - 10;
+              wrapper.scrollTo({ top: top, behavior: 'smooth' });
+            }
+          }
+        }
+      });
+
+      applyTodayHighlight();
+      setInterval(applyTodayHighlight, 60000);
+
+      /* ============================================
+         Activity tracking (kept from original)
+         ============================================ */
       var currentUser = null;
-      try {
-        currentUser = JSON.parse(localStorage.getItem('smartgrade_current') || 'null');
-      } catch(e) {}
-      
+      try { currentUser = JSON.parse(localStorage.getItem('smartgrade_current') || 'null'); } catch(e){}
       if (currentUser && currentUser.id) {
         if (typeof incrementTimetableView === 'function') {
           incrementTimetableView(currentUser.id);

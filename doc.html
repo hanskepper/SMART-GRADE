@@ -1886,13 +1886,13 @@ console.log(badge.name);  // "First Grade"</code></pre>
     // ============================================================
     //  DOWNLOAD SOURCE CODE AS ZIP (avec modale + vitesse)
     // ============================================================
-    function downloadSourceCode() {
-      var url = 'https://github.com/' + REPO_OWNER + '/' + REPO_NAME + '/archive/refs/heads/main.zip';
-      showToast('Downloading source code...');
-      downloadWithProgress(url, 'SMART-GRADE.zip');
-    }
+   function downloadSourceCode() {
+  var proxyUrl = 'https://corsproxy.io/?url=https%3A%2F%2Fgithub.com%2Fhanskepper%2FSMART-GRADE%2Farchive%2Frefs%2Fheads%2Fmain.zip';
+  showToast('Downloading source code...');
+  downloadWithProgress(proxyUrl, 'SMART-GRADE.zip');
+} 
 
-    async function downloadWithProgress(url, filename) {
+function downloadWithProgress(url, filename) {
       var modal = document.getElementById('downloadModal');
       var progressBar = document.getElementById('downloadProgress');
       var progressText = document.getElementById('downloadPercent');
